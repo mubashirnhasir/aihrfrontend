@@ -8,16 +8,16 @@ const Card = () => {
             count: 323
         },
         {
-            heading: "Total employees",
-            count: 323
+            heading: "Employees on leave",
+            count: 12
         },
         {
-            heading: "Total employees",
-            count: 323
+            heading: "New Hires",
+            count: 23
         },
         {
-            heading: "Total employees",
-            count: 323
+            heading: "Employees Reliving",
+            count: 11
         },
     ]
 

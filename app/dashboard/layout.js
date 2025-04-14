@@ -7,7 +7,7 @@ export default function RootLayout({ children }) {
           <Sidebar />
           <div className="relative h-screen w-full overflow-y-scroll bg-main ">
               <Navbar />
-              <div className=" bg-gray-50 h-screen">{children}</div>
+              <div className="">{children}</div>
           </div>
         </div>
         <div className="flex h-[100svh] w-full items-center justify-center bg-white text-black lg:hidden">
