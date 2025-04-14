@@ -1,11 +1,11 @@
 "use client"
 import React, { useState } from 'react'
-import Dashboard from './icons/dashboard'
-import User from './icons/user'
-import Folder from './icons/folder'
-import Calendar from './icons/calendar'
-import Assets from './icons/assets'
-import Arrow from './icons/arrowleft'
+import Dashboard from '../public/icons/dashboard'
+import User from '../public/icons/user'
+import Folder from '../public/icons/folder'
+import Calendar from '../public/icons/calendar'
+import Assets from '../public/icons/assets'
+import Arrow from '../public/icons/arrowleft'
 
 const Sidebar = () => {
   const [side, setSide] = useState(false)
@@ -27,7 +27,7 @@ const Sidebar = () => {
       <div className="tabs flex flex-col gap-2">
         <div
           onClick={() => handleTab(0)}
-          className={`px-2 py-2 flex gap-2 items-center justify-start rounded-lg ${tab1 === 0 ? "btnPrimary text-white" : "bg-white text-gray-500"}`}>
+          className={`px-2 py-2 flex gap-2 cursor-pointer items-center justify-start rounded-lg ${tab1 === 0 ? "btnPrimary text-white" : "bg-white text-gray-500"}`}>
           <div className='flex gap-2 items-center justify-center '>
             <div><Dashboard color={`${tab1 === 0 ? "white" : "black"}`} /></div>
             {!side && <div>Dashboard</div>}
@@ -35,7 +35,7 @@ const Sidebar = () => {
         </div>
         <div
           onClick={() => handleTab(1)}
-          className={`px-2 py-2 rounded-lg flex gap-2 items-center justify-start ${tab1 === 1 ? "btnPrimary text-white" : "bg-white text-gray-500"}`} >
+          className={`px-2 py-2 rounded-lg flex gap-2 cursor-pointer items-center justify-start ${tab1 === 1 ? "btnPrimary text-white" : "bg-white text-gray-500"}`} >
           <div className='flex gap-2 items-center justify-center '>
             <div><User color={`${tab1 === 1 ? "white" : "black"}`} /></div>
             {!side && <div>Attendance</div>}
@@ -43,7 +43,7 @@ const Sidebar = () => {
         </div>
         <div
           onClick={() => handleTab(2)}
-          className={`px-2 py-2  rounded-lg flex gap-2 items-center justify-start ${tab1 === 2 ? "btnPrimary text-white" : "bg-white text-gray-500"}`}>
+          className={`px-2 py-2  rounded-lg flex gap-2 cursor-pointer items-center justify-start ${tab1 === 2 ? "btnPrimary text-white" : "bg-white text-gray-500"}`}>
           <div className='flex gap-2 items-center justify-center '>
             <div><Folder color={`${tab1 === 2 ? "white" : "black"}`} /></div>
             {!side && <div>Leaves</div>}
@@ -51,7 +51,7 @@ const Sidebar = () => {
         </div>
         <div
           onClick={() => handleTab(3)}
-          className={`px-2 py-2 flex gap-2 items-center justify-start rounded-lg ${tab1 === 3 ? "btnPrimary text-white" : "bg-white text-gray-500"}`}>
+          className={`px-2 py-2 flex gap-2 cursor-pointer items-center justify-start rounded-lg ${tab1 === 3 ? "btnPrimary text-white" : "bg-white text-gray-500"}`}>
           <div className='flex gap-2 items-center justify-center '>
             <div><Calendar color={`${tab1 === 3 ? "white" : "black"}`} /></div>
             {!side && <div>Documents</div>}
@@ -59,7 +59,7 @@ const Sidebar = () => {
         </div>
         <div
           onClick={() => handleTab(4)}
-          className={`px-2 py-2 flex gap-2 items-center justify-start rounded-lg ${tab1 === 4 ? "btnPrimary text-white" : "bg-white text-gray-500"}`}>
+          className={`px-2 py-2 flex gap-2 cursor-pointer items-center justify-start rounded-lg ${tab1 === 4 ? "btnPrimary text-white" : "bg-white text-gray-500"}`}>
           <div className='flex gap-2 items-center justify-center '>
             <div><Assets color={`${tab1 === 4 ? "white" : "black"}`} /></div>
             {!side && <div>Assets</div>}

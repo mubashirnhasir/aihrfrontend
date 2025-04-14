@@ -1,7 +1,7 @@
 import React from 'react'
-import Notification from './icons/notification'
-import Settings from './icons/settings'
-import Search from './icons/search'
+import Notification from '../public/icons/notification'
+import Settings from '../public/icons/settings'
+import Search from '../public/icons/search'
 
 const Navbar = () => {
     return (

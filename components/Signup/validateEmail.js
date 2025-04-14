@@ -1,9 +1,9 @@
 "use client"
 import React from 'react'
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp" // Correct import
-import Mail from '../icons/mail'
+import Mail from '../../public/icons/mail'
 import Link from 'next/link'
-import Arrow from '../icons/arrowleft'
+import Arrow from '../../public/icons/arrowleft'
 
 const ValidateEmail = () => {
 

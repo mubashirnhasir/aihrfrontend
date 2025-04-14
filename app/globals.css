@@ -53,6 +53,18 @@
     --sidebar-ring: oklch(0.708 0 0);
   }
 
+
+  @layer components {
+    .custom-shadow {
+      box-shadow: 0px 97px 27px 0px rgba(120, 120, 120, 0.00), 
+                  0px 62px 25px 0px rgba(120, 120, 120, 0.01), 
+                  0px 35px 21px 0px rgba(120, 120, 120, 0.05), 
+                  0px 15px 15px 0px rgba(120, 120, 120, 0.09), 
+                  0px 4px 9px 0px rgba(120, 120, 120, 0.10);
+    }
+  }
+
+
   .background {
     background-color: var(--background-color);
   }
