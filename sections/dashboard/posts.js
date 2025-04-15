@@ -58,10 +58,10 @@ const Posts = () => {
                     <div className='flex items-center justify-center gap-4'>
                         <div className='flex relative items-center justify-center gap-2'> <input
                         onChange={handleFile}
-                        type="file" className='z-10 absolute inset-0 w-full h-full bg-blue-100 cursor-pointer opacity-0' /> <ImageUpload /> Photos </div>
+                        type="file" className='z-10 absolute h-10 w-20 bg-blue-100 cursor-pointer opacity-0' /> <ImageUpload /> Photos </div>
                         <div className='flex items-center justify-center cursor-pointer gap-2'> <input
                         onChange={handleFile}
-                        type="file" className='z-10 absolute inset-0 w-full h-full bg-blue-100 cursor-pointer opacity-0' /> <VideoUpload /> Video </div>
+                        type="file" className='z-10 absolute h-10 w-20 bg-blue-100 cursor-pointer opacity-0' /> <VideoUpload /> Video </div>
                     </div>
                     <div className='button w-[120px] flex items-center justify-center px-4 py-1 cursor-pointer rounded-lg btnPrimary text-white'>
                         <button>Post</button>
