@@ -68,7 +68,7 @@ const Sidebar = () => {
       </div>
       <div
         onClick={() => handleSidebar()}
-        className='absolute flex items-center justify-center h-10 w-10  right-[-10] z-[10] bg-white rounded-full  '
+        className='absolute flex cursor-pointer items-center justify-center h-10 w-10  right-[-20] z-[10] bg-white rounded-full  '
         style={{
           boxShadow: "0px 6px 6px -6px rgba(0, 0, 0, 0.16), 0px 0px 1px 0px rgba(0, 0, 0, 0.40)"
         }}

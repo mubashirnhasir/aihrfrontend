@@ -3,6 +3,7 @@ import Card from './card'
 import OnLeave from './onLeave'
 import Employees from './employees'
 import Documents from './documents'
+import Posts from './posts'
 
 const DashboardWrapper = () => {
     return (
@@ -14,7 +15,10 @@ const DashboardWrapper = () => {
                 <div className='w-[30%]'><OnLeave /></div>
                 <div className='w-[30%]'><Employees/></div>
             </div>
-            <div className='w-[30%] p-4'><Documents/></div>
+           <div className='flex gap-10'>
+           <div className='w-[30%] m-4'><Documents/></div>
+           <div className='w-[30%] m-4'><Posts/></div>
+           </div>
         </div>
     )
 }
