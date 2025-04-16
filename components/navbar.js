@@ -5,7 +5,7 @@ import Search from '../public/icons/search'
 
 const Navbar = () => {
     return (
-        <div className='wrap flex items-center justify-between gap-4 py-2 px-4'>
+        <div className='wrap flex items-center justify-between gap-4 py-2 px-4 border-b border-gray-200'>
             <div className='w-full flex justify-end items-center'>
 
                 <div className="searchbar border w-[260px] flex items-center justify-center px-2 h-[45px] rounded-lg border-main">
