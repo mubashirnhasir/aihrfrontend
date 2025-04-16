@@ -34,6 +34,7 @@ const AttendanceCards = () => {
         <Dashboard />,
         <DocumentFile />
     ]
+    
     return (
         <div>
             <div className='flex h-full items-start  gap-8 w-full'>
