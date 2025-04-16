@@ -1,6 +1,8 @@
 import Search from '@/public/icons/search'
 import React from 'react'
 import EmployeeCard from './employeeCard'
+import { ArrowLeft } from 'lucide-react';
+import Link from 'next/link';
 
 const EmployeeAttendance = () => {
     const employee = [
@@ -108,6 +110,9 @@ const EmployeeAttendance = () => {
       
   return (
     <div className='contain px-2'>
+        <Link
+        href={'/dashboard/attendance'}
+        className='flex items-center justify-start px-4 py-2 border-b border-gray-200'> <ArrowLeft/> Go Back</Link>
       <div className="top flex justify-between items-end">
         <div className="text flex flex-col gap-2 px-2">
           <div className='font-semibold text-2xl'>All Employees</div>

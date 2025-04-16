@@ -7,7 +7,7 @@ const EmployeeCard = ({ name, role, empId, department, type, email, joined, imag
       <div className="text-green-600 font-medium text-sm flex items-center gap-4"><div className='h-[10px] rounded-full w-[10px] bg-green-500 ' ></div> IN</div>
 
       <div className="flex flex-col items-center gap-1">
-        <img src={image} alt={name} className="h-16 w-16 rounded-full object-cover" />
+        <img src={image} alt={name} className="h-16 w-16 rounded-lg object-cover shadow-lg" />
         <div className="text-lg font-semibold">{name}</div>
         <div className="text-sm text-gray-500">{role}</div>
       </div>
