@@ -70,7 +70,7 @@ const Posts = () => {
                 {/* recent announcements */}
                 <div className='w-full bg-gray-100 h-[1px]' ></div>
                 <div className='font-medium text-gray-600'>Recent Announcements</div>
-                <div className='flex flex-col gap-4 overflow-y-scroll h-[280px]'>
+                <div className='flex flex-col gap-4 overflow-y-scroll custom-scrollbar h-[280px]'>
                     {
                         comments.map((data, index) => (
                             <div key={index} className='profile border border-gray-200 rounded-lg' >

@@ -35,7 +35,7 @@ const OnLeave = ({cardText, subText}) => {
                 <div className="subhead ">{subText || "10 People On leave"}</div>
                 <div className='bg-gray-200 w-full h-[1px] rounded-full shadow-xl'></div>
             </div>
-            <div className='h-full overflow-y-scroll py-2'>
+            <div className='h-full overflow-y-scroll custom-scrollbar py-2'>
                 <div className='flex flex-col gap-4'>
                     {
                         data.map((data, index) => (

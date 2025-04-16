@@ -51,7 +51,7 @@ const Documents = () => {
                                 <div className='font-medium text-gray-600'>4 Documents</div>
                         </div>
                 </div>
-                <div className='h-full overflow-y-scroll py-2'>
+                <div className='h-full overflow-y-scroll custom-scrollbar py-2'>
                     <div className='flex flex-col gap-2 px-2'>
                         <div className='font-medium text-gray-700'>Latest Documents</div>
                         <div className='flex flex-col gap-2'>

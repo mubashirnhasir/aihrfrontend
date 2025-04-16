@@ -2,6 +2,7 @@ import React from 'react'
 import AttendanceCards from './attendanceCards'
 import OnLeave from '../dashboard/onLeave'
 import Break from './break'
+import OvertimeRequests from './overtimeRequests'
 
 const AttendanceWrapper = () => {
     return (
@@ -12,6 +13,9 @@ const AttendanceWrapper = () => {
             <div className='p-2 flex gap-4'>
                 <OnLeave subText={"People who are not present in office"} cardText={"Offline Employees"}/>
                 <Break/>
+            </div>
+            <div>
+                <OvertimeRequests/>
             </div>
         </div>
     )
