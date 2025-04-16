@@ -17,7 +17,7 @@ const Navbar = () => {
             <div className=' h-fit p-3 flex items-center justify-center w-fit rounded-lg'><Notification /></div>
             <div className=' h-fit p-3 flex items-center justify-center w-fit rounded-lg'><Settings /></div>
             <div className=' h-fit flex p-1 border border-main items-center justify-center w-fit rounded-lg'>
-                <img src="images/profile.png" alt="Profile Picture"  className='object-cover rounded-lg' />
+                <img src="/images/profile.png" alt="Profile Picture"  className='object-cover rounded-lg' />
             </div>
         </div>
     )

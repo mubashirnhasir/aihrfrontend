@@ -1,3 +1,4 @@
+import AttendanceWrapper from '@/sections/attendance/attendanceWrapper'
 import React from 'react'
 
 const Page = () => {

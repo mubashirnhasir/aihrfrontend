@@ -1,6 +1,6 @@
 import React from 'react'
 
-const OnLeave = () => {
+const OnLeave = ({cardText, subText}) => {
     const data = [
         {
             name: "Ayesha",
@@ -31,8 +31,8 @@ const OnLeave = () => {
     return (
         <div className='border rounded-lg border-main p-2 h-[400px] overflow-hidden gap-1 flex flex-col'>
             <div className='headings  flex flex-col gap-1 p-2  '>
-                <div className='text-xl font-semibold'>On Leave Today</div>
-                <div className="subhead ">10 People On leave</div>
+                <div className='text-xl font-semibold'>{cardText || "On Leave Today"}</div>
+                <div className="subhead ">{subText || "10 People On leave"}</div>
                 <div className='bg-gray-200 w-full h-[1px] rounded-full shadow-xl'></div>
             </div>
             <div className='h-full overflow-y-scroll py-2'>
