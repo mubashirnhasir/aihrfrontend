@@ -86,7 +86,7 @@ const Card = () => {
     ]
 
     return (
-        <div className='flex h-full items-start  gap-8 w-full'>
+        <div className='flex h-full items-start  gap-8  w-full'>
             {
                 data.map((data, index) => (
                     <div

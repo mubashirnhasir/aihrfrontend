@@ -10,7 +10,7 @@ const DashboardWrapper = () => {
   return (
     <div className="mx-auto py-2 space-y-8 px-2">
       <div className="bg-gray-100 p-6 rounded-lg">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1  gap-6">
           <Card />
         </div>
       </div>
@@ -29,10 +29,10 @@ const DashboardWrapper = () => {
         <div className="md:col-span-2">
           <Employees />
         </div>
-        <div className="md:col-span-1">
+        <div className="md:col-span-2">
           <Documents />
         </div>
-        <div className="md:col-span-1">
+        <div className="md:col-span-2">
           <Meetings />
         </div>
       </div>

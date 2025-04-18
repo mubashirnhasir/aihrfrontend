@@ -4,7 +4,7 @@ import React from 'react'
 const Holidays = () => {
   return (
     <div>
-        <div className='border border-gray-200 p-4 min-h-[300px] max-h-full rounded-lg'>
+        <div className='border border-gray-200 p-4 min-h-[400px] max-h-full rounded-lg'>
             <div className='flex flex-col gap-1 '>
                 <div className='text-lg font-medium '>Upcoming Holidays</div>
                 <div className='supporting-text '>This Month</div>

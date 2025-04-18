@@ -8,10 +8,10 @@ const Meetings = () => {
         <div className="text-sm text-gray-500">This Week</div>
       </div>
       <div className="h-[1px] bg-gray-200 w-full my-3" />
-      <div className="flex items-start bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
+      <div className="flex items-start bg-white border border-gray-200 rounded-lg p-4 transition-all hover:shadow-lg">
         {/* Icon */}
         <div className="p-2 bg-[#0BA5EC] rounded-lg">
-          <Calendar className="h-6 w-6 text-white" />
+          <Calendar color={"white"} className="h-6 w-6 text-white" />
         </div>
         <div className="ml-3 flex-1 flex flex-col">
           <div className="flex items-center justify-between">
