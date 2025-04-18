@@ -1,30 +1,43 @@
-import React from 'react'
-import Card from './card'
-import OnLeave from './onLeave'
-import Employees from './employees'
-import Documents from './documents'
-import Posts from './posts'
-import Holidays from './holidays'
-
+import React from "react";
+import Card from "./card";
+import OnLeave from "./onLeave";
+import Employees from "./employees";
+import Documents from "./documents";
+import Posts from "./posts";
+import Holidays from "./holidays";
+import Meetings from "./meetings";
 const DashboardWrapper = () => {
-    return (
-        <div className='w-full'>
-            <div className="cards bg-gray-200 flex gap-2 p-6  ">
-                <Card />
-            </div>
-            <div className='items flex w-full gap-8 p-4'>
-                <div className='w-[30%]'><OnLeave /></div>
-                <div className='w-[30%]'><Employees /></div>
-            </div>
-            <div className='flex gap-10'>
-                <div className='w-[30%] m-4'><Documents /></div>
-                <div className='w-[30%] m-4'><Posts /></div>
-            </div>
-            <div className='flex flex-col gap-4' >
-            <div className='w-[30%] m-4'><Holidays/></div>
-            </div>
+  return (
+    <div className="mx-auto py-2 space-y-8 px-2">
+      <div className="bg-gray-100 p-6 rounded-lg">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <Card />
         </div>
-    )
-}
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div className="md:col-span-1">
+          <OnLeave />
+        </div>
+        <div className="md:col-span-2">
+          <Posts />
+        </div>
+        <div className="md:col-span-1">
+          <Holidays />
+        </div>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div className="md:col-span-2">
+          <Employees />
+        </div>
+        <div className="md:col-span-1">
+          <Documents />
+        </div>
+        <div className="md:col-span-1">
+          <Meetings />
+        </div>
+      </div>
+    </div>
+  );
+};
 
-export default DashboardWrapper
+export default DashboardWrapper;
