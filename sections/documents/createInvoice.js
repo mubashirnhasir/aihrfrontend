@@ -4,6 +4,7 @@ import InvoiceHeader from "./InvoiceHeader";
 
 export default function InvoiceCreatePage() {
   const [form, setForm] = useState({
+    inoviceNumber: "",
     clientName: "",
     clientEmail: "",
     invoiceDate: "",
@@ -31,13 +32,23 @@ export default function InvoiceCreatePage() {
   return (
     <div className="min-h-screen bg-gray-50">
       <InvoiceHeader showCreate={false} />
-
       <main className="p-6 grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
         {/* left panel */}
         <section className="bg-white p-6 rounded-lg shadow-sm flex flex-col h-full">
           <h2 className="text-xl font-semibold mb-4">Create Invoice</h2>
-
-          <div className="grid grid-cols-2 gap-4 flex-grow">
+          <div className="grid grid-cols-2 w-full gap-4 flex-grow">
+          <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Invoice Number
+              </label>
+              <input
+                type="text"
+                name="inoviceNumber"
+                value={form.inoviceNumber}
+                onChange={handleChange}
+                className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+              />
+            </div>
             <div>
               <label className="block text-sm font-medium text-gray-700">
                 Client Name
@@ -162,9 +173,9 @@ export default function InvoiceCreatePage() {
               </div>
               <div className="text-right text-sm text-gray-600">
                 <div>
-                  <strong>
-                    Invoice #{Math.floor(Math.random() * 900 + 100)}
-                  </strong>
+                  <div>
+                    Invoice #{form.inoviceNumber}
+                  </div>
                 </div>
                 <div>Due Date: {form.dueDate || "—"}</div>
               </div>
