@@ -37,7 +37,7 @@ export default function InvoiceCreatePage() {
         <section className="bg-white p-6 rounded-lg shadow-sm flex flex-col h-full">
           <h2 className="text-xl font-semibold mb-4">Create Invoice</h2>
           <div className="grid grid-cols-2 w-full gap-4 flex-grow">
-          <div>
+            <div>
               <label className="block text-sm font-medium text-gray-700">
                 Invoice Number
               </label>
@@ -204,7 +204,6 @@ export default function InvoiceCreatePage() {
                 </tr>
               </tbody>
             </table>
-
             <div className="flex justify-end space-x-6 text-gray-600">
               <div>Sub Total</div>
               <div>{formatCurrency(form.qty * form.amount)}</div>
