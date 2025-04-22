@@ -140,7 +140,7 @@ export default function InvoiceCreatePage() {
                 className="mt-1 block w-full border border-gray-300 rounded-md p-2"
               />
             </div>
-            <div>
+            <div className="col-span-2">
               <label className="block text-sm font-medium text-gray-700">
                 Description or Notes
               </label>
