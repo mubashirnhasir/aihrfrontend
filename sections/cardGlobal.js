@@ -1,7 +1,10 @@
+"use client"
 import User from '@/public/icons/user'
-import React from 'react'
+import React, { useRef } from 'react'
 
 const CardGlobal = ({title,count,icon ,bg ,border}) => {
+
+
     return (
         <div>
             <div className='p-4 justify-between cursor-pointer hover:shadow-lg transition-all gap-4 rounded-lg items-end min-w-[240px] flex border border-main bg-white'>
