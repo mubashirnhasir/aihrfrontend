@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import InvoiceHeader from "./InvoiceHeader";
+import { jsPDF } from "jspdf";
 
 export default function InvoiceCreatePage() {
   const [form, setForm] = useState({
@@ -28,6 +29,63 @@ export default function InvoiceCreatePage() {
       currency: form.currency,
     }).format(num);
   };
+
+
+  const generatePDF = () => {
+    const doc = new jsPDF();
+  
+    // Set font size for title
+    doc.setFontSize(18);
+    doc.text("Invoice", 20, 30);
+  
+    // Invoice Details
+    doc.setFontSize(12);
+    doc.text(`Invoice No: #${form.inoviceNumber}`, 20, 40);
+    doc.text(`Date: ${form.invoiceDate}`, 20, 50);
+    doc.text(`Due Date: ${form.dueDate}`, 20, 60);
+    doc.text(`Client: ${form.clientName}`, 20, 70);
+    doc.text(`Email: ${form.clientEmail}`, 20, 80);
+  
+    // Draw line
+    doc.setLineWidth(0.5);
+    doc.line(20, 85, 190, 85);
+  
+    // Product Table
+    doc.setFontSize(12);
+    const startX = 20;
+    let startY = 100;
+  
+    // Header for the table
+    doc.text("Description", startX, startY);
+    doc.text("Qty", startX + 100, startY);
+    doc.text("Amount", startX + 140, startY);
+  
+    startY += 10; // Move to the next row
+  
+    // Table Data
+    doc.text(form.notes || "Item", startX, startY);
+    doc.text(form.qty.toString(), startX + 100, startY);
+    doc.text(formatCurrency(form.amount), startX + 140, startY);
+  
+    // Line after table
+    startY += 10;
+    doc.line(20, startY, 190, startY);
+  
+    // Sub Total and Total
+    const subTotal = form.qty * form.amount;
+  
+    startY += 20;
+    doc.text("Sub Total", startX + 100, startY);
+    doc.text(formatCurrency(subTotal), startX + 140, startY);
+  
+    startY += 10;
+    doc.text("Total", startX + 100, startY);
+    doc.text(formatCurrency(subTotal), startX + 140, startY);
+  
+    // Save the PDF
+    doc.save("invoice.pdf");
+  };
+  
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -155,8 +213,9 @@ export default function InvoiceCreatePage() {
           </div>
 
           <button
+            onClick={generatePDF}
             type="button"
-            className="mt-6 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 self-start cursor-pointer"
+            className="mt-10 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 self-start cursor-pointer"
           >
             Create Invoice
           </button>
@@ -172,11 +231,7 @@ export default function InvoiceCreatePage() {
                 <span className="text-2xl font-bold">Product</span>
               </div>
               <div className="text-right text-sm text-gray-600">
-                <div>
-                  <div>
-                    Invoice #{form.inoviceNumber}
-                  </div>
-                </div>
+                <div>Invoice #{form.inoviceNumber}</div>
                 <div>Due Date: {form.dueDate || "—"}</div>
               </div>
             </div>
