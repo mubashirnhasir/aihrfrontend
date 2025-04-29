@@ -7,6 +7,7 @@ import Calendar from '../public/icons/calendar'
 import Assets from '../public/icons/assets'
 import Arrow from '../public/icons/arrowleft'
 import Logobtn from '@/public/icons/logobtn'
+import Link from 'next/link'
 
 const Sidebar = () => {
   const [side, setSide] = useState(false)
@@ -31,40 +32,50 @@ const Sidebar = () => {
             onClick={() => handleTab(0)}
             className={`px-2 py-2 flex gap-2 cursor-pointer items-center justify-start rounded-lg ${tab1 === 0 ? "btnPrimary text-white" : "bg-white text-gray-500"}`}>
             <div className='flex gap-2 items-center justify-center '>
-              <div><Dashboard color={`${tab1 === 0 ? "white" : "black"}`} /></div>
-              {!side && <div>Dashboard</div>}
+              <Link className='flex gap-2' href={'/dashboard'}>
+                <div><Dashboard color={`${tab1 === 0 ? "white" : "black"}`} /></div>
+                {!side && <div>Dashboard</div>}
+              </Link>
             </div>
           </div>
           <div
             onClick={() => handleTab(1)}
             className={`px-2 py-2 rounded-lg flex gap-2 cursor-pointer items-center justify-start ${tab1 === 1 ? "btnPrimary text-white" : "bg-white text-gray-500"}`} >
             <div className='flex gap-2 items-center justify-center '>
-              <div><User color={`${tab1 === 1 ? "white" : "black"}`} /></div>
-              {!side && <div>Attendance</div>}
+              <Link className='flex gap-2' href={'/dashboard/attendance'}>
+                <div><User color={`${tab1 === 1 ? "white" : "black"}`} /></div>
+                {!side && <div>Attendance</div>}
+              </Link>
             </div>
           </div>
           <div
             onClick={() => handleTab(2)}
             className={`px-2 py-2  rounded-lg flex gap-2 cursor-pointer items-center justify-start ${tab1 === 2 ? "btnPrimary text-white" : "bg-white text-gray-500"}`}>
             <div className='flex gap-2 items-center justify-center '>
-              <div><Folder color={`${tab1 === 2 ? "white" : "black"}`} /></div>
-              {!side && <div>Leaves</div>}
+              <Link className='flex gap-2' href={'/dashboard/leaves'}>
+                <div><Folder color={`${tab1 === 2 ? "white" : "black"}`} /></div>
+                {!side && <div>Leaves</div>}
+              </Link>
             </div>
           </div>
           <div
             onClick={() => handleTab(3)}
             className={`px-2 py-2 flex gap-2 cursor-pointer items-center justify-start rounded-lg ${tab1 === 3 ? "btnPrimary text-white" : "bg-white text-gray-500"}`}>
             <div className='flex gap-2 items-center justify-center '>
-              <div><Calendar color={`${tab1 === 3 ? "white" : "black"}`} /></div>
-              {!side && <div>Documents</div>}
+              <Link className='flex gap-2' href={'/dashboard/documents'}>
+                <div><Calendar color={`${tab1 === 3 ? "white" : "black"}`} /></div>
+                {!side && <div>Documents</div>}
+              </Link>
             </div>
           </div>
           <div
             onClick={() => handleTab(4)}
             className={`px-2 py-2 flex gap-2 cursor-pointer items-center justify-start rounded-lg ${tab1 === 4 ? "btnPrimary text-white" : "bg-white text-gray-500"}`}>
             <div className='flex gap-2 items-center justify-center '>
-              <div><Assets color={`${tab1 === 4 ? "white" : "black"}`} /></div>
-              {!side && <div>Assets</div>}
+              <Link className='flex gap-2' href={'/dashboard/assets'}>
+                <div><Assets color={`${tab1 === 4 ? "white" : "black"}`} /></div>
+                {!side && <div>Assets</div>}
+              </Link>
             </div>
           </div>
         </div>
@@ -89,7 +100,7 @@ const Sidebar = () => {
           <div className='flex flex-col items-center gap-2'>
             <div className='font-semibold text-xl text-white'>Use Our AI</div>
             <div className='text-center text-sm'>Try Generating Letters with out AI</div>
-          <div className='px-4 py-2 cursor-pointer rounded-lg bg-white/20 text-white font-semibold ' > Generate Now</div>
+            <div className='px-4 py-2 cursor-pointer rounded-lg bg-white/20 text-white font-semibold ' > Generate Now</div>
           </div>
         </div>
       }

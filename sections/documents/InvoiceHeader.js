@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 export default function InvoiceHeader({ showCreate = true, onCreate }) {
   return (
@@ -7,12 +8,16 @@ export default function InvoiceHeader({ showCreate = true, onCreate }) {
           Invoices
         </button>
         {showCreate && (
-          <button
-            onClick={onCreate}
-            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 focus:outline-none"
-          >
-            + Create Invoice
-          </button>
+          <div className="">
+            <Link href={'/dashboard/documents/createInvoice'}>
+              <button
+                onClick={onCreate}
+                className="bg-blue-600 cursor-pointer text-white px-4 py-2 rounded-lg hover:bg-blue-700 focus:outline-none"
+              >
+                + Create Invoice
+              </button>
+            </Link>
+          </div>
         )}
       </div>
       <div>

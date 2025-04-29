@@ -40,7 +40,7 @@ const Break = () => {
     ]
     return (
         <div>
-            <div className='border rounded-lg border-main p-2 h-[400px] overflow-hidden gap-1 flex flex-col'>
+            <div className='border rounded-lg border-main p-2 h-[400px]  overflow-hidden gap-1 flex flex-col'>
                 <div className='headings  flex flex-col gap-1 p-2  '>
                     <div className='text-xl font-semibold'>On Break</div>
                     <div className="subhead ">5 people on break</div>
