@@ -10,7 +10,7 @@ export default function InvoiceCreatePage() {
     clientEmail: "",
     invoiceDate: "",
     dueDate: "",
-    qty: 1,
+    qty: 0,
     currency: "USD",
     amount: 0,
     notes: "",
