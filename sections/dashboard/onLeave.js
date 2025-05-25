@@ -30,7 +30,7 @@ const OnLeave = ({ cardText, subText }) => {
   ];
   return (
     <div className="border rounded-lg border-main p-2 h-[400px] overflow-hidden gap-1 flex flex-col">
-      <div className="headings  flex flex-col gap-1 p-2  ">
+      <div className="headings flex flex-col gap-1 p-2  ">
         <div className="text-xl font-semibold">
           {cardText || "On Leave Today"}
         </div>
