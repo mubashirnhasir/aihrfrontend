@@ -8,6 +8,7 @@ const CreateAccount = () => {
     const [username, setUsername] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+
     const router = useRouter()
 
     const handleButtonSubmit = ()=>{
