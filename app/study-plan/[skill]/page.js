@@ -139,7 +139,7 @@ Return JSON like:
   };
 
   return (
-    <div className="p-6 max-w-3xl mx-auto">
+    <div className="p-6 w-full">
       <h2 className="text-2xl font-bold mb-4">
         Study Plan: {decodeURIComponent(skill)}
       </h2>
@@ -147,9 +147,9 @@ Return JSON like:
       {loading ? (
         <p className="text-gray-400">Loading modules…</p>
       ) : (
-        <ul className="space-y-4">
+        <div className=" flex gap-6 flex-wrap ">
           {modules.map((mod, i) => (
-            <li key={i} className="bg-white p-4 rounded shadow">
+            <div key={i} className="bg-white p-4 border w-[40%] border-gray-200  rounded ">
               <h3
                 className={`font-semibold text-lg ${
                   mod.completed ? "line-through text-green-600" : ""
@@ -157,7 +157,7 @@ Return JSON like:
               >
                 {mod.title}
               </h3>
-              <ul className="list-disc ml-5 mt-2">
+              <ul className="list-disc ml-5  mt-2">
                 {mod.resources?.map((r, idx) => (
                   <li key={idx}>
                     <a
@@ -173,17 +173,17 @@ Return JSON like:
               </ul>
               <button
                 onClick={() => toggleComplete(i)}
-                className={`mt-3 px-3 py-1 text-sm rounded ${
+                className={`mt-3 px-4 py-2 text-sm rounded cursor-pointer ${
                   mod.completed
                     ? "bg-green-500 text-white"
-                    : "border border-purple-500 text-purple-600"
+                    : "border bg-blue-500 text-white"
                 }`}
               >
                 {mod.completed ? "Completed" : "Mark as Complete"}
               </button>
-            </li>
+            </div>
           ))}
-        </ul>
+        </div>
       )}
     </div>
   );
