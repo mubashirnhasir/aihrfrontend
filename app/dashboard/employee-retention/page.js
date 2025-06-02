@@ -3,10 +3,9 @@
  * Main page component for displaying AI-driven predictive analytics
  */
 "use client";
-
 import { useState, useEffect } from "react";
 import RetentionDashboardWrapper from "../../sections/employee-retention/retentionDashboardWrapper";
-
+import { useState, useEffect } from 'react';
 export default function EmployeeRetentionPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);

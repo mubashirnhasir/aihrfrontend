@@ -10,6 +10,7 @@ import EmployeeRiskTable from "./employeeRiskTable";
 import RetentionCharts from "./retentionCharts";
 import DepartmentAnalytics from "./departmentAnalytics";
 import ActionRecommendations from "./actionRecommendations";
+import { RefreshCcwIcon, RefreshCwOffIcon } from 'lucide-react';
 
 export default function RetentionDashboardWrapper() {
   const [activeTab, setActiveTab] = useState("overview");
@@ -124,7 +125,7 @@ export default function RetentionDashboardWrapper() {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-2xl font-bold text-gray-900">
-                🤖 AI Employee Retention Analytics
+                AI Employee Retention Analytics
               </h1>
               <p className="text-gray-600 mt-1">
                 Predictive insights to reduce employee turnover
@@ -133,9 +134,9 @@ export default function RetentionDashboardWrapper() {
             <div className="flex items-center space-x-3">
               <button
                 onClick={handleRefresh}
-                className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors flex items-center space-x-2"
+                className="bg-blue-600 cursor-pointer text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors flex items-center space-x-2"
               >
-                <span>🔄</span>
+                <span><RefreshCcwIcon/></span>
                 <span>Refresh</span>
               </button>
             </div>
