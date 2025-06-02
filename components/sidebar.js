@@ -104,8 +104,7 @@ const Sidebar = () => {
                 {!side && <div>Assets</div>}
               </Link>
             </div>
-          </div>
-          <div
+          </div>          <div
             onClick={() => handleTab(5)}
             className={`px-2 py-2 flex gap-2 cursor-pointer items-center justify-start rounded-lg ${
               tab1 === 5 ? "btnPrimary text-white" : "bg-white text-gray-500"
@@ -120,6 +119,21 @@ const Sidebar = () => {
                   <User color={`${tab1 === 5 ? "white" : "black"}`} />
                 </div>
                 {!side && <div>Career Growth</div>}
+              </Link>
+            </div>
+          </div>
+          <div
+            onClick={() => handleTab(6)}
+            className={`px-2 py-2 flex gap-2 cursor-pointer items-center justify-start rounded-lg ${
+              tab1 === 6 ? "btnPrimary text-white" : "bg-white text-gray-500"
+            }`}
+          >
+            <div className="flex gap-2 items-center justify-center ">
+              <Link className="flex gap-2" href={"/employee-retention"}>
+                <div>
+                  <span style={{ fontSize: '16px', color: tab1 === 6 ? 'white' : 'black' }}>🤖</span>
+                </div>
+                {!side && <div>AI Retention</div>}
               </Link>
             </div>
           </div>
