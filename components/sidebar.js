@@ -23,18 +23,16 @@ const Sidebar = () => {
 
   return (
     <div
-      className={`h-screen px-4 flex justify-between relative flex-col gap-4 py-4  transition-all border-r border-main  duration-300 ${
-        side ? "w-[5%]" : "w-[14%]"
-      } `}
+      className={`h-screen px-4 flex justify-between relative flex-col gap-4 py-4  transition-all border-r border-main  duration-300 ${side ? "w-[5%]" : "w-[14%]"
+        } `}
     >
       <div>
         <div className="logo mb-6">Product Logo</div>
         <div className="tabs flex flex-col gap-2">
           <div
             onClick={() => handleTab(0)}
-            className={`px-2 py-2 flex gap-2 cursor-pointer items-center justify-start rounded-lg ${
-              tab1 === 0 ? "btnPrimary text-white" : "bg-white text-gray-500"
-            }`}
+            className={`px-2 py-2 flex gap-2 cursor-pointer items-center justify-start rounded-lg ${tab1 === 0 ? "btnPrimary text-white" : "bg-white text-gray-500"
+              }`}
           >
             <div className="flex gap-2 items-center justify-center ">
               <Link className="flex gap-2" href={"/dashboard"}>
@@ -47,9 +45,8 @@ const Sidebar = () => {
           </div>
           <div
             onClick={() => handleTab(1)}
-            className={`px-2 py-2 rounded-lg flex gap-2 cursor-pointer items-center justify-start ${
-              tab1 === 1 ? "btnPrimary text-white" : "bg-white text-gray-500"
-            }`}
+            className={`px-2 py-2 rounded-lg flex gap-2 cursor-pointer items-center justify-start ${tab1 === 1 ? "btnPrimary text-white" : "bg-white text-gray-500"
+              }`}
           >
             <div className="flex gap-2 items-center justify-center ">
               <Link className="flex gap-2" href={"/dashboard/attendance"}>
@@ -62,9 +59,8 @@ const Sidebar = () => {
           </div>
           <div
             onClick={() => handleTab(2)}
-            className={`px-2 py-2  rounded-lg flex gap-2 cursor-pointer items-center justify-start ${
-              tab1 === 2 ? "btnPrimary text-white" : "bg-white text-gray-500"
-            }`}
+            className={`px-2 py-2  rounded-lg flex gap-2 cursor-pointer items-center justify-start ${tab1 === 2 ? "btnPrimary text-white" : "bg-white text-gray-500"
+              }`}
           >
             <div className="flex gap-2 items-center justify-center ">
               <Link className="flex gap-2" href={"/dashboard/leaves"}>
@@ -77,9 +73,8 @@ const Sidebar = () => {
           </div>
           <div
             onClick={() => handleTab(3)}
-            className={`px-2 py-2 flex gap-2 cursor-pointer items-center justify-start rounded-lg ${
-              tab1 === 3 ? "btnPrimary text-white" : "bg-white text-gray-500"
-            }`}
+            className={`px-2 py-2 flex gap-2 cursor-pointer items-center justify-start rounded-lg ${tab1 === 3 ? "btnPrimary text-white" : "bg-white text-gray-500"
+              }`}
           >
             <div className="flex gap-2 items-center justify-center ">
               <Link className="flex gap-2" href={"/dashboard/documents"}>
@@ -92,9 +87,8 @@ const Sidebar = () => {
           </div>
           <div
             onClick={() => handleTab(4)}
-            className={`px-2 py-2 flex gap-2 cursor-pointer items-center justify-start rounded-lg ${
-              tab1 === 4 ? "btnPrimary text-white" : "bg-white text-gray-500"
-            }`}
+            className={`px-2 py-2 flex gap-2 cursor-pointer items-center justify-start rounded-lg ${tab1 === 4 ? "btnPrimary text-white" : "bg-white text-gray-500"
+              }`}
           >
             <div className="flex gap-2 items-center justify-center ">
               <Link className="flex gap-2" href={"/dashboard/assets"}>
@@ -107,9 +101,8 @@ const Sidebar = () => {
           </div>{" "}
           <div
             onClick={() => handleTab(5)}
-            className={`px-2 py-2 flex gap-2 cursor-pointer items-center justify-start rounded-lg ${
-              tab1 === 5 ? "btnPrimary text-white" : "bg-white text-gray-500"
-            }`}
+            className={`px-2 py-2 flex gap-2 cursor-pointer items-center justify-start rounded-lg ${tab1 === 5 ? "btnPrimary text-white" : "bg-white text-gray-500"
+              }`}
           >
             <div className="flex gap-2 items-center justify-center ">
               <Link
@@ -125,23 +118,32 @@ const Sidebar = () => {
           </div>
           <div
             onClick={() => handleTab(6)}
-            className={`px-2 py-2 flex gap-2 cursor-pointer items-center justify-start rounded-lg ${
-              tab1 === 6 ? "btnPrimary text-white" : "bg-white text-gray-500"
-            }`}
+            className={`px-2 py-2 flex gap-2 cursor-pointer items-center justify-start rounded-lg ${tab1 === 6 ? "btnPrimary text-white" : "bg-white text-gray-500"
+              }`}
           >
             <div className="flex gap-2 items-center justify-center ">
-              <Link className="flex gap-2" href={"/employee-retention"}>
+              <Link className="flex gap-2" href={"/dashboard/employee-retention"}>
                 <div>
-                  <span
-                    style={{
-                      fontSize: "16px",
-                      color: tab1 === 6 ? "white" : "black",
-                    }}
-                  >
-                    🤖
-                  </span>
+                  <span style={{ fontSize: '16px', color: tab1 === 6 ? 'white' : 'black' }}></span>
                 </div>
                 {!side && <div>AI Retention</div>}
+              </Link>
+            </div>
+          </div>
+
+
+
+          <div
+            onClick={() => handleTab(7)}
+            className={`px-2 py-2 flex gap-2 cursor-pointer items-center justify-start rounded-lg ${tab1 === 7 ? "btnPrimary text-white" : "bg-white text-gray-500"
+              }`}
+          >
+            <div className="flex gap-2 items-center justify-center ">
+              <Link className="flex gap-2" href={"/dashboard/aiagent"}>
+                <div>
+                  <span style={{ fontSize: '16px', color: tab1 === 6 ? 'white' : 'black' }}></span>
+                </div>
+                {!side && <div>AI Chatbot </div>}
               </Link>
             </div>
           </div>
