@@ -104,7 +104,8 @@ const Sidebar = () => {
                 {!side && <div>Assets</div>}
               </Link>
             </div>
-          </div>          <div
+          </div>{" "}
+          <div
             onClick={() => handleTab(5)}
             className={`px-2 py-2 flex gap-2 cursor-pointer items-center justify-start rounded-lg ${
               tab1 === 5 ? "btnPrimary text-white" : "bg-white text-gray-500"
@@ -131,7 +132,14 @@ const Sidebar = () => {
             <div className="flex gap-2 items-center justify-center ">
               <Link className="flex gap-2" href={"/employee-retention"}>
                 <div>
-                  <span style={{ fontSize: '16px', color: tab1 === 6 ? 'white' : 'black' }}>🤖</span>
+                  <span
+                    style={{
+                      fontSize: "16px",
+                      color: tab1 === 6 ? "white" : "black",
+                    }}
+                  >
+                    🤖
+                  </span>
                 </div>
                 {!side && <div>AI Retention</div>}
               </Link>
@@ -166,12 +174,11 @@ const Sidebar = () => {
           <div className="flex flex-col items-center gap-2">
             <div className="font-semibold text-xl text-white">Use Our AI</div>
             <div className="text-center text-sm">
-              Try Generating Letters with out AI
-            </div>
-            <div className="px-4 py-2 cursor-pointer rounded-lg bg-white/20 text-white font-semibold ">
+              Try Our AI-Powered Tools to Enhance Your Experience
+            </div>            <Link href="/ai-job-creator" className="px-4 py-2 cursor-pointer rounded-lg bg-white/20 text-white font-semibold hover:bg-white/30 transition-colors">
               {" "}
-              Generate Now
-            </div>
+              Try Now
+            </Link>
           </div>
         </div>
       )}
