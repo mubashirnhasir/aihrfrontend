@@ -2,26 +2,31 @@
  * Employee Risk Table Component
  * Displays detailed table of employees with their risk levels and factors
  */
-'use client';
+"use client";
 
-import { useState, useMemo } from 'react';
-import { getRiskLevelColor, formatPercentage } from '../../lib/employee-retention-utils';
+import { useState, useMemo } from "react";
+import {
+  getRiskLevelColor,
+  formatPercentage,
+} from "../../lib/employee-retention-utils";
 
 export default function EmployeeRiskTable({ employees = [], onRefresh }) {
-  const [sortField, setSortField] = useState('prediction.riskScore');
-  const [sortDirection, setSortDirection] = useState('desc');
-  const [filterRisk, setFilterRisk] = useState('all');
-  const [filterDepartment, setFilterDepartment] = useState('all');
-  const [searchTerm, setSearchTerm] = useState('');
+  const [sortField, setSortField] = useState("prediction.riskScore");
+  const [sortDirection, setSortDirection] = useState("desc");
+  const [filterRisk, setFilterRisk] = useState("all");
+  const [filterDepartment, setFilterDepartment] = useState("all");
+  const [searchTerm, setSearchTerm] = useState("");
   // Get unique departments for filter
   const departments = useMemo(() => {
-    const depts = [...new Set(employees.map(emp => emp.department))].filter(Boolean);
+    const depts = [...new Set(employees.map((emp) => emp.department))].filter(
+      Boolean
+    );
     return depts.sort();
   }, [employees]);
 
   // Helper function to get nested object values
   const getNestedValue = (obj, path) => {
-    return path.split('.').reduce((current, key) => current?.[key], obj) || 0;
+    return path.split(".").reduce((current, key) => current?.[key], obj) || 0;
   };
 
   // Filter and sort employees
@@ -30,61 +35,71 @@ export default function EmployeeRiskTable({ employees = [], onRefresh }) {
 
     // Apply search filter
     if (searchTerm) {
-      filtered = filtered.filter(emp => 
-        emp.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        emp.department?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        emp.position?.toLowerCase().includes(searchTerm.toLowerCase())
+      filtered = filtered.filter(
+        (emp) =>
+          emp.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          emp.department?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          emp.position?.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
 
     // Apply risk filter
-    if (filterRisk !== 'all') {
-      filtered = filtered.filter(emp => emp.prediction?.riskLevel === filterRisk);
+    if (filterRisk !== "all") {
+      filtered = filtered.filter(
+        (emp) => emp.prediction?.riskLevel === filterRisk
+      );
     }
 
     // Apply department filter
-    if (filterDepartment !== 'all') {
-      filtered = filtered.filter(emp => emp.department === filterDepartment);
+    if (filterDepartment !== "all") {
+      filtered = filtered.filter((emp) => emp.department === filterDepartment);
     }
 
     // Apply sorting
     filtered.sort((a, b) => {
       let aValue = getNestedValue(a, sortField);
       let bValue = getNestedValue(b, sortField);
-      
+
       // Handle string comparisons
-      if (typeof aValue === 'string' && typeof bValue === 'string') {
+      if (typeof aValue === "string" && typeof bValue === "string") {
         aValue = aValue.toLowerCase();
         bValue = bValue.toLowerCase();
       }
-      
-      if (aValue < bValue) return sortDirection === 'asc' ? -1 : 1;
-      if (aValue > bValue) return sortDirection === 'asc' ? 1 : -1;
+
+      if (aValue < bValue) return sortDirection === "asc" ? -1 : 1;
+      if (aValue > bValue) return sortDirection === "asc" ? 1 : -1;
       return 0;
     });
 
     return filtered;
-  }, [employees, sortField, sortDirection, filterRisk, filterDepartment, searchTerm]);
+  }, [
+    employees,
+    sortField,
+    sortDirection,
+    filterRisk,
+    filterDepartment,
+    searchTerm,
+  ]);
   // Handle sorting
   const handleSort = (field) => {
     if (sortField === field) {
-      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+      setSortDirection(sortDirection === "asc" ? "desc" : "asc");
     } else {
       setSortField(field);
-      setSortDirection('desc');
+      setSortDirection("desc");
     }
   };
 
   // Handle individual employee prediction refresh
   const handleEmployeePrediction = async (employeeId) => {
     try {
-      const employee = employees.find(emp => emp.id === employeeId);
+      const employee = employees.find((emp) => emp.id === employeeId);
       if (!employee) return;
 
-      const response = await fetch('/api/employee-retention/predict', {
-        method: 'POST',
+      const response = await fetch("/api/employee-retention/predict", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           jobSatisfaction: employee.jobSatisfaction,
@@ -94,24 +109,28 @@ export default function EmployeeRiskTable({ employees = [], onRefresh }) {
           salarySatisfaction: employee.salarySatisfaction,
           careerGrowth: employee.careerGrowth,
           managerRelationship: employee.managerRelationship,
-          performanceScore: employee.performanceScore
-        })
+          performanceScore: employee.performanceScore,
+        }),
       });
 
       if (response.ok) {
         const result = await response.json();
-        console.log('Updated prediction for employee:', employee.name, result.data);
+        console.log(
+          "Updated prediction for employee:",
+          employee.name,
+          result.data
+        );
         // In a real app, you would update the state here
         onRefresh();
       }
     } catch (error) {
-      console.error('Error updating employee prediction:', error);
+      console.error("Error updating employee prediction:", error);
     }
   };
 
   const getSortIcon = (field) => {
-    if (sortField !== field) return '↕️';
-    return sortDirection === 'asc' ? '↑' : '↓';
+    if (sortField !== field) return "↕️";
+    return sortDirection === "asc" ? "↑" : "↓";
   };
 
   return (
@@ -120,7 +139,9 @@ export default function EmployeeRiskTable({ employees = [], onRefresh }) {
       <div className="bg-white rounded-lg shadow-sm border p-6">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-6">
           <div>
-            <h2 className="text-xl font-semibold text-gray-900">Employee Risk Assessment</h2>
+            <h2 className="text-xl font-semibold text-gray-900">
+              Employee Risk Assessment
+            </h2>
             <p className="text-gray-600 mt-1">
               Detailed view of employee retention risk factors
             </p>
@@ -174,8 +195,10 @@ export default function EmployeeRiskTable({ employees = [], onRefresh }) {
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             >
               <option value="all">All Departments</option>
-              {departments.map(dept => (
-                <option key={dept} value={dept}>{dept}</option>
+              {departments.map((dept) => (
+                <option key={dept} value={dept}>
+                  {dept}
+                </option>
               ))}
             </select>
           </div>
@@ -199,58 +222,58 @@ export default function EmployeeRiskTable({ employees = [], onRefresh }) {
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
               <tr>
-                <th 
+                <th
                   className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
-                  onClick={() => handleSort('name')}
+                  onClick={() => handleSort("name")}
                 >
                   <div className="flex items-center space-x-1">
                     <span>Employee</span>
-                    <span>{getSortIcon('name')}</span>
+                    <span>{getSortIcon("name")}</span>
                   </div>
                 </th>
-                <th 
+                <th
                   className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
-                  onClick={() => handleSort('prediction.riskLevel')}
+                  onClick={() => handleSort("prediction.riskLevel")}
                 >
                   <div className="flex items-center space-x-1">
                     <span>Risk Level</span>
-                    <span>{getSortIcon('prediction.riskLevel')}</span>
+                    <span>{getSortIcon("prediction.riskLevel")}</span>
                   </div>
                 </th>
-                <th 
+                <th
                   className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
-                  onClick={() => handleSort('prediction.riskScore')}
+                  onClick={() => handleSort("prediction.riskScore")}
                 >
                   <div className="flex items-center space-x-1">
                     <span>Risk Score</span>
-                    <span>{getSortIcon('prediction.riskScore')}</span>
+                    <span>{getSortIcon("prediction.riskScore")}</span>
                   </div>
                 </th>
-                <th 
+                <th
                   className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
-                  onClick={() => handleSort('jobSatisfaction')}
+                  onClick={() => handleSort("jobSatisfaction")}
                 >
                   <div className="flex items-center space-x-1">
                     <span>Job Satisfaction</span>
-                    <span>{getSortIcon('jobSatisfaction')}</span>
+                    <span>{getSortIcon("jobSatisfaction")}</span>
                   </div>
                 </th>
-                <th 
+                <th
                   className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
-                  onClick={() => handleSort('engagementLevel')}
+                  onClick={() => handleSort("engagementLevel")}
                 >
                   <div className="flex items-center space-x-1">
                     <span>Engagement</span>
-                    <span>{getSortIcon('engagementLevel')}</span>
+                    <span>{getSortIcon("engagementLevel")}</span>
                   </div>
                 </th>
-                <th 
+                <th
                   className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
-                  onClick={() => handleSort('tenure')}
+                  onClick={() => handleSort("tenure")}
                 >
                   <div className="flex items-center space-x-1">
                     <span>Tenure</span>
-                    <span>{getSortIcon('tenure')}</span>
+                    <span>{getSortIcon("tenure")}</span>
                   </div>
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -260,7 +283,9 @@ export default function EmployeeRiskTable({ employees = [], onRefresh }) {
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
               {filteredEmployees.map((employee) => {
-                const riskColors = getRiskLevelColor(employee.prediction?.riskLevel || 'Medium');
+                const riskColors = getRiskLevelColor(
+                  employee.prediction?.riskLevel || "Medium"
+                );
                 return (
                   <tr key={employee.id} className="hover:bg-gray-50">
                     <td className="px-6 py-4 whitespace-nowrap">
@@ -268,13 +293,13 @@ export default function EmployeeRiskTable({ employees = [], onRefresh }) {
                         <div className="flex-shrink-0 h-10 w-10">
                           <div className="h-10 w-10 rounded-full bg-gray-300 flex items-center justify-center">
                             <span className="text-sm font-medium text-gray-700">
-                              {employee.name?.charAt(0) || 'U'}
+                              {employee.name?.charAt(0) || "U"}
                             </span>
                           </div>
                         </div>
                         <div className="ml-4">
                           <div className="text-sm font-medium text-gray-900">
-                            {employee.name || 'Unknown'}
+                            {employee.name || "Unknown"}
                           </div>
                           <div className="text-sm text-gray-500">
                             {employee.position} • {employee.department}
@@ -283,8 +308,10 @@ export default function EmployeeRiskTable({ employees = [], onRefresh }) {
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${riskColors.bg} ${riskColors.text}`}>
-                        {employee.prediction?.riskLevel || 'Unknown'}
+                      <span
+                        className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${riskColors.bg} ${riskColors.text}`}
+                      >
+                        {employee.prediction?.riskLevel || "Unknown"}
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
@@ -293,10 +320,13 @@ export default function EmployeeRiskTable({ employees = [], onRefresh }) {
                           {employee.prediction?.riskScore || 0}/100
                         </div>
                         <div className="ml-2 w-16 bg-gray-200 rounded-full h-2">
-                          <div 
+                          <div
                             className={`h-2 rounded-full ${riskColors.dot}`}
-                            style={{ 
-                              width: `${Math.min(100, employee.prediction?.riskScore || 0)}%` 
+                            style={{
+                              width: `${Math.min(
+                                100,
+                                employee.prediction?.riskScore || 0
+                              )}%`,
                             }}
                           ></div>
                         </div>

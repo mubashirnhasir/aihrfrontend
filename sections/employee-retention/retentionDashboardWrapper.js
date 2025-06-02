@@ -2,17 +2,17 @@
  * Employee Retention Dashboard Wrapper
  * Main wrapper component for the retention analytics dashboard
  */
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import RetentionOverview from './retentionOverview';
-import EmployeeRiskTable from './employeeRiskTable';
-import RetentionCharts from './retentionCharts';
-import DepartmentAnalytics from './departmentAnalytics';
-import ActionRecommendations from './actionRecommendations';
+import { useState, useEffect } from "react";
+import RetentionOverview from "./retentionOverview";
+import EmployeeRiskTable from "./employeeRiskTable";
+import RetentionCharts from "./retentionCharts";
+import DepartmentAnalytics from "./departmentAnalytics";
+import ActionRecommendations from "./actionRecommendations";
 
 export default function RetentionDashboardWrapper() {
-  const [activeTab, setActiveTab] = useState('overview');
+  const [activeTab, setActiveTab] = useState("overview");
   const [isLoading, setIsLoading] = useState(true);
   const [predictions, setPredictions] = useState([]);
   const [analytics, setAnalytics] = useState(null);
@@ -33,26 +33,25 @@ export default function RetentionDashboardWrapper() {
 
       // Fetch predictions and analytics in parallel
       const [predictionsResponse, analyticsResponse] = await Promise.all([
-        fetch('/api/employee-retention/predict'),
-        fetch('/api/employee-retention/analytics')
+        fetch("/api/employee-retention/predict"),
+        fetch("/api/employee-retention/analytics"),
       ]);
 
       if (!predictionsResponse.ok || !analyticsResponse.ok) {
-        throw new Error('Failed to fetch dashboard data');
+        throw new Error("Failed to fetch dashboard data");
       }
 
       const predictionsData = await predictionsResponse.json();
       const analyticsData = await analyticsResponse.json();
 
       if (!predictionsData.success || !analyticsData.success) {
-        throw new Error('API returned error response');
+        throw new Error("API returned error response");
       }
 
       setPredictions(predictionsData.data);
       setAnalytics(analyticsData.data);
-
     } catch (err) {
-      console.error('Error fetching dashboard data:', err);
+      console.error("Error fetching dashboard data:", err);
       setError(err.message);
     } finally {
       setIsLoading(false);
@@ -93,7 +92,9 @@ export default function RetentionDashboardWrapper() {
       <div className="min-h-screen bg-gray-50 p-6">
         <div className="max-w-7xl mx-auto">
           <div className="bg-red-50 border border-red-200 rounded-lg p-6">
-            <h3 className="text-lg font-medium text-red-800 mb-2">Error Loading Dashboard</h3>
+            <h3 className="text-lg font-medium text-red-800 mb-2">
+              Error Loading Dashboard
+            </h3>
             <p className="text-red-600 mb-4">{error}</p>
             <button
               onClick={handleRefresh}
@@ -108,11 +109,11 @@ export default function RetentionDashboardWrapper() {
   }
 
   const tabs = [
-    { key: 'overview', label: 'Overview', icon: '📊' },
-    { key: 'employees', label: 'Employee Risk', icon: '👥' },
-    { key: 'analytics', label: 'Analytics', icon: '📈' },
-    { key: 'departments', label: 'Departments', icon: '🏢' },
-    { key: 'recommendations', label: 'Actions', icon: '💡' }
+    { key: "overview", label: "Overview", icon: "📊" },
+    { key: "employees", label: "Employee Risk", icon: "👥" },
+    { key: "analytics", label: "Analytics", icon: "📈" },
+    { key: "departments", label: "Departments", icon: "🏢" },
+    { key: "recommendations", label: "Actions", icon: "💡" },
   ];
 
   return (
@@ -149,8 +150,8 @@ export default function RetentionDashboardWrapper() {
                   onClick={() => handleTabChange(tab.key)}
                   className={`px-4 py-2 rounded-md text-sm font-medium transition-colors flex items-center space-x-2 ${
                     activeTab === tab.key
-                      ? 'bg-blue-100 text-blue-700 border border-blue-200'
-                      : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                      ? "bg-blue-100 text-blue-700 border border-blue-200"
+                      : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
                   }`}
                 >
                   <span>{tab.icon}</span>
@@ -164,35 +165,28 @@ export default function RetentionDashboardWrapper() {
 
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-6 py-6">
-        {activeTab === 'overview' && (
-          <RetentionOverview 
-            predictions={predictions} 
-            analytics={analytics}
-          />
+        {activeTab === "overview" && (
+          <RetentionOverview predictions={predictions} analytics={analytics} />
         )}
-        
-        {activeTab === 'employees' && (
-          <EmployeeRiskTable 
+
+        {activeTab === "employees" && (
+          <EmployeeRiskTable
             employees={predictions}
             onRefresh={handleRefresh}
           />
         )}
-        
-        {activeTab === 'analytics' && (
-          <RetentionCharts 
-            analytics={analytics}
-          />
-        )}
-        
-        {activeTab === 'departments' && (
-          <DepartmentAnalytics 
+
+        {activeTab === "analytics" && <RetentionCharts analytics={analytics} />}
+
+        {activeTab === "departments" && (
+          <DepartmentAnalytics
             departmentData={analytics?.departmentAnalytics || []}
             employees={predictions}
           />
         )}
-        
-        {activeTab === 'recommendations' && (
-          <ActionRecommendations 
+
+        {activeTab === "recommendations" && (
+          <ActionRecommendations
             recommendations={analytics?.recommendations || []}
             analytics={analytics}
           />

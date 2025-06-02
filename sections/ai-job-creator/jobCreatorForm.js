@@ -4,60 +4,72 @@
  */
 "use client";
 
-import { useState } from 'react';
+import { useState } from "react";
 
-export default function JobCreatorForm({ onGenerate, isGenerating, onReset, hasJobDescription }) {
+export default function JobCreatorForm({
+  onGenerate,
+  isGenerating,
+  onReset,
+  hasJobDescription,
+}) {
   const [formData, setFormData] = useState({
-    jobTitle: '',
-    department: '',
-    employmentType: 'Full-time',
-    experienceLevel: '',
-    salaryRange: '',
-    location: '',
-    workModel: '',
+    jobTitle: "",
+    department: "",
+    employmentType: "Full-time",
+    experienceLevel: "",
+    salaryRange: "",
+    location: "",
+    workModel: "",
     keySkills: [],
-    responsibilities: '',
-    qualifications: '',
-    benefits: '',
-    companyInfo: '',
-    disclaimers: '',
-    additionalNotes: ''
+    responsibilities: "",
+    qualifications: "",
+    benefits: "",
+    companyInfo: "",
+    disclaimers: "",
+    additionalNotes: "",
   });
 
-  const [skillInput, setSkillInput] = useState('');
+  const [skillInput, setSkillInput] = useState("");
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
   const handleAddSkill = (e) => {
     e.preventDefault();
     if (skillInput.trim() && !formData.keySkills.includes(skillInput.trim())) {
-      setFormData(prev => ({
+      setFormData((prev) => ({
         ...prev,
-        keySkills: [...prev.keySkills, skillInput.trim()]
+        keySkills: [...prev.keySkills, skillInput.trim()],
       }));
-      setSkillInput('');
+      setSkillInput("");
     }
   };
 
   const handleRemoveSkill = (skillToRemove) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      keySkills: prev.keySkills.filter(skill => skill !== skillToRemove)
+      keySkills: prev.keySkills.filter((skill) => skill !== skillToRemove),
     }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     // Validate required fields
-    if (!formData.jobTitle || !formData.department || !formData.experienceLevel || formData.keySkills.length === 0) {
-      alert('Please fill in all required fields (Job Title, Department, Experience Level, and at least one Key Skill)');
+    if (
+      !formData.jobTitle ||
+      !formData.department ||
+      !formData.experienceLevel ||
+      formData.keySkills.length === 0
+    ) {
+      alert(
+        "Please fill in all required fields (Job Title, Department, Experience Level, and at least one Key Skill)"
+      );
       return;
     }
 
@@ -66,22 +78,22 @@ export default function JobCreatorForm({ onGenerate, isGenerating, onReset, hasJ
 
   const handleResetForm = () => {
     setFormData({
-      jobTitle: '',
-      department: '',
-      employmentType: 'Full-time',
-      experienceLevel: '',
-      salaryRange: '',
-      location: '',
-      workModel: '',
+      jobTitle: "",
+      department: "",
+      employmentType: "Full-time",
+      experienceLevel: "",
+      salaryRange: "",
+      location: "",
+      workModel: "",
       keySkills: [],
-      responsibilities: '',
-      qualifications: '',
-      benefits: '',
-      companyInfo: '',
-      disclaimers: '',
-      additionalNotes: ''
+      responsibilities: "",
+      qualifications: "",
+      benefits: "",
+      companyInfo: "",
+      disclaimers: "",
+      additionalNotes: "",
     });
-    setSkillInput('');
+    setSkillInput("");
     onReset();
   };
 
@@ -107,7 +119,7 @@ export default function JobCreatorForm({ onGenerate, isGenerating, onReset, hasJ
           <h3 className="text-lg font-medium text-gray-800 border-b pb-2">
             Basic Information
           </h3>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -180,10 +192,18 @@ export default function JobCreatorForm({ onGenerate, isGenerating, onReset, hasJ
                 required
               >
                 <option value="">Select Experience Level</option>
-                <option value="Entry Level (0-2 years)">Entry Level (0-2 years)</option>
-                <option value="Mid Level (2-5 years)">Mid Level (2-5 years)</option>
-                <option value="Senior Level (5-8 years)">Senior Level (5-8 years)</option>
-                <option value="Lead Level (8+ years)">Lead Level (8+ years)</option>
+                <option value="Entry Level (0-2 years)">
+                  Entry Level (0-2 years)
+                </option>
+                <option value="Mid Level (2-5 years)">
+                  Mid Level (2-5 years)
+                </option>
+                <option value="Senior Level (5-8 years)">
+                  Senior Level (5-8 years)
+                </option>
+                <option value="Lead Level (8+ years)">
+                  Lead Level (8+ years)
+                </option>
                 <option value="Executive Level">Executive Level</option>
               </select>
             </div>
@@ -240,7 +260,7 @@ export default function JobCreatorForm({ onGenerate, isGenerating, onReset, hasJ
           <h3 className="text-lg font-medium text-gray-800 border-b pb-2">
             Key Skills & Requirements
           </h3>
-          
+
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Key Skills * (Add one at a time)
@@ -252,7 +272,7 @@ export default function JobCreatorForm({ onGenerate, isGenerating, onReset, hasJ
                 onChange={(e) => setSkillInput(e.target.value)}
                 className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="e.g., React, Python, Project Management"
-                onKeyPress={(e) => e.key === 'Enter' && handleAddSkill(e)}
+                onKeyPress={(e) => e.key === "Enter" && handleAddSkill(e)}
               />
               <button
                 type="button"
@@ -262,7 +282,7 @@ export default function JobCreatorForm({ onGenerate, isGenerating, onReset, hasJ
                 Add
               </button>
             </div>
-            
+
             {formData.keySkills.length > 0 && (
               <div className="flex flex-wrap gap-2">
                 {formData.keySkills.map((skill, index) => (
@@ -290,7 +310,7 @@ export default function JobCreatorForm({ onGenerate, isGenerating, onReset, hasJ
           <h3 className="text-lg font-medium text-gray-800 border-b pb-2">
             Detailed Information
           </h3>
-          
+
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Key Responsibilities
@@ -385,14 +405,30 @@ export default function JobCreatorForm({ onGenerate, isGenerating, onReset, hasJ
           >
             {isGenerating ? (
               <span className="flex items-center justify-center">
-                <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                <svg
+                  className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  ></circle>
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  ></path>
                 </svg>
                 Generating Job Description...
               </span>
             ) : (
-              '🚀 Generate Professional Job Description'
+              "🚀 Generate Professional Job Description"
             )}
           </button>
         </div>

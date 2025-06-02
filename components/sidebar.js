@@ -175,7 +175,11 @@ const Sidebar = () => {
             <div className="font-semibold text-xl text-white">Use Our AI</div>
             <div className="text-center text-sm">
               Try Our AI-Powered Tools to Enhance Your Experience
-            </div>            <Link href="/ai-job-creator" className="px-4 py-2 cursor-pointer rounded-lg bg-white/20 text-white font-semibold hover:bg-white/30 transition-colors">
+            </div>{" "}
+            <Link
+              href="/ai-job-creator"
+              className="px-4 py-2 cursor-pointer rounded-lg bg-white/20 text-white font-semibold hover:bg-white/30 transition-colors"
+            >
               {" "}
               Try Now
             </Link>

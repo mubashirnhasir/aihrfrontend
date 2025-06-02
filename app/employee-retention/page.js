@@ -2,10 +2,10 @@
  * Employee Retention Prediction Dashboard Page
  * Main page component for displaying AI-driven predictive analytics
  */
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import RetentionDashboardWrapper from '../../sections/employee-retention/retentionDashboardWrapper';
+import { useState, useEffect } from "react";
+import RetentionDashboardWrapper from "../../sections/employee-retention/retentionDashboardWrapper";
 
 export default function EmployeeRetentionPage() {
   const [isLoading, setIsLoading] = useState(true);

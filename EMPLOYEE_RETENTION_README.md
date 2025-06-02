@@ -7,11 +7,13 @@ This module provides AI-driven predictive analytics for employee retention, help
 ## Features
 
 ### 🤖 AI Prediction Engine
+
 - Analyzes 8 key factors: job satisfaction, engagement, tenure, work-life balance, salary satisfaction, career growth, manager relationship, and performance
 - Provides risk scores (0-100) and risk levels (Low/Medium/High)
 - Confidence scoring for predictions
 
 ### 📊 Comprehensive Dashboard
+
 - **Overview**: Key metrics, risk distribution, and quick statistics
 - **Employee Risk Table**: Detailed employee list with filtering and sorting
 - **Analytics**: Charts and visualizations for trends and patterns
@@ -19,6 +21,7 @@ This module provides AI-driven predictive analytics for employee retention, help
 - **Action Recommendations**: AI-generated actionable insights
 
 ### 🎯 Key Metrics Tracked
+
 - Current retention rate and trends
 - Risk distribution across employees
 - Department-wise analytics
@@ -28,6 +31,7 @@ This module provides AI-driven predictive analytics for employee retention, help
 ## Installation & Setup
 
 ### 1. Files Created
+
 ```
 app/
 ├── employee-retention/
@@ -54,18 +58,22 @@ lib/
 ```
 
 ### 2. Navigation Updated
+
 - Added "AI Retention" link to sidebar navigation
 - Accessible at `/employee-retention`
 
 ### 3. Dependencies
+
 No additional dependencies required - uses existing Next.js, React, and Tailwind CSS.
 
 ## API Endpoints
 
 ### GET /api/employee-retention/predict
+
 Returns predictions for all employees with mock data.
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -91,9 +99,11 @@ Returns predictions for all employees with mock data.
 ```
 
 ### POST /api/employee-retention/predict
+
 Predicts retention for a specific employee.
 
 **Request:**
+
 ```json
 {
   "jobSatisfaction": 7,
@@ -108,6 +118,7 @@ Predicts retention for a specific employee.
 ```
 
 ### GET /api/employee-retention/analytics
+
 Returns comprehensive analytics and trends data.
 
 ## Prediction Algorithm
@@ -124,6 +135,7 @@ The current implementation uses a simple scoring algorithm that considers:
 8. **Performance Score** (0-10): Low performance may indicate disengagement
 
 **Risk Levels:**
+
 - **Low Risk**: Score 0-29 (typically satisfied employees)
 - **Medium Risk**: Score 30-59 (may need attention)
 - **High Risk**: Score 60+ (immediate intervention recommended)
@@ -131,27 +143,32 @@ The current implementation uses a simple scoring algorithm that considers:
 ## Usage
 
 ### 1. Accessing the Dashboard
+
 Navigate to `/employee-retention` in your application to access the full dashboard.
 
 ### 2. Viewing Employee Risk
+
 1. Go to the "Employee Risk" tab
 2. Use filters to find specific employees or departments
 3. Sort by risk score, satisfaction, or other metrics
 4. Click "Update" to recalculate predictions for specific employees
 
 ### 3. Analyzing Trends
+
 1. Visit the "Analytics" tab for visual charts
 2. Review monthly retention trends
 3. Analyze risk factor impacts
 4. Check predicted turnover timeline
 
 ### 4. Department Analysis
+
 1. Use the "Departments" tab
 2. Click on department cards for detailed analysis
 3. Review employee lists and risk distributions
 4. Get department-specific recommendations
 
 ### 5. Action Planning
+
 1. Check the "Actions" tab for AI-generated recommendations
 2. Mark actions as completed to track progress
 3. View quick actions you can take today
@@ -160,6 +177,7 @@ Navigate to `/employee-retention` in your application to access the full dashboa
 ## Customization
 
 ### 1. Prediction Algorithm
+
 To integrate with a real ML model:
 
 1. Replace the mock prediction function in `/api/employee-retention/predict/route.js`
@@ -167,6 +185,7 @@ To integrate with a real ML model:
 3. Update the prediction logic while maintaining the same response format
 
 ### 2. Data Integration
+
 To connect with your database:
 
 1. Replace mock data in API routes with actual database queries
@@ -174,12 +193,15 @@ To connect with your database:
 3. Ensure proper data validation and error handling
 
 ### 3. UI Customization
+
 - Modify components in `/sections/employee-retention/`
 - Update styling using Tailwind CSS classes
 - Add new charts or visualizations as needed
 
 ### 4. Additional Features
+
 Consider adding:
+
 - Real-time notifications for high-risk employees
 - Integration with HR systems
 - Automated reporting
@@ -189,10 +211,13 @@ Consider adding:
 ## Testing
 
 ### 1. Sample Data
+
 The module includes sample data in `/lib/sampleData.js` for testing purposes.
 
 ### 2. API Testing
+
 You can test the APIs using:
+
 ```bash
 # Get all predictions
 curl http://localhost:3000/api/employee-retention/predict
