@@ -120,20 +120,15 @@ const Sidebar = () => {
             onClick={() => handleTab(6)}
             className={`px-2 py-2 flex gap-2 cursor-pointer items-center justify-start rounded-lg ${tab1 === 6 ? "btnPrimary text-white" : "bg-white text-gray-500"
               }`}
-          >
-            <div className="flex gap-2 items-center justify-center ">
+          >            <div className="flex gap-2 items-center justify-center ">
               <Link className="flex gap-2" href={"/dashboard/employee-retention"}>
                 <div>
-                  <span style={{ fontSize: '16px', color: tab1 === 6 ? 'white' : 'black' }}></span>
+                  <span style={{ fontSize: '16px', color: tab1 === 6 ? 'white' : 'black' }}>📊</span>
                 </div>
                 {!side && <div>AI Retention</div>}
               </Link>
             </div>
-          </div>
-
-
-
-          <div
+          </div>          <div
             onClick={() => handleTab(7)}
             className={`px-2 py-2 flex gap-2 cursor-pointer items-center justify-start rounded-lg ${tab1 === 7 ? "btnPrimary text-white" : "bg-white text-gray-500"
               }`}
@@ -141,7 +136,7 @@ const Sidebar = () => {
             <div className="flex gap-2 items-center justify-center ">
               <Link className="flex gap-2" href={"/dashboard/aiagent"}>
                 <div>
-                  <span style={{ fontSize: '16px', color: tab1 === 6 ? 'white' : 'black' }}></span>
+                  <span style={{ fontSize: '16px', color: tab1 === 7 ? 'white' : 'black' }}>🤖</span>
                 </div>
                 {!side && <div>AI Chatbot </div>}
               </Link>
@@ -172,18 +167,16 @@ const Sidebar = () => {
         <div className=" relative p-2 text-white flex items-center justify-center bg-[linear-gradient(15deg,_#4A25E1_26.3%,_#6946F4_54.5%,_#7B5AFF_80.11%)] h-[240px] rounded-lg  ">
           <div className="absolute top-[-50] left-[50%] translate-x-[-50%]">
             <Logobtn />
-          </div>
-          <div className="flex flex-col items-center gap-2">
-            <div className="font-semibold text-xl text-white">Use Our AI</div>
+          </div>          <div className="flex flex-col items-center gap-2">
+            <div className="font-semibold text-xl text-white">AI Features Suite</div>
             <div className="text-center text-sm">
-              Try Our AI-Powered Tools to Enhance Your Experience
-            </div>{" "}
-            <Link
-              href="/ai-job-creator"
+              Try Our AI-Powered Tools: Screening, Job Descriptions & Emails
+            </div>{" "}            <Link
+              href="/dashboard/ai-features"
               className="px-4 py-2 cursor-pointer rounded-lg bg-white/20 text-white font-semibold hover:bg-white/30 transition-colors"
             >
               {" "}
-              Try Now
+              Try AI Features
             </Link>
           </div>
         </div>

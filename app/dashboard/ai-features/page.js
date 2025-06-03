@@ -1,18 +1,18 @@
 /**
- * AI Creator Suite Page
- * Main page for creating professional job descriptions and emails using AI
+ * AI Features Suite Page (Dashboard Version)
+ * Main page for AI-powered HR tools: screening interviews, job descriptions, and emails
  */
 "use client";
 
 import { useState } from "react";
-import JobCreatorForm from "../../sections/ai-job-creator/jobCreatorForm";
-import JobDescriptionOutput from "../../sections/ai-job-creator/jobDescriptionOutput";
-import SharePanel from "../../sections/ai-job-creator/sharePanel";
-import EmailGeneratorForm from "../../sections/ai-job-creator/emailGeneratorForm";
-import EmailOutput from "../../sections/ai-job-creator/emailOutput";
-import ScreeningInterviewWrapper from "../../sections/ai-screening/screeningInterviewWrapper";
+import JobCreatorForm from "../../../sections/ai-job-creator/jobCreatorForm";
+import JobDescriptionOutput from "../../../sections/ai-job-creator/jobDescriptionOutput";
+import SharePanel from "../../../sections/ai-job-creator/sharePanel";
+import EmailGeneratorForm from "../../../sections/ai-job-creator/emailGeneratorForm";
+import EmailOutput from "../../../sections/ai-job-creator/emailOutput";
+import ScreeningInterviewWrapper from "../../../sections/ai-screening/screeningInterviewWrapper";
 
-export default function AIJobCreatorPage() {
+export default function AIFeaturesPage() {
   const [activeTab, setActiveTab] = useState("ai-screening");
   const [jobDescription, setJobDescription] = useState(null);
   const [generatedEmail, setGeneratedEmail] = useState(null);
@@ -134,9 +134,11 @@ export default function AIJobCreatorPage() {
       navigator.clipboard.writeText(generatedEmail.rawText);
     }
   };
+
   return (
     <div className="min-h-screen bg-gray-50 p-6">
-      <div className="max-w-7xl mx-auto">        {/* Header */}
+      <div className="max-w-7xl mx-auto">
+        {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
             🤖 AI Features Suite
@@ -144,7 +146,9 @@ export default function AIJobCreatorPage() {
           <p className="text-gray-600">
             Comprehensive AI-powered tools for HR operations: candidate screening, job descriptions, and professional emails
           </p>
-        </div>        {/* Tab Navigation */}
+        </div>
+
+        {/* Tab Navigation */}
         <div className="mb-8">
           <div className="border-b border-gray-200">
             <nav className="-mb-px flex space-x-8">
@@ -199,7 +203,9 @@ export default function AIJobCreatorPage() {
               </div>
             </div>
           </div>
-        )}        {/* Tab Content */}
+        )}
+
+        {/* Tab Content */}
         {activeTab === "ai-screening" ? (
           <ScreeningInterviewWrapper />
         ) : activeTab === "job-creator" ? (
@@ -253,8 +259,8 @@ export default function AIJobCreatorPage() {
                 </div>
               )}
             </div>
-          </div>        ) : activeTab === "email-generator" ? (
-          /* Email Generator Tab */
+          </div>
+        ) : activeTab === "email-generator" ? (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Left Side - Form */}
             <div>
@@ -273,7 +279,9 @@ export default function AIJobCreatorPage() {
               />
             </div>
           </div>
-        ) : null}        {/* Usage Tips */}
+        ) : null}
+
+        {/* Usage Tips */}
         <div className="mt-12 bg-blue-50 rounded-xl p-6">
           <h3 className="text-lg font-semibold text-blue-900 mb-4 flex items-center gap-2">
             <span>💡</span>
