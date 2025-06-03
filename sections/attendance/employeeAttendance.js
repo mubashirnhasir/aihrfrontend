@@ -9,125 +9,20 @@ import AddEmployeeModal from './addEmployee';
 const EmployeeAttendance = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [searchText, setSearchText] = useState("")
-    const [employees, setEmployees] = useState([]);
-
-  const employee = [
-    {
-      name: "Bagus",
-      role: "CEO",
-      empId: "EMP123",
-      department: "Managerial",
-      type: "Fulltime",
-      email: "bagus@mail.com",
-      joined: "29 Oct, 2020",
-      image: "/images/avatar.jpg"
-    },
-    {
-      name: "Ayesha",
-      role: "Product Manager",
-      empId: "EMP456",
-      department: "Operations",
-      type: "Fulltime",
-      email: "ayesha@mail.com",
-      joined: "10 Jan, 2021",
-      image: "/images/avatar2.jpg"
-    },
-    {
-      name: "Rahul",
-      role: "Frontend Developer",
-      empId: "EMP789",
-      department: "Engineering",
-      type: "Fulltime",
-      email: "rahul@mail.com",
-      joined: "15 Mar, 2022",
-      image: "/images/avatar3.jpg"
-    },
-    {
-      name: "Sophia",
-      role: "UX Designer",
-      empId: "EMP101",
-      department: "Design",
-      type: "Fulltime",
-      email: "sophia@mail.com",
-      joined: "04 Feb, 2023",
-      image: "/images/avatar4.jpg"
-    },
-    {
-      name: "Liam",
-      role: "Backend Developer",
-      empId: "EMP102",
-      department: "Engineering",
-      type: "Part-time",
-      email: "liam@mail.com",
-      joined: "12 Aug, 2022",
-      image: "/images/avatar5.jpg"
-    },
-    {
-      name: "Emma",
-      role: "HR Manager",
-      empId: "EMP103",
-      department: "HR",
-      type: "Fulltime",
-      email: "emma@mail.com",
-      joined: "20 Nov, 2019",
-      image: "/images/avatar6.jpg"
-    },
-    {
-      name: "Noah",
-      role: "QA Engineer",
-      empId: "EMP104",
-      department: "Quality Assurance",
-      type: "Contract",
-      email: "noah@mail.com",
-      joined: "11 Jul, 2021",
-      image: "/images/avatar7.jpg"
-    },
-    {
-      name: "Olivia",
-      role: "Marketing Lead",
-      empId: "EMP105",
-      department: "Marketing",
-      type: "Fulltime",
-      email: "olivia@mail.com",
-      joined: "05 Jan, 2020",
-      image: "/images/avatar8.jpg"
-    },
-    {
-      name: "James",
-      role: "Data Analyst",
-      empId: "EMP106",
-      department: "Analytics",
-      type: "Intern",
-      email: "james@mail.com",
-      joined: "01 Jun, 2023",
-      image: "/images/avatar9.jpg"
-    },
-    {
-      name: "Mia",
-      role: "Customer Success Manager",
-      empId: "EMP107",
-      department: "Customer Success",
-      type: "Fulltime",
-      email: "mia@mail.com",
-      joined: "19 Sep, 2020",
-      image: "/images/avatar10.jpg"
-    }
-  ];
-
-  const filteredEmployees = employee.filter((emp) =>
-    emp.name.toLowerCase().includes(searchText.toLowerCase()) ||
-    emp.role.toLowerCase().includes(searchText.toLowerCase()) ||
-    emp.department.toLowerCase().includes(searchText.toLowerCase()) ||
-    emp.email.toLowerCase().includes(searchText.toLowerCase())
-  )
+  const [employees, setEmployees] = useState([]);
+  const [loading, setLoading] = useState(true);
 
 
-  
+
+
+
+
+
   const handlePopOpen = () => {
     setIsOpen(!isOpen)
   }
 
-   useEffect(() => {
+  useEffect(() => {
     fetch("/api/employees")
       .then(res => res.json())
       .then(data => {
@@ -137,7 +32,16 @@ const EmployeeAttendance = () => {
       .catch(() => setLoading(false));
   }, []);
 
-  console.log("lalalal",employees)
+
+  const filteredEmployees = employees.filter((emp) =>
+    emp.name?.toLowerCase().includes(searchText.toLowerCase()) ||
+    emp.designation?.toLowerCase().includes(searchText.toLowerCase()) ||
+    emp.department?.toLowerCase().includes(searchText.toLowerCase()) ||
+    emp.email?.toLowerCase().includes(searchText.toLowerCase())
+  );
+
+
+  console.log("lalalal", employees)
 
   return (
     <div className='contain px-2 relative'>
@@ -162,21 +66,11 @@ const EmployeeAttendance = () => {
       </div>
 
       <div className='p-2 w-full h-full mt-4 flex gap-4 flex-wrap'>
-        {
-          filteredEmployees.map((data, index) => (
-            <EmployeeCard
-              key={index}
-              name={data.name}
-              role={data.role}
-              empId={data.empId}
-              department={data.department}
-              type={data.type}
-              email={data.email}
-              joined={data.joined}
-              image={data.image}
-            />
-          ))
-        }
+        {filteredEmployees.map((emp, index) => (
+          <EmployeeCard key={emp._id || index} employee={emp} />
+        ))}
+
+
       </div>
       {
         isOpen && (
@@ -184,9 +78,24 @@ const EmployeeAttendance = () => {
             <AddEmployeeModal
               isOpen={isOpen}
               setIsOpen={setIsOpen}
-              onSave={(data) => {
-                console.log("New employee data:", data); 
+              onSave={async (data) => {
+                try {
+                  const res = await fetch("/api/employees", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(data)
+                  });
+
+                  if (res.ok) {
+                    setIsOpen(false);
+                    const updated = await fetch("/api/employees").then(res => res.json());
+                    setEmployees(updated);
+                  }
+                } catch (err) {
+                  console.error("Error adding employee:", err);
+                }
               }}
+
             />
           </div>
         )
