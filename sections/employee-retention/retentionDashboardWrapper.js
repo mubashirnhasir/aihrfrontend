@@ -110,17 +110,17 @@ export default function RetentionDashboardWrapper() {
   }
 
   const tabs = [
-    { key: "overview", label: "Overview", icon: "📊" },
-    { key: "employees", label: "Employee Risk", icon: "👥" },
-    { key: "analytics", label: "Analytics", icon: "📈" },
-    { key: "departments", label: "Departments", icon: "🏢" },
-    { key: "recommendations", label: "Actions", icon: "💡" },
+    { key: "overview", label: "Overview", icon: "" },
+    { key: "employees", label: "Employee Risk", icon: "" },
+    { key: "analytics", label: "Analytics", icon: "" },
+    { key: "departments", label: "Departments", icon: "" },
+    { key: "recommendations", label: "Actions", icon: "" },
   ];
 
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <div className="bg-white shadow-sm border-b">
+      <div className="bg-white shadow-sm border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div>
@@ -149,7 +149,7 @@ export default function RetentionDashboardWrapper() {
                 <button
                   key={tab.key}
                   onClick={() => handleTabChange(tab.key)}
-                  className={`px-4 py-2 rounded-md text-sm font-medium transition-colors flex items-center space-x-2 ${
+                  className={`px-4 cursor-pointer py-2 rounded-md text-sm font-medium transition-colors flex items-center space-x-2 ${
                     activeTab === tab.key
                       ? "bg-blue-100 text-blue-700 border border-blue-200"
                       : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"

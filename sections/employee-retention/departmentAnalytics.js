@@ -48,7 +48,7 @@ export default function DepartmentAnalytics({
 
   if (!departmentStats.length) {
     return (
-      <div className="bg-white rounded-lg shadow-sm border p-6">
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200  p-6">
         <div className="text-center py-12">
           <div className="text-gray-500 mb-2">No department data available</div>
           <div className="text-sm text-gray-400">
@@ -71,8 +71,8 @@ export default function DepartmentAnalytics({
           return (
             <div
               key={index}
-              className={`bg-white rounded-lg shadow-sm border p-6 cursor-pointer transition-all duration-200 hover:shadow-md ${
-                isSelected ? "ring-2 ring-blue-500 border-blue-200" : ""
+              className={`bg-white rounded-lg shadow-sm border border-gray-200  p-6 cursor-pointer transition-all duration-200 hover:shadow-md ${
+                isSelected ? "ring-2 ring-blue-500 border border-gray-200 -blue-200" : ""
               }`}
               onClick={() => setSelectedDepartment(dept.department)}
             >
@@ -175,7 +175,7 @@ export default function DepartmentAnalytics({
 
       {/* Detailed View for Selected Department */}
       {selectedDepartment && (
-        <div className="bg-white rounded-lg shadow-sm border p-6">
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200  p-6">
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-xl font-semibold text-gray-900">
               {selectedDepartment} Department - Detailed Analysis
@@ -395,7 +395,7 @@ export default function DepartmentAnalytics({
       )}
 
       {/* Comparison Table */}
-      <div className="bg-white rounded-lg shadow-sm border p-6">
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200  p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">
           Department Comparison
         </h3>

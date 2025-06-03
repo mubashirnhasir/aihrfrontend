@@ -26,7 +26,7 @@ export default function RetentionCharts({ analytics = null }) {
         {[1, 2, 3, 4].map((i) => (
           <div
             key={i}
-            className="bg-white rounded-lg shadow-sm border p-6 animate-pulse"
+            className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 animate-pulse"
           >
             <div className="h-4 bg-gray-200 rounded w-1/2 mb-4"></div>
             <div className="h-64 bg-gray-200 rounded"></div>
@@ -39,78 +39,11 @@ export default function RetentionCharts({ analytics = null }) {
   return (
     <div className="space-y-6">
       {/* Monthly Retention Trends */}
-      <div className="bg-white rounded-lg shadow-sm border p-6">
-        <h3 className="text-lg font-semibold mb-4 flex items-center">
-          <span className="mr-2">📈</span>
-          Monthly Retention Trends
-        </h3>
-
-        <div className="h-64 relative">
-          {/* Simple line chart representation */}
-          <div className="absolute inset-0 flex items-end justify-between px-4 pb-8">
-            {chartData.monthlyTrends.map((trend, index) => {
-              const height = ((trend.retentionRate - 75) / 20) * 100; // Normalize to 75-95% range
-              return (
-                <div key={index} className="flex flex-col items-center">
-                  <div
-                    className="bg-blue-500 w-8 rounded-t transition-all duration-300 hover:bg-blue-600"
-                    style={{ height: `${Math.max(10, height)}%` }}
-                    title={`${trend.month}: ${formatPercentage(
-                      trend.retentionRate
-                    )}`}
-                  ></div>
-                  <div className="text-xs text-gray-600 mt-2 transform -rotate-45 origin-left">
-                    {trend.month.split(" ")[0]}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Y-axis labels */}
-          <div className="absolute left-0 inset-y-0 flex flex-col justify-between text-xs text-gray-500 py-4">
-            <span>95%</span>
-            <span>90%</span>
-            <span>85%</span>
-            <span>80%</span>
-            <span>75%</span>
-          </div>
-        </div>
-
-        <div className="mt-4 grid grid-cols-3 gap-4 text-center">
-          <div>
-            <div className="text-sm text-gray-600">Average</div>
-            <div className="text-lg font-semibold text-gray-900">
-              {formatPercentage(
-                chartData.monthlyTrends.reduce(
-                  (sum, t) => sum + t.retentionRate,
-                  0
-                ) / chartData.monthlyTrends.length
-              )}
-            </div>
-          </div>
-          <div>
-            <div className="text-sm text-gray-600">Highest</div>
-            <div className="text-lg font-semibold text-green-600">
-              {formatPercentage(
-                Math.max(...chartData.monthlyTrends.map((t) => t.retentionRate))
-              )}
-            </div>
-          </div>
-          <div>
-            <div className="text-sm text-gray-600">Lowest</div>
-            <div className="text-lg font-semibold text-red-600">
-              {formatPercentage(
-                Math.min(...chartData.monthlyTrends.map((t) => t.retentionRate))
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
+      
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Risk Factors Impact */}
-        <div className="bg-white rounded-lg shadow-sm border p-6">
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
           <h3 className="text-lg font-semibold mb-4 flex items-center">
             <span className="mr-2">⚡</span>
             Top Risk Factors
@@ -165,7 +98,7 @@ export default function RetentionCharts({ analytics = null }) {
         </div>
 
         {/* Department Risk Distribution */}
-        <div className="bg-white rounded-lg shadow-sm border p-6">
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
           <h3 className="text-lg font-semibold mb-4 flex items-center">
             <span className="mr-2">🏢</span>
             Department Risk Overview
@@ -243,7 +176,7 @@ export default function RetentionCharts({ analytics = null }) {
       </div>
 
       {/* Prediction Timeline */}
-      <div className="bg-white rounded-lg shadow-sm border p-6">
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
         <h3 className="text-lg font-semibold mb-4 flex items-center">
           <span className="mr-2">🎯</span>
           Predicted Turnover Timeline

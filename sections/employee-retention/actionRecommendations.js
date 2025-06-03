@@ -142,7 +142,7 @@ export default function ActionRecommendations({
 
   if (!smartRecommendations.length) {
     return (
-      <div className="bg-white rounded-lg shadow-sm border p-6">
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
         <div className="text-center py-12">
           <div className="text-gray-500 mb-2">No recommendations available</div>
           <div className="text-sm text-gray-400">
@@ -157,7 +157,7 @@ export default function ActionRecommendations({
     <div className="space-y-6">
       {/* Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-white rounded-lg shadow-sm border p-6">
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-gray-600">Total Actions</p>
@@ -169,7 +169,7 @@ export default function ActionRecommendations({
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow-sm border p-6">
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-gray-600">High Priority</p>
@@ -181,7 +181,7 @@ export default function ActionRecommendations({
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow-sm border p-6">
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-gray-600">Completed</p>
@@ -201,7 +201,7 @@ export default function ActionRecommendations({
         return (
           <div
             key={priority}
-            className="bg-white rounded-lg shadow-sm border p-6"
+            className="bg-white rounded-lg shadow-sm border border-gray-200 p-6"
           >
             <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
               <span className="mr-2">{getPriorityIcon(priority)}</span>
@@ -334,7 +334,7 @@ export default function ActionRecommendations({
       })}
 
       {/* Progress Summary */}
-      <div className="bg-white rounded-lg shadow-sm border p-6">
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">
           Implementation Progress
         </h3>
@@ -412,7 +412,7 @@ export default function ActionRecommendations({
       </div>
 
       {/* Quick Actions */}
-      <div className="bg-blue-50 rounded-lg border border-blue-200 p-6">
+      <div className="bg-blue-50 rounded-lg border  border-blue-200 p-6">
         <h3 className="text-lg font-semibold text-blue-900 mb-4">
           Quick Actions You Can Take Today
         </h3>

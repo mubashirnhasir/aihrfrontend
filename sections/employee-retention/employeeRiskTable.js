@@ -136,7 +136,7 @@ export default function EmployeeRiskTable({ employees = [], onRefresh }) {
   return (
     <div className="space-y-6">
       {/* Header and Filters */}
-      <div className="bg-white rounded-lg shadow-sm border p-6">
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-6">
           <div>
             <h2 className="text-xl font-semibold text-gray-900">
@@ -217,7 +217,7 @@ export default function EmployeeRiskTable({ employees = [], onRefresh }) {
       </div>
 
       {/* Table */}
-      <div className="bg-white rounded-lg shadow-sm border overflow-hidden">
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
@@ -344,16 +344,16 @@ export default function EmployeeRiskTable({ employees = [], onRefresh }) {
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       <button
                         onClick={() => handleEmployeePrediction(employee.id)}
-                        className="text-blue-600 hover:text-blue-900 mr-3"
+                        className="text-blue-600 font-medium hover:text-blue-900 mr-3"
                         title="Recalculate prediction"
                       >
-                        🔄 Update
+                        Update
                       </button>
                       <button
-                        className="text-green-600 hover:text-green-900"
+                        className="text-green-600 font-medium hover:text-green-900"
                         title="View details"
                       >
-                        👁️ Details
+                        Details
                       </button>
                     </td>
                   </tr>

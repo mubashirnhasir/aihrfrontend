@@ -11,6 +11,7 @@ import {
   calculateTrend,
   groupEmployeesByRisk,
 } from "../../lib/employee-retention-utils";
+import { ArrowUpNarrowWide, ChartBar, TriangleAlert } from "lucide-react";
 
 export default function RetentionOverview({
   predictions = [],
@@ -117,7 +118,7 @@ export default function RetentionOverview({
         {metricCards.map((card, index) => (
           <div
             key={index}
-            className="bg-white rounded-lg shadow-sm border p-6 hover:shadow-md transition-shadow"
+            className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 cursor-pointer hover:shadow-md transition-shadow"
           >
             <div className="flex items-center justify-between mb-3">
               <div className="text-sm font-medium text-gray-600">
@@ -146,9 +147,9 @@ export default function RetentionOverview({
 
       {/* Risk Distribution Chart */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-white rounded-lg shadow-sm border p-6">
-          <h3 className="text-lg font-semibold mb-4 flex items-center">
-            <span className="mr-2">🎯</span>
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+          <h3 className="text-2xl font-semibold mb-4 flex items-center">
+            <span className="mr-2"><TriangleAlert/></span>
             Risk Distribution
           </h3>
 
@@ -204,28 +205,28 @@ export default function RetentionOverview({
         </div>
 
         {/* Quick Stats */}
-        <div className="bg-white rounded-lg shadow-sm border p-6">
-          <h3 className="text-lg font-semibold mb-4 flex items-center">
-            <span className="mr-2">📊</span>
+        <div className="bg-white rounded-lg shadow-sm p-6">
+          <h3 className="text-2xl font-semibold  mb-4 flex items-center">
+            <div className="px-2"><ChartBar/></div>
             Quick Statistics
           </h3>
 
           <div className="space-y-4">
-            <div className="flex justify-between items-center py-2 border-b border-gray-100">
+            <div className="flex justify-between items-center py-2 ">
               <span className="text-gray-600">Total Employees</span>
               <span className="font-semibold text-gray-900">
                 {formatNumber(summaryMetrics.totalEmployees)}
               </span>
             </div>
 
-            <div className="flex justify-between items-center py-2 border-b border-gray-100">
+            <div className="flex justify-between items-center py-2 ">
               <span className="text-gray-600">Retention Rate (YTD)</span>
               <span className="font-semibold text-gray-900">
                 {formatPercentage(analytics?.retentionTrends?.yearToDate || 0)}
               </span>
             </div>
 
-            <div className="flex justify-between items-center py-2 border-b border-gray-100">
+            <div className="flex justify-between items-center py-2 ">
               <span className="text-gray-600">Avg. Job Satisfaction</span>
               <span className="font-semibold text-gray-900">
                 {(
@@ -238,7 +239,7 @@ export default function RetentionOverview({
               </span>
             </div>
 
-            <div className="flex justify-between items-center py-2 border-b border-gray-100">
+            <div className="flex justify-between items-center py-2 ">
               <span className="text-gray-600">Predicted 6-Month Turnover</span>
               <span className="font-semibold text-gray-900">
                 {analytics?.predictionsSummary?.estimatedTurnover
@@ -261,9 +262,9 @@ export default function RetentionOverview({
       </div>
 
       {/* Recent Trends */}
-      <div className="bg-white rounded-lg shadow-sm border p-6">
-        <h3 className="text-lg font-semibold mb-4 flex items-center">
-          <span className="mr-2">📈</span>
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+        <h3 className="text-2xl font-semibold mb-4 flex items-center">
+          <span className="mr-2"><ArrowUpNarrowWide/></span>
           Retention Trends (Last 6 Months)
         </h3>
 
