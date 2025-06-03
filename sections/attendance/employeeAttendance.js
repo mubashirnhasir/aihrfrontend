@@ -121,6 +121,8 @@ const EmployeeAttendance = () => {
     emp.email.toLowerCase().includes(searchText.toLowerCase())
   )
 
+
+  
   const handlePopOpen = () => {
     setIsOpen(!isOpen)
   }
