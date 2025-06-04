@@ -5,18 +5,47 @@ import { useState } from 'react';
 export default function EmployeeClockInOut({ currentStatus, todayHours, onClockAction }) {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
-
-    const handleClockAction = async (action) => {
+    const [successMessage, setSuccessMessage] = useState(null);    const handleClockAction = async (action) => {
         try {
             setIsLoading(true);
             setError(null);
+            setSuccessMessage(null);
+            
             await onClockAction(action);
+            
+            // Show success message
+            if (action === 'in') {
+                setSuccessMessage('Successfully clocked in!');
+            } else {
+                setSuccessMessage('Successfully clocked out!');
+            }
+            
+            // Clear success message after 3 seconds
+            setTimeout(() => setSuccessMessage(null), 3000);
         } catch (err) {
-            setError(err.message);
+            // Handle specific error messages with friendlier text
+            let errorMessage = err.message;
+            
+            if (errorMessage === 'Already clocked in for today') {
+                errorMessage = 'You\'ve already clocked in today';
+            } else if (errorMessage === 'Already clocked out for today') {
+                errorMessage = 'You\'ve already clocked out today';
+            } else if (errorMessage === 'Please clock in first') {
+                errorMessage = 'Clock in first before clocking out';
+            }
+            
+            setError(errorMessage);
+            
+            // Clear error message after 5 seconds
+            setTimeout(() => setError(null), 5000);
         } finally {
             setIsLoading(false);
         }
     };
+
+    // Check if user has completed their work day (clocked in and out)
+    const hasCompletedWorkDay = currentStatus?.clockOutTime && currentStatus?.clockInTime;
+    const isCurrentlyWorking = currentStatus?.status === 'in';
 
     const formatTime = (timeString) => {
         if (!timeString) return '--:--';
@@ -56,35 +85,59 @@ export default function EmployeeClockInOut({ currentStatus, todayHours, onClockA
                                     day: 'numeric'
                                 })}
                             </div>
-                        </div>
+                        </div>                        {/* Clock In/Out Button or Status Message */}
+                        {hasCompletedWorkDay ? (
+                            <div className="text-center">
+                                <div className="w-32 h-32 rounded-full bg-gray-100 border-2 border-gray-300 flex flex-col items-center justify-center mx-auto mb-4">
+                                    <div className="text-3xl mb-2">✅</div>
+                                    <div className="text-sm font-medium text-gray-600">Work Day</div>
+                                    <div className="text-sm font-medium text-gray-600">Complete</div>
+                                </div>
+                                <div className="text-sm text-gray-600">
+                                    You have completed your work day for today!
+                                </div>
+                            </div>
+                        ) : (
+                            <button
+                                onClick={() => handleClockAction(isCurrentlyWorking ? 'out' : 'in')}
+                                disabled={isLoading}
+                                className={`
+                                    w-32 h-32 rounded-full text-white font-semibold text-lg shadow-lg transition-all duration-200
+                                    ${isCurrentlyWorking
+                                        ? 'bg-red-500 hover:bg-red-600 active:scale-95'
+                                        : 'bg-green-500 hover:bg-green-600 active:scale-95'
+                                    }
+                                    ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}
+                                `}
+                            >
+                                {isLoading ? (
+                                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white mx-auto"></div>
+                                ) : (
+                                    <>
+                                        <div>{isCurrentlyWorking ? 'Clock Out' : 'Clock In'}</div>
+                                        <div className="text-sm opacity-90">
+                                            {isCurrentlyWorking ? '🔴' : '🟢'}
+                                        </div>
+                                    </>
+                                )}
+                            </button>
+                        )}                        {/* Success Message */}
+                        {successMessage && (
+                            <div className="mt-4 text-center">
+                                <div className="inline-flex items-center gap-2 text-green-700 bg-green-100 px-4 py-3 rounded-lg border border-green-300 text-sm font-medium">
+                                    <span className="text-lg">✅</span>
+                                    {successMessage}
+                                </div>
+                            </div>
+                        )}
 
-                        <button
-                            onClick={() => handleClockAction(currentStatus?.status === 'in' ? 'out' : 'in')}
-                            disabled={isLoading}
-                            className={`
-                                w-32 h-32 rounded-full text-white font-semibold text-lg shadow-lg transition-all duration-200
-                                ${currentStatus?.status === 'in'
-                                    ? 'bg-red-500 hover:bg-red-600 active:scale-95'
-                                    : 'bg-green-500 hover:bg-green-600 active:scale-95'
-                                }
-                                ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}
-                            `}
-                        >
-                            {isLoading ? (
-                                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white mx-auto"></div>
-                            ) : (
-                                <>
-                                    <div>{currentStatus?.status === 'in' ? 'Clock Out' : 'Clock In'}</div>
-                                    <div className="text-sm opacity-90">
-                                        {currentStatus?.status === 'in' ? '🔴' : '🟢'}
-                                    </div>
-                                </>
-                            )}
-                        </button>
-
+                        {/* Error Message */}
                         {error && (
-                            <div className="mt-4 text-sm text-red-600 bg-red-50 p-2 rounded">
-                                {error}
+                            <div className="mt-4 text-center">
+                                <div className="inline-flex items-center gap-2 text-amber-700 bg-amber-100 px-4 py-3 rounded-lg border border-amber-300 text-sm font-medium">
+                                    <span className="text-lg">ℹ️</span>
+                                    {error}
+                                </div>
                             </div>
                         )}
                     </div>
@@ -108,14 +161,15 @@ export default function EmployeeClockInOut({ currentStatus, todayHours, onClockA
                                 {formatHours(todayHours?.worked)}
                             </div>
                         </div>
-                        
-                        <div className="bg-green-50 rounded-lg p-4">
+                          <div className="bg-green-50 rounded-lg p-4">
                             <div className="text-green-600 text-sm font-medium">Status</div>
                             <div className="text-lg font-bold text-green-900 mt-1 flex items-center gap-2">
                                 <span className={`w-3 h-3 rounded-full ${
-                                    currentStatus?.status === 'in' ? 'bg-green-500' : 'bg-gray-400'
+                                    hasCompletedWorkDay ? 'bg-blue-500' : 
+                                    isCurrentlyWorking ? 'bg-green-500' : 'bg-gray-400'
                                 }`}></span>
-                                {currentStatus?.status === 'in' ? 'Working' : 'Not Working'}
+                                {hasCompletedWorkDay ? 'Day Complete' : 
+                                 isCurrentlyWorking ? 'Working' : 'Not Started'}
                             </div>
                         </div>
                     </div>

@@ -49,9 +49,7 @@ export default function EmployeeAttendancePage() {
         } finally {
             setIsLoading(false);
         }
-    };
-
-    const handleClockAction = async (action) => {
+    };    const handleClockAction = async (action) => {
         try {
             const token = localStorage.getItem('employeeToken');
             const endpoint = action === 'in' ? '/api/employee/clock-in' : '/api/employee/clock-out';
@@ -64,14 +62,23 @@ export default function EmployeeAttendancePage() {
                 }
             });
 
-            if (!response.ok) {
-                throw new Error(`Failed to clock ${action}`);
+            const data = await response.json();            if (!response.ok) {
+                // Handle specific error cases with simple, clear messages
+                if (data.message === 'Already clocked in today') {
+                    throw new Error('Already clocked in for today');
+                } else if (data.message === 'Already clocked out today') {
+                    throw new Error('Already clocked out for today');
+                } else if (data.message === 'Please clock in first') {
+                    throw new Error('Please clock in first');
+                } else {
+                    throw new Error(data.message || `Failed to clock ${action}`);
+                }
             }
 
             // Refresh attendance data after clock action
             await fetchAttendanceData();
             
-            return await response.json();
+            return data;
         } catch (err) {
             console.error(`Error clocking ${action}:`, err);
             throw err;
