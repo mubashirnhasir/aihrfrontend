@@ -8,9 +8,11 @@ import Assets from "../public/icons/assets";
 import Arrow from "../public/icons/arrowleft";
 import Logobtn from "@/public/icons/logobtn";
 import Link from "next/link";
+import ProductLogo from "@/public/icons/productLogo";
+import { BrainCircuit, CopySlash, FileText, FileUser, LayoutDashboard, MonitorSmartphone, PlaneLanding, TentTree, TrendingUp } from "lucide-react";
 
 const Sidebar = () => {
-   const [side, setSide] = useState(false);
+  const [side, setSide] = useState(false);
   const [tab1, setTab1] = useState(0);
 
   // Load tab index from localStorage on mount
@@ -36,7 +38,7 @@ const Sidebar = () => {
         } `}
     >
       <div>
-        <div className="logo mb-6">Product Logo</div>
+        <div className="logo mb-6 flex items-center gap-4 text-xl font-semibold"><div><ProductLogo /> </div><div>Synapt HR</div> </div>
         <div className="tabs flex flex-col gap-2">
           <div
             onClick={() => handleTab(0)}
@@ -46,9 +48,10 @@ const Sidebar = () => {
             <div className="flex gap-2 items-center justify-center ">
               <Link className="flex gap-2" href={"/dashboard"}>
                 <div>
-                  <Dashboard color={`${tab1 === 0 ? "white" : "black"}`} />
+                  {/* <Dashboard color={`${tab1 === 0 ? "white" : "black"}`} /> */}
+                  <LayoutDashboard/>
                 </div>
-                {!side && <div>Dashboard</div>}
+                {!side && <div className="text-lg font-medium" >Dashboard</div>}
               </Link>
             </div>
           </div>
@@ -60,9 +63,10 @@ const Sidebar = () => {
             <div className="flex gap-2 items-center justify-center ">
               <Link className="flex gap-2" href={"/dashboard/attendance"}>
                 <div>
-                  <User color={`${tab1 === 1 ? "white" : "black"}`} />
+                  {/* <User color={`${tab1 === 1 ? "white" : "black"}`} /> */}
+                  <FileUser/>
                 </div>
-                {!side && <div>Attendance</div>}
+                {!side && <div className="text-lg font-medium" >Attendance</div>}
               </Link>
             </div>
           </div>
@@ -74,9 +78,10 @@ const Sidebar = () => {
             <div className="flex gap-2 items-center justify-center ">
               <Link className="flex gap-2" href={"/dashboard/leaves"}>
                 <div>
-                  <Folder color={`${tab1 === 2 ? "white" : "black"}`} />
+                  {/* <Folder color={`${tab1 === 2 ? "white" : "black"}`} /> */}
+                  <TentTree/>
                 </div>
-                {!side && <div>Leaves</div>}
+                {!side && <div className="text-lg font-medium" >Leaves</div>}
               </Link>
             </div>
           </div>
@@ -88,9 +93,10 @@ const Sidebar = () => {
             <div className="flex gap-2 items-center justify-center ">
               <Link className="flex gap-2" href={"/dashboard/documents"}>
                 <div>
-                  <Calendar color={`${tab1 === 3 ? "white" : "black"}`} />
+                  {/* <Calendar color={`${tab1 === 3 ? "white" : "black"}`} /> */}
+                  <FileText/>
                 </div>
-                {!side && <div>Documents</div>}
+                {!side && <div className="text-lg font-medium" >Documents</div>}
               </Link>
             </div>
           </div>
@@ -102,9 +108,10 @@ const Sidebar = () => {
             <div className="flex gap-2 items-center justify-center ">
               <Link className="flex gap-2" href={"/dashboard/assets"}>
                 <div>
-                  <Assets color={`${tab1 === 4 ? "white" : "black"}`} />
+                  {/* <Assets color={`${tab1 === 4 ? "white" : "black"}`} /> */}
+                  <MonitorSmartphone/>
                 </div>
-                {!side && <div>Assets</div>}
+                {!side && <div className="text-lg font-medium" >Assets</div>}
               </Link>
             </div>
           </div>{" "}
@@ -119,9 +126,10 @@ const Sidebar = () => {
                 href={"/dashboard/career-development"}
               >
                 <div>
-                  <User color={`${tab1 === 5 ? "white" : "black"}`} />
+                  {/* <User color={`${tab1 === 5 ? "white" : "black"}`} /> */}
+                  <TrendingUp/>
                 </div>
-                {!side && <div>Career Growth</div>}
+                {!side && <div className="text-lg font-medium" >Career Growth</div>}
               </Link>
             </div>
           </div>
@@ -132,9 +140,9 @@ const Sidebar = () => {
           >            <div className="flex gap-2 items-center justify-center ">
               <Link className="flex gap-2" href={"/dashboard/employee-retention"}>
                 <div>
-                  <span style={{ fontSize: '16px', color: tab1 === 6 ? 'white' : 'black' }}>📊</span>
+                 <PlaneLanding/>
                 </div>
-                {!side && <div>AI Retention</div>}
+                {!side && <div className="text-lg font-medium" >AI Retention</div>}
               </Link>
             </div>
           </div>          <div
@@ -145,23 +153,23 @@ const Sidebar = () => {
             <div className="flex gap-2 items-center justify-center ">
               <Link className="flex gap-2" href={"/dashboard/aiagent"}>
                 <div>
-                  <span style={{ fontSize: '16px', color: tab1 === 7 ? 'white' : 'black' }}>🤖</span>
+                  <BrainCircuit/>
                 </div>
-                {!side && <div>AI Chatbot </div>}
+                {!side && <div className="text-lg font-medium" >AI Chatbot </div>}
               </Link>
             </div>
           </div>
         </div>
         <div
           onClick={() => handleSidebar()}
-          className="absolute flex cursor-pointer items-center justify-center h-10 w-10 top-10 right-[-20] z-[10] bg-white rounded-full  "
+          className="absolute border border-gray-300 flex cursor-pointer items-center justify-center h-10 w-10 top-10 right-[-20] z-[10] bg-white rounded-full  "
           style={{
             boxShadow:
               "0px 6px 6px -6px rgba(0, 0, 0, 0.16), 0px 0px 1px 0px rgba(0, 0, 0, 0.40)",
           }}
         >
           {!side ? (
-            <div>
+            <div className="">
               <Arrow />
             </div>
           ) : (
