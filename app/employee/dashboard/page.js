@@ -19,9 +19,7 @@ export default function EmployeeDashboard() {
       if (!token) {
         router.push("/employee/auth/signin");
         return;
-      }
-
-      const response = await fetch("http://localhost:5000/api/employee/dashboard", {
+      }      const response = await fetch("/api/employee/dashboard", {
         method: "GET",
         headers: {
           "Authorization": `Bearer ${token}`,
