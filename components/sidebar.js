@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Dashboard from "../public/icons/dashboard";
 import User from "../public/icons/user";
 import Folder from "../public/icons/folder";
@@ -10,11 +10,20 @@ import Logobtn from "@/public/icons/logobtn";
 import Link from "next/link";
 
 const Sidebar = () => {
-  const [side, setSide] = useState(false);
+   const [side, setSide] = useState(false);
   const [tab1, setTab1] = useState(0);
+
+  // Load tab index from localStorage on mount
+  useEffect(() => {
+    const savedTab = localStorage.getItem("sidebarTab");
+    if (savedTab !== null) {
+      setTab1(parseInt(savedTab));
+    }
+  }, []);
 
   const handleTab = (e) => {
     setTab1(e);
+    localStorage.setItem("sidebarTab", e); // Save tab index to localStorage
   };
 
   const handleSidebar = () => {

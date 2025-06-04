@@ -6,46 +6,69 @@ import React, { useState } from "react";
 
 const Posts = () => {
   const [photo, setPhoto] = useState(null);
-  const [count, setCount] = useState(0);
-  const [isClicked, setIsClicked] = useState(false);
+  const [photoPreview, setPhotoPreview] = useState(null);
   const [announcements, setAnnouncement] = useState("");
 
-  const comments = [
+  const [comments, setComments] = useState([
     {
       comment: "For always doing your best and having our back!",
       username: "James Gray",
       designation: "Backend Developer",
       heading: "Outstanding Productivity",
+      count: 0,
+      liked: false,
+      image: null,
     },
+  ]);
 
-    {
-      comment: "For always doing your best and having our back!",
-      username: "James Gray",
-      designation: "Backend Developer",
-      heading: "Outstanding Productivity",
-    },
-  ];
-
-  const handleClick = () => {
-    if (isClicked) {
-      setCount(count - 1);
-    } else {
-      setCount(count + 1);
-    }
-    setIsClicked(!isClicked);
+  const handleClick = (index) => {
+    setComments((prev) =>
+      prev.map((item, i) =>
+        i === index
+          ? {
+              ...item,
+              count: item.liked ? item.count - 1 : item.count + 1,
+              liked: !item.liked,
+            }
+          : item
+      )
+    );
   };
 
   const handleFile = (e) => {
-    const files = e.target.files[0];
-    if (files) {
-      setPhoto(files);
+    const file = e.target.files[0];
+    if (file) {
+      setPhoto(file);
+      setPhotoPreview(URL.createObjectURL(file));
     }
   };
-  console.log("muuu", photo);
+
+  const handlePost = () => {
+    if (announcements.trim() === "") return;
+    setComments((prev) => [
+      ...prev,
+      {
+        comment: announcements,
+        username: "James Gray",
+        designation: "Backend Developer",
+        heading: "New Announcement",
+        count: 0,
+        liked: false,
+        image: photoPreview,
+      },
+    ]);
+    setAnnouncement("");
+    setPhoto(null);
+    setPhotoPreview(null);
+  };
+
+  const handleDelete = (index) => {
+    setComments((prev) => prev.filter((_, i) => i !== index));
+  };
 
   return (
     <div className="wraped">
-      <div className="comment border border-main rounded-lg p-3 flex h-[400px] flex-col gap-2">
+      <div className="comment border border-main rounded-lg p-3 flex flex-col gap-2">
         <div className="flex items-center justify-start gap-4">
           <div className="h-10 w-10 rounded-full">
             <img
@@ -64,34 +87,48 @@ const Posts = () => {
             />
           </div>
         </div>
+
+        {photoPreview && (
+          <div className="relative w-full mt-2">
+            <img
+              src={photoPreview}
+              alt="Preview"
+              className="max-h-[200px] rounded-md object-cover border"
+            />
+          </div>
+        )}
+
         <div className="flex items-center justify-between">
           <div className="flex items-center justify-center gap-4">
             <div className="flex relative items-center justify-center gap-2">
-              {" "}
               <input
                 onChange={handleFile}
                 type="file"
+                accept="image/*"
                 className="z-10 absolute h-10 w-20 bg-blue-100 cursor-pointer opacity-0"
-              />{" "}
-              <ImageUpload /> Photos{" "}
+              />
+              <ImageUpload /> Photos
             </div>
             <div className="flex items-center justify-center cursor-pointer gap-2">
-              {" "}
               <input
-                onChange={handleFile}
                 type="file"
-                className="z-10 absolute h-10 w-20 bg-blue-100 cursor-pointer opacity-0"
-              />{" "}
-              <VideoUpload /> Video{" "}
+                disabled
+                className="z-10 absolute h-10 w-20 bg-blue-100 cursor-not-allowed opacity-0"
+              />
+              <VideoUpload /> Video
             </div>
           </div>
-          <div className="button w-[120px] flex items-center justify-center px-4 py-1 cursor-pointer rounded-lg btnPrimary text-white">
+          <div
+            onClick={handlePost}
+            className="button cursor-pointer w-[120px] flex items-center justify-center px-4 py-1 rounded-lg btnPrimary text-white"
+          >
             <button>Post</button>
           </div>
         </div>
-        {/* recent announcements */}
-        <div className="w-full bg-gray-100 h-[1px]"></div>
+
+        <div className="w-full bg-gray-100 h-[1px] my-2"></div>
         <div className="font-medium text-gray-600">Recent Announcements</div>
+
         <div className="flex flex-col gap-4 overflow-y-scroll custom-scrollbar h-[280px]">
           {comments.map((data, index) => (
             <div
@@ -99,33 +136,53 @@ const Posts = () => {
               className="profile border border-gray-200 rounded-lg"
             >
               <div className="user flex gap-4 items-center p-4">
-                <div className="w-10 h-10 rounded-full  ">
+                <div className="w-10 h-10 rounded-full">
                   <img
                     src="/images/avatar.jpg"
                     className="w-full h-full rounded-full object-cover"
-                    alt="Avatar "
+                    alt="Avatar"
                   />
                 </div>
-                <div>
-                  <div className="font-medium text-lg">{data.heading}</div>
-                  <div className="flex gap-2 supporting-text ">
-                    <div>{data.username}</div>
-                    <div>{data.designation}</div>
+                <div className="flex justify-between w-full items-center">
+                  <div>
+                    <div className="font-medium text-lg">{data.heading}</div>
+                    <div className="flex gap-2 supporting-text">
+                      <div>{data.username}</div>
+                      <div>{data.designation}</div>
+                    </div>
                   </div>
+                  <button
+                    onClick={() => handleDelete(index)}
+                    className="text-red-500 hover:underline text-sm"
+                  >
+                    Delete
+                  </button>
                 </div>
               </div>
-              <div className="CommentMain border border-main px-2 flex flex-col mx-2 my-2 py-2 bg-gray-100 rounded-lg ">
+
+              <div className="CommentMain border border-main px-2 flex flex-col mx-2 my-2 py-2 bg-gray-100 rounded-lg">
                 <div className="comment text-lg font-medium text-main">
                   {data.comment}
                 </div>
-                <div className="flex items-center justify-between supporting-text ">
+
+                {data.image && (
+                  <div className="w-full mt-2">
+                    <img
+                      src={data.image}
+                      alt="attachment"
+                      className="max-h-[200px] rounded-md object-cover"
+                    />
+                  </div>
+                )}
+
+                <div className="flex items-center justify-between mt-2 supporting-text">
                   <div>By - {data.username}</div>
                   <div
-                    onClick={handleClick}
-                    className={`flex cursor-pointer items-center justify-center gap-1`}
+                    onClick={() => handleClick(index)}
+                    className="flex cursor-pointer items-center justify-center gap-1"
                   >
-                    {count}{" "}
-                    {isClicked ? (
+                    {data.count}{" "}
+                    {data.liked ? (
                       <div className="transition-all hover:scale-120">
                         <ThumbsUp color={"blue"} fill={"blue"} />
                       </div>
