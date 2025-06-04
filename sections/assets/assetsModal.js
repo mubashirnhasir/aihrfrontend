@@ -53,8 +53,7 @@ const AddAssetModal = ({ isOpen, setIsOpen, onSave }) => {
             "assignedTo",
             "createdAt",
             "department",
-            "status",
-            "image",
+            "status"
           ].map((field) => (
             <div key={field} className="flex flex-col">
               <label className="text-sm font-medium capitalize">
