@@ -2,6 +2,8 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import EmployeeNavbar from "@/components/employee/EmployeeNavbar";
+import EmployeeSidebar from "@/components/employee/EmployeeSidebar";
 
 export default function EmployeeLeaves() {
   const [leaveRequests, setLeaveRequests] = useState([]);  const [leaveBalance, setLeaveBalance] = useState({

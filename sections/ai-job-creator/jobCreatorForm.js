@@ -98,7 +98,7 @@ export default function JobCreatorForm({
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border p-6">
+    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-xl font-semibold text-gray-900">
           📝 Job Details Form
@@ -116,7 +116,7 @@ export default function JobCreatorForm({
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Basic Information */}
         <div className="space-y-4">
-          <h3 className="text-lg font-medium text-gray-800 border-b pb-2">
+          <h3 className="text-lg font-medium border-gray-200 text-gray-800 border-b pb-2">
             Basic Information
           </h3>
 
@@ -257,7 +257,7 @@ export default function JobCreatorForm({
 
         {/* Key Skills */}
         <div className="space-y-4">
-          <h3 className="text-lg font-medium text-gray-800 border-b pb-2">
+          <h3 className="text-lg font-medium text-gray-800 border-gray-200 border-b pb-2">
             Key Skills & Requirements
           </h3>
 
@@ -307,7 +307,7 @@ export default function JobCreatorForm({
 
         {/* Detailed Information */}
         <div className="space-y-4">
-          <h3 className="text-lg font-medium text-gray-800 border-b pb-2">
+          <h3 className="text-lg font-medium border-gray-200 text-gray-800 border-b pb-2">
             Detailed Information
           </h3>
 
@@ -397,7 +397,7 @@ export default function JobCreatorForm({
         </div>
 
         {/* Submit Button */}
-        <div className="pt-6 border-t">
+        <div className="pt-6 border-gray-200 border-t">
           <button
             type="submit"
             disabled={isGenerating}

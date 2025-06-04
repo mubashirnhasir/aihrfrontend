@@ -64,7 +64,7 @@ export default function RetentionOverview({
       value: formatPercentage(summaryMetrics.currentRetention),
       change: summaryMetrics.retentionTrend.percentChange,
       isPositive: summaryMetrics.retentionTrend.isPositive,
-      icon: "📈",
+      icon: "",
       color: "blue",
       subtitle: `${
         summaryMetrics.retentionTrend.isPositive ? "+" : "-"
@@ -80,7 +80,7 @@ export default function RetentionOverview({
         (summaryMetrics.highRisk / summaryMetrics.totalEmployees) *
         100
       ).toFixed(1),
-      icon: "⚠️",
+      icon: "",
       color: "red",
       subtitle: `${(
         (summaryMetrics.highRisk / summaryMetrics.totalEmployees) *
@@ -95,7 +95,7 @@ export default function RetentionOverview({
         (summaryMetrics.mediumRisk / summaryMetrics.totalEmployees) *
         100
       ).toFixed(1),
-      icon: "⚡",
+      icon: "",
       color: "yellow",
       subtitle: `${(
         (summaryMetrics.mediumRisk / summaryMetrics.totalEmployees) *
@@ -105,7 +105,7 @@ export default function RetentionOverview({
     {
       title: "Predicted Turnover (30d)",
       value: summaryMetrics.estimatedTurnover,
-      icon: "🎯",
+      icon: "",
       color: "purple",
       subtitle: "AI-predicted departures next month",
     },
