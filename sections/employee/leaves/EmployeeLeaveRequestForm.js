@@ -82,10 +82,14 @@ const EmployeeLeaveRequestForm = ({ onSubmit, isSubmitting = false, className = 
     
     if (!validateForm()) {
       return;
-    }
-
-    const submissionData = {
-      ...formData,
+    }    const submissionData = {
+      type: formData.leaveType, // Map leaveType to type for backend
+      startDate: formData.startDate,
+      endDate: formData.endDate,
+      reason: formData.reason,
+      halfDay: formData.isHalfDay,
+      halfDayType: formData.halfDayType,
+      emergencyContact: formData.emergencyContact,
       duration: calculateLeaveDuration()
     };
 

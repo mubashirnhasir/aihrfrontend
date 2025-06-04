@@ -15,7 +15,6 @@ export default function EmployeeLeaves() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const router = useRouter();
-
   useEffect(() => {
     const token = localStorage.getItem("employeeToken");
     if (!token) {
@@ -24,6 +23,29 @@ export default function EmployeeLeaves() {
     }
     fetchLeaveData();
   }, [router]);
+
+  // Refresh data when page becomes visible (user returns from request page)
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (!document.hidden) {
+        fetchLeaveData();
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    
+    // Also refresh data when component mounts
+    const handleFocus = () => {
+      fetchLeaveData();
+    };
+    
+    window.addEventListener('focus', handleFocus);
+
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      window.removeEventListener('focus', handleFocus);
+    };
+  }, []);
 
   const fetchLeaveData = async () => {
     try {
