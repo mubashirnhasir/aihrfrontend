@@ -141,7 +141,7 @@ export default function AIFeaturesPage() {
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            🤖 AI Features Suite
+            AI Features Suite
           </h1>
           <p className="text-gray-600">
             Comprehensive AI-powered tools for HR operations: candidate screening, job descriptions, and professional emails
@@ -161,7 +161,7 @@ export default function AIFeaturesPage() {
                 }`}
               >
                 <span className="flex items-center gap-2">
-                  🎯 AI Screening Interview
+                  AI Screening Interview
                 </span>
               </button>
               <button
@@ -173,7 +173,7 @@ export default function AIFeaturesPage() {
                 }`}
               >
                 <span className="flex items-center gap-2">
-                  📄 Job Description Generator
+                   Job Description Generator
                 </span>
               </button>
               <button
@@ -185,7 +185,7 @@ export default function AIFeaturesPage() {
                 }`}
               >
                 <span className="flex items-center gap-2">
-                  ✉️ Email Generator
+                   Email Generator
                 </span>
               </button>
             </nav>
