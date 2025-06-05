@@ -167,8 +167,7 @@ export default function EmployeeHelpPage() {
     };
 
     return (
-        <div className="p-6 space-y-6">
-            {/* Header */}
+        <div className="p-6 space-y-6">            {/* Header */}
             <div className="text-center">
                 <h1 className="text-3xl font-bold text-gray-900 mb-2">Help & Support</h1>
                 <p className="text-gray-600">Find answers to common questions or get personalized support</p>

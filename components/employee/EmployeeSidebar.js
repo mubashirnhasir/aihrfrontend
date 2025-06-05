@@ -7,6 +7,7 @@ import Calendar from "../../public/icons/calendar";
 import Assets from "../../public/icons/assets";
 import Arrow from "../../public/icons/arrowleft";
 import Logobtn from "@/public/icons/logobtn";
+import ProductLogo from "@/public/icons/productLogo";
 import Link from "next/link";
 
 const EmployeeSidebar = () => {
@@ -64,10 +65,18 @@ const EmployeeSidebar = () => {
       className={`h-screen px-4 flex justify-between relative flex-col gap-4 py-4 transition-all border-r border-main duration-300 ${
         side ? "w-[5%]" : "w-[14%]"
       }`}
-    >
-      <div>
+    >      <div>
         <div className="logo mb-6">
-          {!side && <div className="text-lg font-semibold text-blue-600">Employee Portal</div>}
+          {!side ? (
+            <div className="flex items-center gap-3">
+              <ProductLogo />
+              <div className="text-xl font-bold text-gray-800">Synapt HR</div>
+            </div>
+          ) : (
+            <div className="flex justify-center">
+              <ProductLogo />
+            </div>
+          )}
         </div>
         <div className="tabs flex flex-col gap-2">
           {employeeNavItems.map((item) => (

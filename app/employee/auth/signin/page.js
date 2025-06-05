@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import ProductLogo from "@/public/icons/productLogo";
 
 export default function EmployeeSignIn() {
   const [formData, setFormData] = useState({
@@ -56,13 +57,16 @@ export default function EmployeeSignIn() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">      <div className="max-w-md w-full space-y-8">
+        <div className="text-center">
+          <div className="flex justify-center items-center gap-3 mb-4">
+            <ProductLogo />
+            <div className="text-2xl font-bold text-gray-800">Synapt HR</div>
+          </div>
+          <h2 className="text-3xl font-extrabold text-gray-900">
             Employee Portal
           </h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
+          <p className="mt-2 text-sm text-gray-600">
             Sign in to your employee account
           </p>
         </div>

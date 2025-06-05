@@ -132,8 +132,7 @@ export default function EmployeeLeaves() {
   }
   return (
     <div className="p-8">
-      <div className="max-w-6xl mx-auto">
-        {/* Header */}
+      <div className="max-w-6xl mx-auto">        {/* Header */}
         <div className="flex justify-between items-center mb-8">
           <div>
             <h1 className="text-2xl font-bold text-gray-900">

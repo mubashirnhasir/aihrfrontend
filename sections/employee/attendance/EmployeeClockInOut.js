@@ -67,9 +67,7 @@ export default function EmployeeClockInOut({
     const h = Math.floor(hours);
     const m = Math.round((hours - h) * 60);
     return `${h}h ${m}m`;
-  };
-
-  return (
+  };  return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Clock In/Out Button */}

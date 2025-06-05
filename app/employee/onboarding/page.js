@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import ProductLogo from "@/public/icons/productLogo";
 
 export default function EmployeeOnboarding() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -512,9 +513,12 @@ export default function EmployeeOnboarding() {
 
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-3xl mx-auto">
-        <div className="bg-white shadow-lg rounded-lg">
+      <div className="max-w-3xl mx-auto">        <div className="bg-white shadow-lg rounded-lg">
           <div className="px-6 py-4 border-b border-gray-200">
+            <div className="flex items-center gap-3 mb-4">
+              <ProductLogo />
+              <div className="text-xl font-bold text-gray-800">Synapt HR</div>
+            </div>
             <h1 className="text-2xl font-bold text-gray-900">
               Employee Onboarding
             </h1>

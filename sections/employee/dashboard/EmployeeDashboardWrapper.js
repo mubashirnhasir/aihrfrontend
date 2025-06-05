@@ -26,8 +26,7 @@ const EmployeeDashboardWrapper = ({ dashboardData }) => {
   } = dashboardData;
 
   return (
-    <div className="p-6 space-y-6 bg-gray-50 min-h-screen">
-      {/* Welcome Section */}
+    <div className="p-6 space-y-6 bg-gray-50 min-h-screen">      {/* Welcome Section */}
       <div className="bg-white rounded-lg shadow-sm p-6">
         <h1 className="text-2xl font-bold text-gray-900">
           Welcome back, {employee?.name || "Employee"}!
