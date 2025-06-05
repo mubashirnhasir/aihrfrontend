@@ -9,7 +9,17 @@ import Arrow from "../public/icons/arrowleft";
 import Logobtn from "@/public/icons/logobtn";
 import Link from "next/link";
 import ProductLogo from "@/public/icons/productLogo";
-import { BrainCircuit, CopySlash, FileText, FileUser, LayoutDashboard, MonitorSmartphone, PlaneLanding, TentTree, TrendingUp } from "lucide-react";
+import {
+  BrainCircuit,
+  CopySlash,
+  FileText,
+  FileUser,
+  LayoutDashboard,
+  MonitorSmartphone,
+  PlaneLanding,
+  TentTree,
+  TrendingUp,
+} from "lucide-react";
 
 const Sidebar = () => {
   const [side, setSide] = useState(false);
@@ -34,128 +44,132 @@ const Sidebar = () => {
 
   return (
     <div
-      className={`h-screen px-4 flex justify-between relative flex-col gap-4 py-4  transition-all border-r border-main  duration-300 ${side ? "w-[5%]" : "w-[14%]"
-        } `}
+      className={`h-screen px-4 flex justify-between relative flex-col gap-4 py-4  transition-all border-r border-main  duration-300 ${
+        side ? "w-[5%]" : "w-[14%]"
+      } `}
     >
       <div>
-        <div className="logo mb-6 flex items-center gap-4 text-xl font-semibold"><div><ProductLogo /> </div><div>Synapt HR</div> </div>
+        <div className="logo mb-6 flex items-center gap-4 text-xl font-semibold">
+          <div>
+            <ProductLogo />{" "}
+          </div>
+          <div>Synapt HR</div>{" "}
+        </div>
         <div className="tabs flex flex-col gap-2">
           <div
             onClick={() => handleTab(0)}
-            className={`px-2 py-2 flex gap-2 cursor-pointer items-center justify-start rounded-lg ${tab1 === 0 ? "btnPrimary text-white" : "bg-white text-gray-500"
-              }`}
+            className={`px-2 py-2 flex gap-2 cursor-pointer items-center justify-start rounded-lg ${
+              tab1 === 0 ? "btnPrimary text-white" : "bg-white text-gray-500"
+            }`}
           >
             <div className="flex gap-2 items-center justify-center ">
               <Link className="flex gap-2" href={"/dashboard"}>
                 <div>
                   {/* <Dashboard color={`${tab1 === 0 ? "white" : "black"}`} /> */}
-                  <LayoutDashboard/>
+                  <LayoutDashboard />
                 </div>
-                {!side && <div className="text-lg font-medium" >Dashboard</div>}
+                {!side && <div className="text-lg font-medium">Dashboard</div>}
               </Link>
             </div>
           </div>
           <div
             onClick={() => handleTab(1)}
-            className={`px-2 py-2 rounded-lg flex gap-2 cursor-pointer items-center justify-start ${tab1 === 1 ? "btnPrimary text-white" : "bg-white text-gray-500"
-              }`}
+            className={`px-2 py-2 rounded-lg flex gap-2 cursor-pointer items-center justify-start ${
+              tab1 === 1 ? "btnPrimary text-white" : "bg-white text-gray-500"
+            }`}
           >
             <div className="flex gap-2 items-center justify-center ">
               <Link className="flex gap-2" href={"/dashboard/attendance"}>
                 <div>
                   {/* <User color={`${tab1 === 1 ? "white" : "black"}`} /> */}
-                  <FileUser/>
+                  <FileUser />
                 </div>
-                {!side && <div className="text-lg font-medium" >Attendance</div>}
+                {!side && <div className="text-lg font-medium">Attendance</div>}
               </Link>
             </div>
           </div>
           <div
             onClick={() => handleTab(2)}
-            className={`px-2 py-2  rounded-lg flex gap-2 cursor-pointer items-center justify-start ${tab1 === 2 ? "btnPrimary text-white" : "bg-white text-gray-500"
-              }`}
+            className={`px-2 py-2  rounded-lg flex gap-2 cursor-pointer items-center justify-start ${
+              tab1 === 2 ? "btnPrimary text-white" : "bg-white text-gray-500"
+            }`}
           >
             <div className="flex gap-2 items-center justify-center ">
               <Link className="flex gap-2" href={"/dashboard/leaves"}>
                 <div>
                   {/* <Folder color={`${tab1 === 2 ? "white" : "black"}`} /> */}
-                  <TentTree/>
+                  <TentTree />
                 </div>
-                {!side && <div className="text-lg font-medium" >Leaves</div>}
+                {!side && <div className="text-lg font-medium">Leaves</div>}
               </Link>
             </div>
           </div>
           <div
             onClick={() => handleTab(3)}
-            className={`px-2 py-2 flex gap-2 cursor-pointer items-center justify-start rounded-lg ${tab1 === 3 ? "btnPrimary text-white" : "bg-white text-gray-500"
-              }`}
+            className={`px-2 py-2 flex gap-2 cursor-pointer items-center justify-start rounded-lg ${
+              tab1 === 3 ? "btnPrimary text-white" : "bg-white text-gray-500"
+            }`}
           >
             <div className="flex gap-2 items-center justify-center ">
               <Link className="flex gap-2" href={"/dashboard/documents"}>
                 <div>
                   {/* <Calendar color={`${tab1 === 3 ? "white" : "black"}`} /> */}
-                  <FileText/>
+                  <FileText />
                 </div>
-                {!side && <div className="text-lg font-medium" >Documents</div>}
+                {!side && <div className="text-lg font-medium">Documents</div>}
               </Link>
             </div>
           </div>
           <div
             onClick={() => handleTab(4)}
-            className={`px-2 py-2 flex gap-2 cursor-pointer items-center justify-start rounded-lg ${tab1 === 4 ? "btnPrimary text-white" : "bg-white text-gray-500"
-              }`}
+            className={`px-2 py-2 flex gap-2 cursor-pointer items-center justify-start rounded-lg ${
+              tab1 === 4 ? "btnPrimary text-white" : "bg-white text-gray-500"
+            }`}
           >
             <div className="flex gap-2 items-center justify-center ">
               <Link className="flex gap-2" href={"/dashboard/assets"}>
                 <div>
                   {/* <Assets color={`${tab1 === 4 ? "white" : "black"}`} /> */}
-                  <MonitorSmartphone/>
+                  <MonitorSmartphone />
                 </div>
-                {!side && <div className="text-lg font-medium" >Assets</div>}
+                {!side && <div className="text-lg font-medium">Assets</div>}
               </Link>
             </div>
-          </div>{" "}
+          </div>
           <div
             onClick={() => handleTab(5)}
-            className={`px-2 py-2 flex gap-2 cursor-pointer items-center justify-start rounded-lg ${tab1 === 5 ? "btnPrimary text-white" : "bg-white text-gray-500"
-              }`}
+            className={`px-2 py-2 flex gap-2 cursor-pointer items-center justify-start rounded-lg ${
+              tab1 === 5 ? "btnPrimary text-white" : "bg-white text-gray-500"
+            }`}
           >
             <div className="flex gap-2 items-center justify-center ">
               <Link
                 className="flex gap-2"
-                href={"/dashboard/career-development"}
+                href={"/dashboard/employee-retention"}
               >
                 <div>
-                  {/* <User color={`${tab1 === 5 ? "white" : "black"}`} /> */}
-                  <TrendingUp/>
+                  <PlaneLanding />
                 </div>
-                {!side && <div className="text-lg font-medium" >Career Growth</div>}
+                {!side && (
+                  <div className="text-lg font-medium">AI Retention</div>
+                )}
               </Link>
             </div>
           </div>
           <div
             onClick={() => handleTab(6)}
-            className={`px-2 py-2 flex gap-2 cursor-pointer items-center justify-start rounded-lg ${tab1 === 6 ? "btnPrimary text-white" : "bg-white text-gray-500"
-              }`}
-          >            <div className="flex gap-2 items-center justify-center ">
-              <Link className="flex gap-2" href={"/dashboard/employee-retention"}>
-                <div>
-                 <PlaneLanding/>
-                </div>
-                {!side && <div className="text-lg font-medium" >AI Retention</div>}
-              </Link>
-            </div>
-          </div>          <div
-            onClick={() => handleTab(7)}
-            className={`px-2 py-2 flex gap-2 cursor-pointer items-center justify-start rounded-lg ${tab1 === 7 ? "btnPrimary text-white" : "bg-white text-gray-500"
-              }`}
+            className={`px-2 py-2 flex gap-2 cursor-pointer items-center justify-start rounded-lg ${
+              tab1 === 6 ? "btnPrimary text-white" : "bg-white text-gray-500"
+            }`}
           >
             <div className="flex gap-2 items-center justify-center ">
               <Link className="flex gap-2" href={"/dashboard/aiagent"}>
                 <div>
-                  <BrainCircuit/>
+                  <BrainCircuit />
                 </div>
-                {!side && <div className="text-lg font-medium" >AI Chatbot </div>}
+                {!side && (
+                  <div className="text-lg font-medium">AI Chatbot </div>
+                )}
               </Link>
             </div>
           </div>
@@ -184,15 +198,18 @@ const Sidebar = () => {
         <div className=" relative p-2 text-white flex items-center justify-center bg-[linear-gradient(15deg,_#4A25E1_26.3%,_#6946F4_54.5%,_#7B5AFF_80.11%)] h-[240px] rounded-lg  ">
           <div className="absolute top-[-50] left-[50%] translate-x-[-50%]">
             <Logobtn />
-          </div>          <div className="flex flex-col items-center gap-2">
-            <div className="font-semibold text-xl text-white">AI Features Suite</div>
+          </div>
+          <div className="flex flex-col items-center gap-2">
+            <div className="font-semibold text-xl text-white">
+              AI Features Suite
+            </div>
             <div className="text-center text-sm">
               Try Our AI-Powered Tools: Screening, Job Descriptions & Emails
-            </div>{" "}            <Link
+            </div>
+            <Link
               href="/dashboard/ai-features"
               className="px-4 py-2 cursor-pointer rounded-lg bg-white/20 text-white font-semibold hover:bg-white/30 transition-colors"
             >
-              {" "}
               Try AI Features
             </Link>
           </div>

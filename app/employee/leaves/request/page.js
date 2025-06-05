@@ -14,21 +14,25 @@ export default function LeaveRequestPage() {
     try {
       setIsSubmitting(true);
       setError("");
-      
+
       const token = localStorage.getItem("employeeToken");
       if (!token) {
         router.push("/employee/auth/signin");
         return;
       }
 
-      const response = await fetch("http://localhost:5000/api/employee/leaves/request", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`
-        },
-        body: JSON.stringify(formData)
-      });      if (response.ok) {
+      const response = await fetch(
+        "http://localhost:5000/api/employee/leaves/request",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(formData),
+        }
+      );
+      if (response.ok) {
         setSubmitSuccess(true);
         // Redirect to leaves page after 2 seconds
         setTimeout(() => {
@@ -52,16 +56,31 @@ export default function LeaveRequestPage() {
         <div className="max-w-2xl mx-auto">
           <div className="bg-green-50 border border-green-200 rounded-lg p-8 text-center">
             <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              <svg
+                className="w-8 h-8 text-green-600"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M5 13l4 4L19 7"
+                />
               </svg>
             </div>
-            <h1 className="text-2xl font-bold text-green-900 mb-2">Request Submitted Successfully!</h1>
+            <h1 className="text-2xl font-bold text-green-900 mb-2">
+              Request Submitted Successfully!
+            </h1>
             <p className="text-green-700 mb-6">
-              Your leave request has been submitted and is pending approval. You will be notified once it's reviewed.
+              Your leave request has been submitted and is pending approval. You
+              will be notified once it's reviewed.
             </p>
             <div className="space-y-3">
-              <p className="text-sm text-green-600">Redirecting to leave management page...</p>
+              <p className="text-sm text-green-600">
+                Redirecting to leave management page...
+              </p>
               <Link
                 href="/employee/leaves"
                 className="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
@@ -85,8 +104,18 @@ export default function LeaveRequestPage() {
               href="/employee/leaves"
               className="flex items-center text-blue-600 hover:text-blue-700"
             >
-              <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              <svg
+                className="w-5 h-5 mr-2"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15 19l-7-7 7-7"
+                />
               </svg>
               Back to Leave Management
             </Link>
@@ -101,8 +130,18 @@ export default function LeaveRequestPage() {
         {error && (
           <div className="mb-6 bg-red-50 border border-red-200 rounded-lg p-4">
             <div className="flex items-center">
-              <svg className="w-5 h-5 text-red-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              <svg
+                className="w-5 h-5 text-red-600 mr-2"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
               </svg>
               <p className="text-red-700 font-medium">{error}</p>
             </div>
@@ -110,18 +149,29 @@ export default function LeaveRequestPage() {
         )}
 
         {/* Leave Request Form */}
-        <EmployeeLeaveRequestForm 
+        <EmployeeLeaveRequestForm
           onSubmit={handleFormSubmit}
           isSubmitting={isSubmitting}
         />
 
         {/* Help Section */}
         <div className="mt-8 bg-blue-50 border border-blue-200 rounded-lg p-6">
-          <h3 className="text-lg font-semibold text-blue-900 mb-3">Need Help?</h3>
+          <h3 className="text-lg font-semibold text-blue-900 mb-3">
+            Need Help?
+          </h3>
           <div className="space-y-2 text-sm text-blue-800">
-            <p>• Leave requests must be submitted at least 3 days in advance for casual leave</p>
-            <p>• Sick leave can be applied retrospectively with proper documentation</p>
-            <p>• Supporting documents are required for leaves longer than 3 consecutive days</p>
+            <p>
+              • Leave requests must be submitted at least 3 days in advance for
+              casual leave
+            </p>
+            <p>
+              • Sick leave can be applied retrospectively with proper
+              documentation
+            </p>
+            <p>
+              • Supporting documents are required for leaves longer than 3
+              consecutive days
+            </p>
             <p>• Contact HR at hr@company.com for urgent leave requests</p>
           </div>
         </div>

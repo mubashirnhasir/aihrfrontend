@@ -19,12 +19,13 @@ export default function EmployeeDashboard() {
       if (!token) {
         router.push("/employee/auth/signin");
         return;
-      }      const response = await fetch("/api/employee/dashboard", {
+      }
+      const response = await fetch("/api/employee/dashboard", {
         method: "GET",
         headers: {
-          "Authorization": `Bearer ${token}`,
-          "Content-Type": "application/json"
-        }
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
       });
 
       if (response.ok) {

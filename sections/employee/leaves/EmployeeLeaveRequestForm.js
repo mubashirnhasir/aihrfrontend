@@ -1,7 +1,11 @@
 "use client";
 import { useState } from "react";
 
-const EmployeeLeaveRequestForm = ({ onSubmit, isSubmitting = false, className = "" }) => {
+const EmployeeLeaveRequestForm = ({
+  onSubmit,
+  isSubmitting = false,
+  className = "",
+}) => {
   const [formData, setFormData] = useState({
     leaveType: "",
     startDate: "",
@@ -10,7 +14,7 @@ const EmployeeLeaveRequestForm = ({ onSubmit, isSubmitting = false, className = 
     halfDayType: "morning", // morning or afternoon
     reason: "",
     emergencyContact: "",
-    attachments: null
+    attachments: null,
   });
 
   const [errors, setErrors] = useState({});
@@ -21,42 +25,42 @@ const EmployeeLeaveRequestForm = ({ onSubmit, isSubmitting = false, className = 
     { value: "earned", label: "Earned Leave" },
     { value: "unpaid", label: "Unpaid Leave" },
     { value: "maternity", label: "Maternity Leave" },
-    { value: "paternity", label: "Paternity Leave" }
+    { value: "paternity", label: "Paternity Leave" },
   ];
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: type === "checkbox" ? checked : value
+      [name]: type === "checkbox" ? checked : value,
     }));
-    
+
     // Clear error when user starts typing
     if (errors[name]) {
-      setErrors(prev => ({ ...prev, [name]: "" }));
+      setErrors((prev) => ({ ...prev, [name]: "" }));
     }
   };
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    setFormData(prev => ({ ...prev, attachments: file }));
+    setFormData((prev) => ({ ...prev, attachments: file }));
   };
 
   const validateForm = () => {
     const newErrors = {};
-    
+
     if (!formData.leaveType) {
       newErrors.leaveType = "Leave type is required";
     }
-    
+
     if (!formData.startDate) {
       newErrors.startDate = "Start date is required";
     }
-    
+
     if (!formData.endDate) {
       newErrors.endDate = "End date is required";
     }
-    
+
     if (formData.startDate && formData.endDate) {
       const start = new Date(formData.startDate);
       const end = new Date(formData.endDate);
@@ -64,11 +68,11 @@ const EmployeeLeaveRequestForm = ({ onSubmit, isSubmitting = false, className = 
         newErrors.endDate = "End date cannot be before start date";
       }
     }
-    
+
     if (!formData.reason.trim()) {
       newErrors.reason = "Reason is required";
     }
-    
+
     if (formData.reason.trim().length < 10) {
       newErrors.reason = "Reason must be at least 10 characters";
     }
@@ -79,10 +83,11 @@ const EmployeeLeaveRequestForm = ({ onSubmit, isSubmitting = false, className = 
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     if (!validateForm()) {
       return;
-    }    const submissionData = {
+    }
+    const submissionData = {
       type: formData.leaveType, // Map leaveType to type for backend
       startDate: formData.startDate,
       endDate: formData.endDate,
@@ -90,7 +95,7 @@ const EmployeeLeaveRequestForm = ({ onSubmit, isSubmitting = false, className = 
       halfDay: formData.isHalfDay,
       halfDayType: formData.halfDayType,
       emergencyContact: formData.emergencyContact,
-      duration: calculateLeaveDuration()
+      duration: calculateLeaveDuration(),
     };
 
     if (onSubmit) {
@@ -100,12 +105,12 @@ const EmployeeLeaveRequestForm = ({ onSubmit, isSubmitting = false, className = 
 
   const calculateLeaveDuration = () => {
     if (!formData.startDate || !formData.endDate) return 0;
-    
+
     const start = new Date(formData.startDate);
     const end = new Date(formData.endDate);
     const timeDiff = end.getTime() - start.getTime();
     const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24)) + 1;
-    
+
     return formData.isHalfDay ? 0.5 : daysDiff;
   };
 
@@ -118,7 +123,7 @@ const EmployeeLeaveRequestForm = ({ onSubmit, isSubmitting = false, className = 
       halfDayType: "morning",
       reason: "",
       emergencyContact: "",
-      attachments: null
+      attachments: null,
     });
     setErrors({});
   };
@@ -149,7 +154,7 @@ const EmployeeLeaveRequestForm = ({ onSubmit, isSubmitting = false, className = 
             }`}
           >
             <option value="">Select leave type</option>
-            {leaveTypes.map(type => (
+            {leaveTypes.map((type) => (
               <option key={type.value} value={type.value}>
                 {type.label}
               </option>
@@ -171,7 +176,7 @@ const EmployeeLeaveRequestForm = ({ onSubmit, isSubmitting = false, className = 
               name="startDate"
               value={formData.startDate}
               onChange={handleInputChange}
-              min={new Date().toISOString().split('T')[0]}
+              min={new Date().toISOString().split("T")[0]}
               className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
                 errors.startDate ? "border-red-500" : "border-gray-300"
               }`}
@@ -190,7 +195,7 @@ const EmployeeLeaveRequestForm = ({ onSubmit, isSubmitting = false, className = 
               name="endDate"
               value={formData.endDate}
               onChange={handleInputChange}
-              min={formData.startDate || new Date().toISOString().split('T')[0]}
+              min={formData.startDate || new Date().toISOString().split("T")[0]}
               className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
                 errors.endDate ? "border-red-500" : "border-gray-300"
               }`}
@@ -215,7 +220,7 @@ const EmployeeLeaveRequestForm = ({ onSubmit, isSubmitting = false, className = 
               Half Day Leave
             </label>
           </div>
-          
+
           {formData.isHalfDay && (
             <div className="ml-6">
               <div className="flex items-center space-x-4">
@@ -250,7 +255,8 @@ const EmployeeLeaveRequestForm = ({ onSubmit, isSubmitting = false, className = 
         {formData.startDate && formData.endDate && (
           <div className="bg-blue-50 p-3 rounded-md">
             <p className="text-sm text-blue-800">
-              <span className="font-medium">Duration:</span> {calculateLeaveDuration()} day(s)
+              <span className="font-medium">Duration:</span>{" "}
+              {calculateLeaveDuration()} day(s)
             </p>
           </div>
         )}
@@ -318,7 +324,7 @@ const EmployeeLeaveRequestForm = ({ onSubmit, isSubmitting = false, className = 
           >
             {isSubmitting ? "Submitting..." : "Submit Request"}
           </button>
-          
+
           <button
             type="button"
             onClick={handleReset}

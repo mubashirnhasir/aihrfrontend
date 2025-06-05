@@ -19,7 +19,7 @@ export default function RoleRoadmap({ name }) {
       setError(null);
 
       try {
-        const res = await fetch(`${apiBase}/api/employees/roadmap`, {
+        const res = await fetch(`${apiBase}/api/employee/roadmap`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ name }),

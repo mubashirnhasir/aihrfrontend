@@ -47,10 +47,10 @@ export default function CareerPathGraph({ profile }) {
   /* measure card size */
   const boxRef = useRef(null);
   const [box, setBox] = useState({ w: 0, h: 0, padX: 0, padY: 0 });
-
   useEffect(() => {
     if (!boxRef.current) return;
     const measure = () => {
+      if (!boxRef.current) return;
       const rect = boxRef.current.getBoundingClientRect();
       const style = window.getComputedStyle(boxRef.current);
       setBox({
@@ -62,7 +62,9 @@ export default function CareerPathGraph({ profile }) {
     };
     measure();
     const ro = new ResizeObserver(measure);
-    ro.observe(boxRef.current);
+    if (boxRef.current) {
+      ro.observe(boxRef.current);
+    }
     return () => ro.disconnect();
   }, []);
 
@@ -76,7 +78,7 @@ export default function CareerPathGraph({ profile }) {
     (async () => {
       setLoad(true);
       try {
-        const res = await fetch(`${apiBase}/api/employees/career-path`, {
+        const res = await fetch(`${apiBase}/api/employee/career-path`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ name: profile.name }),
@@ -139,10 +141,11 @@ export default function CareerPathGraph({ profile }) {
     x: option1.x,
     y: current.y + V_OFFSET,
   };
-
   /* ensure card tall enough */
   const needH = option2.y + RADIUS + padY;
-  if (needH > h) boxRef.current.style.minHeight = `${needH}px`;
+  if (needH > h && boxRef.current) {
+    boxRef.current.style.minHeight = `${needH}px`;
+  }
 
   const connectors = [edgeLine(current, option1), edgeLine(current, option2)];
 
@@ -177,21 +180,21 @@ export default function CareerPathGraph({ profile }) {
         x={current.x}
         y={current.y}
         className="bg-blue-200 text-blue-800"
-      />
+      />{" "}
       <Bubble
-        label={`Option 1\n${paths[0]}`}
+        label={`Option 1\n${paths[0] || "Loading..."}`}
         x={option1.x}
         y={option1.y}
         className="bg-yellow-100 text-yellow-800"
       />
       <Bubble
-        label={`Option 2\n${paths[1]}`}
+        label={`Option 2\n${paths[1] || "Loading..."}`}
         x={option2.x}
         y={option2.y}
         className="bg-yellow-100 text-yellow-800"
       />
       <Bubble
-        label={`Future Role\n${paths[2]}`}
+        label={`Future Role\n${paths[2] || "Loading..."}`}
         x={future.x}
         y={future.y}
         className="bg-blue-200 text-blue-800"
