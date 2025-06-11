@@ -4,7 +4,7 @@ import ChatInput from "./chatInput";
 
 const ChatWrapper = () => {
   const [messages, setMessages] = useState([
-    { sender: "bot", text: "Hello! Ask me anything about HRMS" }
+    { sender: "bot", text: "Hello! I'm your HRMS assistant. Ask me anything about attendance, leaves, documents, career development, or other HR topics!" }
   ]);
   const [loading, setLoading] = useState(false);
 

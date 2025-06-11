@@ -9,6 +9,7 @@ import Arrow from "../../public/icons/arrowleft";
 import Logobtn from "@/public/icons/logobtn";
 import ProductLogo from "@/public/icons/productLogo";
 import Link from "next/link";
+import { BrainCircuit } from "lucide-react";
 
 const EmployeeSidebar = () => {
   const [side, setSide] = useState(false);
@@ -21,7 +22,6 @@ const EmployeeSidebar = () => {
   const handleSidebar = () => {
     setSide(!side);
   };
-
   const employeeNavItems = [
     {
       icon: <Dashboard color={tab1 === 0 ? "white" : "black"} />,
@@ -58,6 +58,12 @@ const EmployeeSidebar = () => {
       label: "Career Development",
       href: "/employee/career",
       index: 5,
+    },
+    {
+      icon: <BrainCircuit color={tab1 === 6 ? "white" : "black"} />,
+      label: "AI Chatbot",
+      href: "/employee/aiagent",
+      index: 6,
     },
   ];
 
