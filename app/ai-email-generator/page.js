@@ -3,18 +3,11 @@ import { useState } from "react";
 import EmailGeneratorForm from "../../sections/ai-job-creator/emailGeneratorForm";
 import EmailOutput from "../../sections/ai-job-creator/emailOutput";
 
-/**
- * AI Email Generator Page
- * Professional email creation using AI
- */
 export default function EmailGeneratorPage() {
   const [generatedEmail, setGeneratedEmail] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  /**
-   * Handle email generation
-   */
   const handleGenerateEmail = async (formData) => {
     setIsLoading(true);
     setError(null);
@@ -43,9 +36,6 @@ export default function EmailGeneratorPage() {
     }
   };
 
-  /**
-   * Handle email sharing
-   */
   const handleShareEmail = (platform) => {
     if (!generatedEmail) return;
 

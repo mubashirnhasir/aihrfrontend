@@ -132,7 +132,9 @@ export default function EmployeeLeaves() {
   }
   return (
     <div className="p-8">
-      <div className="max-w-6xl mx-auto">        {/* Header */}
+      <div className="max-w-6xl mx-auto">
+        {" "}
+        {/* Header */}
         <div className="flex justify-between items-center mb-8">
           <div>
             <h1 className="text-2xl font-bold text-gray-900">
@@ -149,13 +151,11 @@ export default function EmployeeLeaves() {
             Request Leave
           </Link>
         </div>
-
         {error && (
           <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6">
             {error}
           </div>
         )}
-
         {/* Leave Balance Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
           <div className="bg-white border border-blue-200 rounded-lg p-6">
@@ -274,7 +274,6 @@ export default function EmployeeLeaves() {
             </div>
           </div>
         </div>
-
         {/* Leave Requests History */}
         <div className="bg-white rounded-lg shadow-sm">
           <div className="p-6 border-b border-gray-200">

@@ -15,14 +15,17 @@ export async function POST(request) {
 
     // Forward the form data to backend
     const formData = await request.formData();
-    
-    const response = await fetch(`${BACKEND_URL}/api/employee/documents/upload`, {
-      method: "POST",
-      headers: {
-        Authorization: authHeader,
-      },
-      body: formData,
-    });
+
+    const response = await fetch(
+      `${BACKEND_URL}/api/employee/documents/upload`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: authHeader,
+        },
+        body: formData,
+      }
+    );
 
     if (!response.ok) {
       const errorData = await response.json();

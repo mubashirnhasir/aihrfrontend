@@ -25,13 +25,17 @@ export default function EmployeeSignIn() {
     setLoading(true);
     setError("");
 
-    try {      const response = await fetch("http://localhost:5000/api/auth/employee/signin", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+    try {
+      const response = await fetch(
+        "http://localhost:5000/api/auth/employee/signin",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
 
       const data = await response.json();
 
@@ -39,7 +43,7 @@ export default function EmployeeSignIn() {
         // Store employee token and data
         localStorage.setItem("employeeToken", data.token);
         localStorage.setItem("employeeData", JSON.stringify(data.employee));
-        
+
         // Redirect based on first login status
         if (data.employee.isFirstLogin) {
           router.push("/employee/onboarding");
@@ -57,7 +61,9 @@ export default function EmployeeSignIn() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">      <div className="max-w-md w-full space-y-8">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      {" "}
+      <div className="max-w-md w-full space-y-8">
         <div className="text-center">
           <div className="flex justify-center items-center gap-3 mb-4">
             <ProductLogo />
@@ -76,9 +82,12 @@ export default function EmployeeSignIn() {
               {error}
             </div>
           )}
-            <div className="space-y-4">
+          <div className="space-y-4">
             <div>
-              <label htmlFor="employeeId" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="employeeId"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Employee ID or Email
               </label>
               <input
@@ -92,9 +101,12 @@ export default function EmployeeSignIn() {
                 onChange={handleChange}
               />
             </div>
-            
+
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Password
               </label>
               <input
@@ -112,7 +124,10 @@ export default function EmployeeSignIn() {
 
           <div className="flex items-center justify-between">
             <div className="text-sm">
-              <Link href="/employee/auth/forgot-password" className="text-blue-600 hover:text-blue-500">
+              <Link
+                href="/employee/auth/forgot-password"
+                className="text-blue-600 hover:text-blue-500"
+              >
                 Forgot your password?
               </Link>
             </div>
@@ -131,7 +146,10 @@ export default function EmployeeSignIn() {
           <div className="text-center">
             <p className="text-sm text-gray-600">
               New employee?{" "}
-              <Link href="/employee/onboarding" className="text-blue-600 hover:text-blue-500">
+              <Link
+                href="/employee/onboarding"
+                className="text-blue-600 hover:text-blue-500"
+              >
                 Complete your onboarding
               </Link>
             </p>

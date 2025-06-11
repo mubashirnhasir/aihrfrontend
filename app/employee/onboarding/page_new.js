@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import ProductLogo from "@/public/icons/productLogo";
 import OnboardingSuccess from "@/components/employee/OnboardingSuccess";
@@ -10,7 +10,7 @@ export default function EmployeeOnboarding() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const router = useRouter();
-  
+
   const [profilePicture, setProfilePicture] = useState(null);
   const [profilePreview, setProfilePreview] = useState(null);
   const [attachments, setAttachments] = useState([]);
@@ -19,7 +19,7 @@ export default function EmployeeOnboarding() {
     profileInfo: {
       profilePicture: "",
     },
-    // Step 2: Personal Information  
+    // Step 2: Personal Information
     personalInfo: {
       firstName: "",
       lastName: "",
@@ -50,7 +50,7 @@ export default function EmployeeOnboarding() {
         fromDate: "",
         toDate: "",
         companyAddress: "",
-      }
+      },
     ],
     // Step 5: Accounts & Statutory (Bank Details)
     bankDetails: {
@@ -70,24 +70,26 @@ export default function EmployeeOnboarding() {
         bloodGroup: "",
         nationality: "",
         isMinor: false,
-      }
+      },
     ],
     // Step 7: Attachments
     attachments: {
       presentAddress: null,
     },
-  });  useEffect(() => {
+  });
+
+  useEffect(() => {
     const token = localStorage.getItem("employeeToken");
     if (!token) {
-      console.log("❌ No authentication token found, redirecting to signin");
       router.push("/employee/auth/signin");
-      return;
     }
 
     // Populate employee info from stored data
-    const employeeData = JSON.parse(localStorage.getItem("employeeData") || "{}");
+    const employeeData = JSON.parse(
+      localStorage.getItem("employeeData") || "{}"
+    );
     if (employeeData) {
-      setFormData(prev => ({
+      setFormData((prev) => ({
         ...prev,
         personalInfo: {
           ...prev.personalInfo,
@@ -96,28 +98,28 @@ export default function EmployeeOnboarding() {
           department: employeeData.department || "",
           designation: employeeData.designation || "",
           dateOfJoining: employeeData.joiningDate || "",
-        }
+        },
       }));
     }
   }, [router]);
 
   const handleChange = (section, field, value, index = null) => {
     if (section === "previousEmployment" && index !== null) {
-      setFormData(prev => ({
+      setFormData((prev) => ({
         ...prev,
-        previousEmployment: prev.previousEmployment.map((emp, i) => 
+        previousEmployment: prev.previousEmployment.map((emp, i) =>
           i === index ? { ...emp, [field]: value } : emp
-        )
+        ),
       }));
     } else if (section === "familyDetails" && index !== null) {
-      setFormData(prev => ({
+      setFormData((prev) => ({
         ...prev,
-        familyDetails: prev.familyDetails.map((member, i) => 
+        familyDetails: prev.familyDetails.map((member, i) =>
           i === index ? { ...member, [field]: value } : member
-        )
+        ),
       }));
     } else {
-      setFormData(prev => ({
+      setFormData((prev) => ({
         ...prev,
         [section]: {
           ...prev[section],
@@ -128,7 +130,7 @@ export default function EmployeeOnboarding() {
   };
 
   const addPreviousEmployment = () => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       previousEmployment: [
         ...prev.previousEmployment,
@@ -138,13 +140,13 @@ export default function EmployeeOnboarding() {
           fromDate: "",
           toDate: "",
           companyAddress: "",
-        }
-      ]
+        },
+      ],
     }));
   };
 
   const addFamilyMember = () => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       familyDetails: [
         ...prev.familyDetails,
@@ -155,8 +157,8 @@ export default function EmployeeOnboarding() {
           bloodGroup: "",
           nationality: "",
           isMinor: false,
-        }
-      ]
+        },
+      ],
     }));
   };
 
@@ -173,7 +175,7 @@ export default function EmployeeOnboarding() {
   const handleFileUpload = (e, type) => {
     const file = e.target.files[0];
     if (file) {
-      setAttachments(prev => [...prev, { type, file, name: file.name }]);
+      setAttachments((prev) => [...prev, { type, file, name: file.name }]);
     }
   };
 
@@ -187,69 +189,30 @@ export default function EmployeeOnboarding() {
     if (currentStep > 1) {
       setCurrentStep(currentStep - 1);
     }
-  };  const handleSubmit = async () => {
+  };
+
+  const handleSubmit = async () => {
     setLoading(true);
     setError("");
-    
-    // Validate required fields
-    const validationErrors = [];
-    
-    // Validate personal information
-    if (!formData.personalInfo.firstName.trim()) {
-      validationErrors.push("First Name is required");
-    }
-    if (!formData.personalInfo.lastName.trim()) {
-      validationErrors.push("Last Name is required");
-    }
-    if (!formData.personalInfo.email.trim()) {
-      validationErrors.push("Email is required");
-    }
-    if (!formData.personalInfo.phone.trim()) {
-      validationErrors.push("Phone number is required");
-    }
-    
-    // Validate address
-    if (!formData.address.presentAddress.trim()) {
-      validationErrors.push("Present address is required");
-    }
-    if (!formData.address.city.trim()) {
-      validationErrors.push("City is required");
-    }
-    if (!formData.address.state.trim()) {
-      validationErrors.push("State is required");
-    }
-    if (!formData.address.country.trim()) {
-      validationErrors.push("Country is required");
-    }
 
-    if (validationErrors.length > 0) {
-      setError(validationErrors.join(", "));
-      setLoading(false);
-      return;
-    }
-      try {
+    try {
       const token = localStorage.getItem("employeeToken");
-      
-      if (!token) {
-        setError("Authentication required. Please sign in again.");
-        router.push("/employee/auth/signin");
-        return;
-      }
-      
-      // Prepare comprehensive onboarding data for submission
+
+      // Prepare form data for submission
       const submissionData = {
-        personalInfo: formData.personalInfo,
+        ...formData.personalInfo,
         address: formData.address,
         previousEmployment: formData.previousEmployment,
         bankDetails: formData.bankDetails,
         familyDetails: formData.familyDetails,
-        attachments: attachments.map(att => ({ type: att.type, name: att.name })),
+        attachments: attachments.map((att) => ({
+          type: att.type,
+          name: att.name,
+        })),
       };
 
-      console.log('🚀 Submitting onboarding data:', submissionData);
-
-      const response = await fetch("/api/employee/onboarding", {
-        method: "POST",
+      const response = await fetch("/api/employee/profile", {
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -264,9 +227,8 @@ export default function EmployeeOnboarding() {
           localStorage.getItem("employeeData") || "{}"
         );
         employeeData.isFirstLogin = false;
-        employeeData.onboardingCompleted = true;
         localStorage.setItem("employeeData", JSON.stringify(employeeData));
-        
+
         // Show success screen instead of directly redirecting
         setIsCompleted(true);
       } else {
@@ -286,13 +248,18 @@ export default function EmployeeOnboarding() {
           <div className="space-y-6">
             <div className="text-center">
               <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                Great to see you here {formData.personalInfo.empId ? formData.personalInfo.empId.split('@')[0] : 'Waqas'}!
+                Great to see you here{" "}
+                {formData.personalInfo.empId
+                  ? formData.personalInfo.empId.split("@")[0]
+                  : "Waqas"}
+                !
               </h3>
               <p className="text-gray-600 mb-6">
                 How about uploading a picture of you?
               </p>
               <p className="text-sm text-gray-500 mb-8">
-                Tell us a bit more about your basic, academic & professional details
+                Tell us a bit more about your basic, academic & professional
+                details
               </p>
             </div>
 
@@ -300,16 +267,22 @@ export default function EmployeeOnboarding() {
               <div className="relative">
                 <div className="w-32 h-32 rounded-full border-4 border-purple-200 bg-purple-100 flex items-center justify-center overflow-hidden">
                   {profilePreview ? (
-                    <img src={profilePreview} alt="Profile" className="w-full h-full object-cover" />
+                    <img
+                      src={profilePreview}
+                      alt="Profile"
+                      className="w-full h-full object-cover"
+                    />
                   ) : (
                     <div className="w-16 h-16 bg-purple-200 rounded-full flex items-center justify-center">
                       <span className="text-2xl">👤</span>
                     </div>
                   )}
                 </div>
-                <button 
+                <button
                   className="absolute bottom-0 right-0 w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center text-white shadow-lg"
-                  onClick={() => document.getElementById('profile-upload').click()}
+                  onClick={() =>
+                    document.getElementById("profile-upload").click()
+                  }
                 >
                   <span className="text-sm">📷</span>
                 </button>
@@ -323,7 +296,7 @@ export default function EmployeeOnboarding() {
               </div>
 
               <div className="text-center">
-                <button 
+                <button
                   onClick={handleNext}
                   className="text-purple-600 underline text-sm"
                 >
@@ -343,71 +316,115 @@ export default function EmployeeOnboarding() {
               </div>
               <div>
                 <h3 className="text-lg font-semibold text-gray-900">
-                  {formData.personalInfo.empId ? `${formData.personalInfo.empId} - ${formData.personalInfo.designation}` : 'Waqas Faraz'}
+                  {formData.personalInfo.empId
+                    ? `${formData.personalInfo.empId} - ${formData.personalInfo.designation}`
+                    : "Waqas Faraz"}
                 </h3>
                 <div className="text-sm text-gray-600 space-y-1">
-                  <p>Emp ID: {formData.personalInfo.empId || '123123'} | Department: {formData.personalInfo.department || 'Development'} | Designation: {formData.personalInfo.designation || 'Frontend Developer'} | Date of Joining: {formData.personalInfo.dateOfJoining || '21-Nov-2024'}</p>
-                  <p>Location: {formData.personalInfo.location || 'Hyderabad'}</p>
+                  <p>
+                    Emp ID: {formData.personalInfo.empId || "123123"} |
+                    Department:{" "}
+                    {formData.personalInfo.department || "Development"} |
+                    Designation:{" "}
+                    {formData.personalInfo.designation || "Frontend Developer"}{" "}
+                    | Date of Joining:{" "}
+                    {formData.personalInfo.dateOfJoining || "21-Nov-2024"}
+                  </p>
+                  <p>
+                    Location: {formData.personalInfo.location || "Hyderabad"}
+                  </p>
                 </div>
               </div>
-            </div>            <div>
-              <h4 className="text-md font-medium text-gray-800 mb-4">Personal</h4>
+            </div>
+
+            <div>
+              <h4 className="text-md font-medium text-gray-800 mb-4">
+                Personal Information
+              </h4>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">First Name *</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    First Name *
+                  </label>
                   <input
                     type="text"
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
                     value={formData.personalInfo.firstName}
-                    onChange={(e) => handleChange("personalInfo", "firstName", e.target.value)}
+                    onChange={(e) =>
+                      handleChange("personalInfo", "firstName", e.target.value)
+                    }
                     placeholder="Enter your first name"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Last Name *</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Last Name *
+                  </label>
                   <input
                     type="text"
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
                     value={formData.personalInfo.lastName}
-                    onChange={(e) => handleChange("personalInfo", "lastName", e.target.value)}
+                    onChange={(e) =>
+                      handleChange("personalInfo", "lastName", e.target.value)
+                    }
                     placeholder="Enter your last name"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Email *</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Email *
+                  </label>
                   <input
                     type="email"
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
                     value={formData.personalInfo.email}
-                    onChange={(e) => handleChange("personalInfo", "email", e.target.value)}
+                    onChange={(e) =>
+                      handleChange("personalInfo", "email", e.target.value)
+                    }
                     placeholder="Enter your email"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Phone *</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Phone *
+                  </label>
                   <input
                     type="tel"
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
                     value={formData.personalInfo.phone}
-                    onChange={(e) => handleChange("personalInfo", "phone", e.target.value)}
+                    onChange={(e) =>
+                      handleChange("personalInfo", "phone", e.target.value)
+                    }
                     placeholder="Enter your phone number"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Date of Birth</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Date of Birth
+                  </label>
                   <input
                     type="date"
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
                     value={formData.personalInfo.dateOfBirth}
-                    onChange={(e) => handleChange("personalInfo", "dateOfBirth", e.target.value)}
+                    onChange={(e) =>
+                      handleChange(
+                        "personalInfo",
+                        "dateOfBirth",
+                        e.target.value
+                      )
+                    }
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Gender</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Gender
+                  </label>
                   <select
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
                     value={formData.personalInfo.gender}
-                    onChange={(e) => handleChange("personalInfo", "gender", e.target.value)}
+                    onChange={(e) =>
+                      handleChange("personalInfo", "gender", e.target.value)
+                    }
                   >
                     <option value="">Select Gender</option>
                     <option value="male">Male</option>
@@ -416,12 +433,20 @@ export default function EmployeeOnboarding() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Nationality</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Nationality
+                  </label>
                   <input
                     type="text"
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
                     value={formData.personalInfo.nationality}
-                    onChange={(e) => handleChange("personalInfo", "nationality", e.target.value)}
+                    onChange={(e) =>
+                      handleChange(
+                        "personalInfo",
+                        "nationality",
+                        e.target.value
+                      )
+                    }
                     placeholder="Enter your nationality"
                   />
                 </div>
@@ -439,66 +464,99 @@ export default function EmployeeOnboarding() {
               </div>
               <div>
                 <h3 className="text-lg font-semibold text-gray-900">
-                  {formData.personalInfo.firstName || 'John'} {formData.personalInfo.lastName || 'Doe'}
+                  {formData.personalInfo.firstName || "John"}{" "}
+                  {formData.personalInfo.lastName || "Doe"}
                 </h3>
                 <div className="text-sm text-gray-600 space-y-1">
-                  <p>Emp ID: {formData.personalInfo.empId || '123123'} | Department: {formData.personalInfo.department || 'Development'} | Designation: {formData.personalInfo.designation || 'Frontend Developer'} | Date of Joining: {formData.personalInfo.dateOfJoining || '21-Nov-2024'}</p>
-                  <p>Location: {formData.personalInfo.location || 'Hyderabad'}</p>
+                  <p>
+                    Emp ID: {formData.personalInfo.empId || "123123"} |
+                    Department:{" "}
+                    {formData.personalInfo.department || "Development"} |
+                    Designation:{" "}
+                    {formData.personalInfo.designation || "Frontend Developer"}{" "}
+                    | Date of Joining:{" "}
+                    {formData.personalInfo.dateOfJoining || "21-Nov-2024"}
+                  </p>
+                  <p>
+                    Location: {formData.personalInfo.location || "Hyderabad"}
+                  </p>
                 </div>
               </div>
             </div>
 
             <div>
-              <h4 className="text-md font-medium text-gray-800 mb-4">Address</h4>
+              <h4 className="text-md font-medium text-gray-800 mb-4">
+                Address
+              </h4>
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Present Address *</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Present Address *
+                  </label>
                   <textarea
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
                     rows="3"
                     value={formData.address.presentAddress}
-                    onChange={(e) => handleChange("address", "presentAddress", e.target.value)}
+                    onChange={(e) =>
+                      handleChange("address", "presentAddress", e.target.value)
+                    }
                     placeholder="Enter your present address"
                   />
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">City *</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      City *
+                    </label>
                     <input
                       type="text"
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
                       value={formData.address.city}
-                      onChange={(e) => handleChange("address", "city", e.target.value)}
+                      onChange={(e) =>
+                        handleChange("address", "city", e.target.value)
+                      }
                       placeholder="Enter city"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">State *</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      State *
+                    </label>
                     <input
                       type="text"
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
                       value={formData.address.state}
-                      onChange={(e) => handleChange("address", "state", e.target.value)}
+                      onChange={(e) =>
+                        handleChange("address", "state", e.target.value)
+                      }
                       placeholder="Enter state"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Postal Code *</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Postal Code *
+                    </label>
                     <input
                       type="text"
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
                       value={formData.address.postalCode}
-                      onChange={(e) => handleChange("address", "postalCode", e.target.value)}
+                      onChange={(e) =>
+                        handleChange("address", "postalCode", e.target.value)
+                      }
                       placeholder="Enter postal code"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Country *</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Country *
+                    </label>
                     <input
                       type="text"
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
                       value={formData.address.country}
-                      onChange={(e) => handleChange("address", "country", e.target.value)}
+                      onChange={(e) =>
+                        handleChange("address", "country", e.target.value)
+                      }
                       placeholder="Enter country"
                     />
                   </div>
@@ -517,25 +575,54 @@ export default function EmployeeOnboarding() {
               </div>
               <div>
                 <h3 className="text-lg font-semibold text-gray-900">
-                  {formData.personalInfo.firstName || 'Waqas'} {formData.personalInfo.lastName || 'Faraz'}
+                  {formData.personalInfo.firstName || "Waqas"}{" "}
+                  {formData.personalInfo.lastName || "Faraz"}
                 </h3>
                 <div className="text-sm text-gray-600 space-y-1">
-                  <p>Emp ID: {formData.personalInfo.empId || '123123'} | Department: {formData.personalInfo.department || 'Development'} | Designation: {formData.personalInfo.designation || 'Frontend Developer'} | Date of Joining: {formData.personalInfo.dateOfJoining || '21-Nov-2024'}</p>
-                  <p>Location: {formData.personalInfo.location || 'Hyderabad'}</p>
+                  <p>
+                    Emp ID: {formData.personalInfo.empId || "123123"} |
+                    Department:{" "}
+                    {formData.personalInfo.department || "Development"} |
+                    Designation:{" "}
+                    {formData.personalInfo.designation || "Frontend Developer"}{" "}
+                    | Date of Joining:{" "}
+                    {formData.personalInfo.dateOfJoining || "21-Nov-2024"}
+                  </p>
+                  <p>
+                    Location: {formData.personalInfo.location || "Hyderabad"}
+                  </p>
                 </div>
               </div>
-            </div>            <div>
-              <h4 className="text-md font-medium text-gray-800 mb-4">Previous Job</h4>
+            </div>
+
+            <div>
+              <h4 className="text-md font-medium text-gray-800 mb-4">
+                Previous Employment
+              </h4>
               {formData.previousEmployment.map((employment, index) => (
-                <div key={index} className="border border-gray-200 rounded-lg p-4 mb-4">
-                  <h5 className="text-sm font-medium text-gray-700 mb-3">Employment-{index + 1}</h5>
+                <div
+                  key={index}
+                  className="border border-gray-200 rounded-lg p-4 mb-4"
+                >
+                  <h5 className="text-sm font-medium text-gray-700 mb-3">
+                    Employment-{index + 1}
+                  </h5>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Company Name</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Company Name
+                      </label>
                       <select
                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
                         value={employment.companyName}
-                        onChange={(e) => handleChange("previousEmployment", "companyName", e.target.value, index)}
+                        onChange={(e) =>
+                          handleChange(
+                            "previousEmployment",
+                            "companyName",
+                            e.target.value,
+                            index
+                          )
+                        }
                       >
                         <option value="">Select</option>
                         <option value="TCS">TCS</option>
@@ -545,41 +632,77 @@ export default function EmployeeOnboarding() {
                       </select>
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Designation</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Designation
+                      </label>
                       <input
                         type="text"
                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
                         value={employment.designation}
-                        onChange={(e) => handleChange("previousEmployment", "designation", e.target.value, index)}
+                        onChange={(e) =>
+                          handleChange(
+                            "previousEmployment",
+                            "designation",
+                            e.target.value,
+                            index
+                          )
+                        }
                         placeholder="Enter designation"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">From Date</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        From Date
+                      </label>
                       <input
                         type="date"
                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
                         value={employment.fromDate}
-                        onChange={(e) => handleChange("previousEmployment", "fromDate", e.target.value, index)}
+                        onChange={(e) =>
+                          handleChange(
+                            "previousEmployment",
+                            "fromDate",
+                            e.target.value,
+                            index
+                          )
+                        }
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">To Date</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        To Date
+                      </label>
                       <input
                         type="date"
                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
                         value={employment.toDate}
-                        onChange={(e) => handleChange("previousEmployment", "toDate", e.target.value, index)}
+                        onChange={(e) =>
+                          handleChange(
+                            "previousEmployment",
+                            "toDate",
+                            e.target.value,
+                            index
+                          )
+                        }
                       />
                     </div>
                   </div>
                   <div className="mt-4">
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Company Address</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Company Address
+                    </label>
                     <textarea
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
                       rows="2"
                       value={employment.companyAddress}
-                      onChange={(e) => handleChange("previousEmployment", "companyAddress", e.target.value, index)}
+                      onChange={(e) =>
+                        handleChange(
+                          "previousEmployment",
+                          "companyAddress",
+                          e.target.value,
+                          index
+                        )
+                      }
                       placeholder="Enter company address"
                     />
                   </div>
@@ -605,25 +728,46 @@ export default function EmployeeOnboarding() {
               </div>
               <div>
                 <h3 className="text-lg font-semibold text-gray-900">
-                  {formData.personalInfo.firstName || 'Waqas'} {formData.personalInfo.lastName || 'Faraz'}
+                  {formData.personalInfo.firstName || "Waqas"}{" "}
+                  {formData.personalInfo.lastName || "Faraz"}
                 </h3>
                 <div className="text-sm text-gray-600 space-y-1">
-                  <p>Emp ID: {formData.personalInfo.empId || '123123'} | Department: {formData.personalInfo.department || 'Development'} | Designation: {formData.personalInfo.designation || 'Frontend Developer'} | Date of Joining: {formData.personalInfo.dateOfJoining || '21-Nov-2024'}</p>
-                  <p>Location: {formData.personalInfo.location || 'Hyderabad'}</p>
+                  <p>
+                    Emp ID: {formData.personalInfo.empId || "123123"} |
+                    Department:{" "}
+                    {formData.personalInfo.department || "Development"} |
+                    Designation:{" "}
+                    {formData.personalInfo.designation || "Frontend Developer"}{" "}
+                    | Date of Joining:{" "}
+                    {formData.personalInfo.dateOfJoining || "21-Nov-2024"}
+                  </p>
+                  <p>
+                    Location: {formData.personalInfo.location || "Hyderabad"}
+                  </p>
                 </div>
               </div>
-            </div>            <div>
-              <h4 className="text-md font-medium text-gray-800 mb-4">Banking</h4>
+            </div>
+
+            <div>
+              <h4 className="text-md font-medium text-gray-800 mb-4">
+                Bank Account Details
+              </h4>
               <div className="space-y-4">
                 <div>
-                  <h5 className="text-sm font-medium text-gray-700 mb-3">Bank Account Details</h5>
+                  <h5 className="text-sm font-medium text-gray-700 mb-3">
+                    Bank Account Details
+                  </h5>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Country</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Country
+                      </label>
                       <select
                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
                         value={formData.bankDetails.country}
-                        onChange={(e) => handleChange("bankDetails", "country", e.target.value)}
+                        onChange={(e) =>
+                          handleChange("bankDetails", "country", e.target.value)
+                        }
                       >
                         <option value="India">India</option>
                         <option value="USA">USA</option>
@@ -631,53 +775,93 @@ export default function EmployeeOnboarding() {
                       </select>
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Bank Account Number</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Bank Account Number
+                      </label>
                       <input
                         type="text"
                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
                         value={formData.bankDetails.bankAccountNumber}
-                        onChange={(e) => handleChange("bankDetails", "bankAccountNumber", e.target.value)}
+                        onChange={(e) =>
+                          handleChange(
+                            "bankDetails",
+                            "bankAccountNumber",
+                            e.target.value
+                          )
+                        }
                         placeholder="Enter account number"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Confirm Bank Account Number</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Confirm Bank Account Number
+                      </label>
                       <input
                         type="text"
                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
                         value={formData.bankDetails.confirmBankAccountNumber}
-                        onChange={(e) => handleChange("bankDetails", "confirmBankAccountNumber", e.target.value)}
+                        onChange={(e) =>
+                          handleChange(
+                            "bankDetails",
+                            "confirmBankAccountNumber",
+                            e.target.value
+                          )
+                        }
                         placeholder="Confirm account number"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Bank Code</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Bank Code
+                      </label>
                       <input
                         type="text"
                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
                         value={formData.bankDetails.bankCode}
-                        onChange={(e) => handleChange("bankDetails", "bankCode", e.target.value)}
+                        onChange={(e) =>
+                          handleChange(
+                            "bankDetails",
+                            "bankCode",
+                            e.target.value
+                          )
+                        }
                         placeholder="IFSC/Sort Code"
                       />
                     </div>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Name as per Bank Account</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Name as per Bank Account
+                      </label>
                       <input
                         type="text"
                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
                         value={formData.bankDetails.nameAsPerBankAccount}
-                        onChange={(e) => handleChange("bankDetails", "nameAsPerBankAccount", e.target.value)}
+                        onChange={(e) =>
+                          handleChange(
+                            "bankDetails",
+                            "nameAsPerBankAccount",
+                            e.target.value
+                          )
+                        }
                         placeholder="Full name as per bank account"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Account Type</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Account Type
+                      </label>
                       <select
                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
                         value={formData.bankDetails.accountType}
-                        onChange={(e) => handleChange("bankDetails", "accountType", e.target.value)}
+                        onChange={(e) =>
+                          handleChange(
+                            "bankDetails",
+                            "accountType",
+                            e.target.value
+                          )
+                        }
                       >
                         <option value="Savings">Savings</option>
                         <option value="Current">Current</option>
@@ -688,9 +872,12 @@ export default function EmployeeOnboarding() {
                 </div>
 
                 <div>
-                  <h5 className="text-sm font-medium text-gray-700 mb-3">Other Details</h5>
+                  <h5 className="text-sm font-medium text-gray-700 mb-3">
+                    Other Details
+                  </h5>
                   <div className="text-sm text-gray-600">
-                    Additional statutory and tax information will be collected during payroll setup.
+                    Additional statutory and tax information will be collected
+                    during payroll setup.
                   </div>
                 </div>
               </div>
@@ -707,35 +894,73 @@ export default function EmployeeOnboarding() {
               </div>
               <div>
                 <h3 className="text-lg font-semibold text-gray-900">
-                  {formData.personalInfo.firstName || 'Waqas'} {formData.personalInfo.lastName || 'Faraz'}
+                  {formData.personalInfo.firstName || "Waqas"}{" "}
+                  {formData.personalInfo.lastName || "Faraz"}
                 </h3>
                 <div className="text-sm text-gray-600 space-y-1">
-                  <p>Emp ID: {formData.personalInfo.empId || '123123'} | Department: {formData.personalInfo.department || 'Development'} | Designation: {formData.personalInfo.designation || 'Frontend Developer'} | Date of Joining: {formData.personalInfo.dateOfJoining || '21-Nov-2024'}</p>
-                  <p>Location: {formData.personalInfo.location || 'Hyderabad'}</p>
+                  <p>
+                    Emp ID: {formData.personalInfo.empId || "123123"} |
+                    Department:{" "}
+                    {formData.personalInfo.department || "Development"} |
+                    Designation:{" "}
+                    {formData.personalInfo.designation || "Frontend Developer"}{" "}
+                    | Date of Joining:{" "}
+                    {formData.personalInfo.dateOfJoining || "21-Nov-2024"}
+                  </p>
+                  <p>
+                    Location: {formData.personalInfo.location || "Hyderabad"}
+                  </p>
                 </div>
               </div>
-            </div>            <div>
-              <h4 className="text-md font-medium text-gray-800 mb-4">Family</h4>
+            </div>
+
+            <div>
+              <h4 className="text-md font-medium text-gray-800 mb-4">
+                Family Details
+              </h4>
               {formData.familyDetails.map((member, index) => (
-                <div key={index} className="border border-gray-200 rounded-lg p-4 mb-4">
-                  <h5 className="text-sm font-medium text-gray-700 mb-3">Member-{index + 1}</h5>
+                <div
+                  key={index}
+                  className="border border-gray-200 rounded-lg p-4 mb-4"
+                >
+                  <h5 className="text-sm font-medium text-gray-700 mb-3">
+                    Member-{index + 1}
+                  </h5>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Name</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Name
+                      </label>
                       <input
                         type="text"
                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
                         value={member.name}
-                        onChange={(e) => handleChange("familyDetails", "name", e.target.value, index)}
+                        onChange={(e) =>
+                          handleChange(
+                            "familyDetails",
+                            "name",
+                            e.target.value,
+                            index
+                          )
+                        }
                         placeholder="Enter family member name"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Relationship</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Relationship
+                      </label>
                       <select
                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
                         value={member.relationship}
-                        onChange={(e) => handleChange("familyDetails", "relationship", e.target.value, index)}
+                        onChange={(e) =>
+                          handleChange(
+                            "familyDetails",
+                            "relationship",
+                            e.target.value,
+                            index
+                          )
+                        }
                       >
                         <option value="">Select Relationship</option>
                         <option value="Spouse">Spouse</option>
@@ -749,11 +974,20 @@ export default function EmployeeOnboarding() {
                       </select>
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Gender</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Gender
+                      </label>
                       <select
                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
                         value={member.gender}
-                        onChange={(e) => handleChange("familyDetails", "gender", e.target.value, index)}
+                        onChange={(e) =>
+                          handleChange(
+                            "familyDetails",
+                            "gender",
+                            e.target.value,
+                            index
+                          )
+                        }
                       >
                         <option value="">Select Gender</option>
                         <option value="Male">Male</option>
@@ -762,11 +996,20 @@ export default function EmployeeOnboarding() {
                       </select>
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Blood Group</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Blood Group
+                      </label>
                       <select
                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
                         value={member.bloodGroup}
-                        onChange={(e) => handleChange("familyDetails", "bloodGroup", e.target.value, index)}
+                        onChange={(e) =>
+                          handleChange(
+                            "familyDetails",
+                            "bloodGroup",
+                            e.target.value,
+                            index
+                          )
+                        }
                       >
                         <option value="">Select Blood Group</option>
                         <option value="A+">A+</option>
@@ -782,12 +1025,21 @@ export default function EmployeeOnboarding() {
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Nationality</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Nationality
+                      </label>
                       <input
                         type="text"
                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
                         value={member.nationality}
-                        onChange={(e) => handleChange("familyDetails", "nationality", e.target.value, index)}
+                        onChange={(e) =>
+                          handleChange(
+                            "familyDetails",
+                            "nationality",
+                            e.target.value,
+                            index
+                          )
+                        }
                         placeholder="Enter nationality"
                       />
                     </div>
@@ -796,10 +1048,22 @@ export default function EmployeeOnboarding() {
                         type="checkbox"
                         id={`minor-${index}`}
                         checked={member.isMinor}
-                        onChange={(e) => handleChange("familyDetails", "isMinor", e.target.checked, index)}
+                        onChange={(e) =>
+                          handleChange(
+                            "familyDetails",
+                            "isMinor",
+                            e.target.checked,
+                            index
+                          )
+                        }
                         className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
                       />
-                      <label htmlFor={`minor-${index}`} className="text-sm text-gray-700">Minor (Under 18)</label>
+                      <label
+                        htmlFor={`minor-${index}`}
+                        className="text-sm text-gray-700"
+                      >
+                        Minor (Under 18)
+                      </label>
                     </div>
                   </div>
                 </div>
@@ -824,55 +1088,81 @@ export default function EmployeeOnboarding() {
               </div>
               <div>
                 <h3 className="text-lg font-semibold text-gray-900">
-                  {formData.personalInfo.firstName || 'Waqas'} {formData.personalInfo.lastName || 'Faraz'}
+                  {formData.personalInfo.firstName || "Waqas"}{" "}
+                  {formData.personalInfo.lastName || "Faraz"}
                 </h3>
                 <div className="text-sm text-gray-600 space-y-1">
-                  <p>Emp ID: {formData.personalInfo.empId || '123123'} | Department: {formData.personalInfo.department || 'Development'} | Designation: {formData.personalInfo.designation || 'Frontend Developer'} | Date of Joining: {formData.personalInfo.dateOfJoining || '21-Nov-2024'}</p>
-                  <p>Location: {formData.personalInfo.location || 'Hyderabad'}</p>
+                  <p>
+                    Emp ID: {formData.personalInfo.empId || "123123"} |
+                    Department:{" "}
+                    {formData.personalInfo.department || "Development"} |
+                    Designation:{" "}
+                    {formData.personalInfo.designation || "Frontend Developer"}{" "}
+                    | Date of Joining:{" "}
+                    {formData.personalInfo.dateOfJoining || "21-Nov-2024"}
+                  </p>
+                  <p>
+                    Location: {formData.personalInfo.location || "Hyderabad"}
+                  </p>
                 </div>
               </div>
-            </div>            <div>
+            </div>
+
+            <div>
               <h4 className="text-md font-medium text-gray-800 mb-4 flex items-center">
-                Documents 📎
+                Attachments 📎
               </h4>
-              
+
               <div className="space-y-4">
                 <div>
-                  <h5 className="text-sm font-medium text-gray-700 mb-3">Document Upload</h5>
+                  <h5 className="text-sm font-medium text-gray-700 mb-3">
+                    Document Upload
+                  </h5>
                   <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
                     <div className="space-y-2">
                       <div className="text-gray-400">
                         <span className="text-2xl">📤</span>
                       </div>
                       <div className="text-sm text-gray-600">
-                        Drag and drop files here, or<br />
-                        Upload from <span className="text-purple-600 cursor-pointer">Desktop</span>
+                        Drag and drop files here, or
+                        <br />
+                        Upload from{" "}
+                        <span className="text-purple-600 cursor-pointer">
+                          Desktop
+                        </span>
                       </div>
                       <div className="text-xs text-gray-500">
                         JPEG, PNG, PDF, and MP4 formats, up to 50MB
                       </div>
-                      <button 
+                      <button
                         className="mt-4 px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50"
-                        onClick={() => document.getElementById('document-upload').click()}
+                        onClick={() =>
+                          document.getElementById("document-upload").click()
+                        }
                       >
                         Browse File
                       </button>
                       <input
                         id="document-upload"
                         type="file"
-                        onChange={(e) => handleFileUpload(e, 'document')}
+                        onChange={(e) => handleFileUpload(e, "document")}
                         className="hidden"
                         multiple
                         accept=".jpeg,.jpg,.png,.pdf,.mp4"
                       />
                     </div>
                   </div>
-                  {attachments.filter(att => att.type === 'document').map((att, index) => (
-                    <div key={index} className="mt-2 text-sm text-gray-600 flex items-center">
-                      <span className="mr-2">📎</span>
-                      <span>{att.name}</span>
-                    </div>
-                  ))}
+                  {attachments
+                    .filter((att) => att.type === "document")
+                    .map((att, index) => (
+                      <div
+                        key={index}
+                        className="mt-2 text-sm text-gray-600 flex items-center"
+                      >
+                        <span className="mr-2">📎</span>
+                        <span>{att.name}</span>
+                      </div>
+                    ))}
                 </div>
               </div>
             </div>
@@ -887,31 +1177,39 @@ export default function EmployeeOnboarding() {
   return (
     <>
       {isCompleted ? (
-        <OnboardingSuccess 
-          employeeName={`${formData.personalInfo.firstName || 'Waqas'} ${formData.personalInfo.lastName || 'Faraz'}`} 
+        <OnboardingSuccess
+          employeeName={`${formData.personalInfo.firstName || "Waqas"} ${
+            formData.personalInfo.lastName || "Faraz"
+          }`}
         />
-      ) : (        <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-6xl mx-auto pr-8">
-            <div className="bg-white shadow-lg rounded-lg overflow-hidden mr-8">
-              {/* Header */}              <div className="px-6 py-4 border-b border-gray-200 bg-gradient-to-r from-purple-50 to-blue-50">
+      ) : (
+        <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-4xl mx-auto">
+            <div className="bg-white shadow-lg rounded-lg overflow-hidden">
+              {/* Header */}
+              <div className="px-6 py-4 border-b border-gray-200 bg-gradient-to-r from-purple-50 to-blue-50">
                 <div className="flex items-center gap-3 mb-4">
                   <ProductLogo />
-                  <div className="text-xl font-bold text-gray-800">SynaptHR</div>
+                  <div className="text-xl font-bold text-gray-800">
+                    Synapt HR
+                  </div>
                 </div>
                 <h1 className="text-2xl font-bold text-gray-900">
                   Employee Onboarding
                 </h1>
                 <p className="mt-1 text-sm text-gray-600">
-                  Help us know you better. Provide all your employment information
+                  Help us know you better. Provide all your employment
+                  information
                 </p>
               </div>
 
               {/* Progress Indicator */}
               <div className="px-6 py-4 bg-gray-50">
-                <div className="flex items-center justify-between">                  {/* Step Navigation */}
-                  <div className="flex items-center w-full">
+                <div className="flex items-center justify-between">
+                  {/* Step Navigation */}
+                  <div className="flex items-center space-x-2">
                     {[1, 2, 3, 4, 5, 6, 7].map((step, index) => (
-                      <React.Fragment key={step}>
+                      <div key={step} className="flex items-center">
                         <div
                           className={`h-10 w-10 rounded-full flex items-center justify-center text-sm font-medium transition-all ${
                             step <= currentStep
@@ -919,72 +1217,119 @@ export default function EmployeeOnboarding() {
                               : "bg-gray-200 text-gray-600"
                           }`}
                         >
-                          {step <= currentStep ? (
-                            step < currentStep ? "✓" : step
-                          ) : (
-                            step
-                          )}
+                          {step <= currentStep
+                            ? step < currentStep
+                              ? "✓"
+                              : step
+                            : step}
                         </div>
                         {index < 6 && (
                           <div
-                            className={`flex-1 h-1 mx-2 transition-all ${
-                              step < currentStep ? "bg-purple-600" : "bg-gray-200"
+                            className={`w-8 h-1 mx-1 transition-all ${
+                              step < currentStep
+                                ? "bg-purple-600"
+                                : "bg-gray-200"
                             }`}
                           />
                         )}
-                      </React.Fragment>
+                      </div>
                     ))}
                   </div>
-                </div>                {/* Step Labels */}
-                <div className="flex items-center w-full mt-3 text-xs text-gray-500 px-2">
-                  {[
-                    { step: 1, label: "Welcome" },
-                    { step: 2, label: "Personal" },
-                    { step: 3, label: "Address" },
-                    { step: 4, label: "Previous Job" },
-                    { step: 5, label: "Banking" },
-                    { step: 6, label: "Family" },
-                    { step: 7, label: "Documents" }
-                  ].map((item, index) => (
-                    <React.Fragment key={item.step}>
-                      <div className="w-10 text-center flex-shrink-0">
-                        {item.label}
-                      </div>
-                      {index < 6 && (
-                        <div className="flex-1 mx-2" />
-                      )}
-                    </React.Fragment>
-                  ))}
+                </div>
+
+                {/* Step Labels */}
+                <div className="flex justify-between mt-3 text-xs text-gray-500">
+                  <span className="w-10 text-center">Welcome</span>
+                  <span className="w-10 text-center">Personal</span>
+                  <span className="w-10 text-center">Address</span>
+                  <span className="w-10 text-center">Employment</span>
+                  <span className="w-10 text-center">Banking</span>
+                  <span className="w-10 text-center">Family</span>
+                  <span className="w-10 text-center">Documents</span>
                 </div>
 
                 {/* Progress Steps Sidebar */}
                 <div className="mt-6">
-                  <div className="flex flex-col space-y-2">                    {[
-                      { id: 1, label: "Welcome", description: "Upload your profile picture", completed: currentStep > 1 },
-                      { id: 2, label: "Personal", description: "Basic personal details", completed: currentStep > 2 },
-                      { id: 3, label: "Address", description: "Current address details", completed: currentStep > 3 },
-                      { id: 4, label: "Previous Job", description: "Work history information", completed: currentStep > 4 },
-                      { id: 5, label: "Banking", description: "Bank account information", completed: currentStep > 5 },
-                      { id: 6, label: "Family", description: "Family member information", completed: currentStep > 6 },
-                      { id: 7, label: "Documents", description: "Required document attachments", completed: currentStep > 7 },
+                  <div className="flex flex-col space-y-2">
+                    {[
+                      {
+                        id: 1,
+                        label: "Welcome & Profile",
+                        description: "Upload your profile picture",
+                        completed: currentStep > 1,
+                      },
+                      {
+                        id: 2,
+                        label: "Personal Information",
+                        description: "Basic personal details",
+                        completed: currentStep > 2,
+                      },
+                      {
+                        id: 3,
+                        label: "Address Information",
+                        description: "Current address details",
+                        completed: currentStep > 3,
+                      },
+                      {
+                        id: 4,
+                        label: "Previous Employment",
+                        description: "Work history information",
+                        completed: currentStep > 4,
+                      },
+                      {
+                        id: 5,
+                        label: "Banking Details",
+                        description: "Bank account information",
+                        completed: currentStep > 5,
+                      },
+                      {
+                        id: 6,
+                        label: "Family Details",
+                        description: "Family member information",
+                        completed: currentStep > 6,
+                      },
+                      {
+                        id: 7,
+                        label: "Document Upload",
+                        description: "Required document attachments",
+                        completed: currentStep > 7,
+                      },
                     ].map((step) => (
                       <div key={step.id} className="flex items-start space-x-3">
-                        <div className={`flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center ${
-                          step.completed ? 'bg-purple-600 text-white' : 
-                          currentStep === step.id ? 'bg-purple-200 border-2 border-purple-600' : 
-                          'bg-gray-200'
-                        }`}>
+                        <div
+                          className={`flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center ${
+                            step.completed
+                              ? "bg-purple-600 text-white"
+                              : currentStep === step.id
+                              ? "bg-purple-200 border-2 border-purple-600"
+                              : "bg-gray-200"
+                          }`}
+                        >
                           {step.completed ? (
                             <span className="text-xs">✓</span>
                           ) : (
-                            <div className={`w-2 h-2 rounded-full ${currentStep === step.id ? 'bg-purple-600' : 'bg-gray-400'}`} />
+                            <div
+                              className={`w-2 h-2 rounded-full ${
+                                currentStep === step.id
+                                  ? "bg-purple-600"
+                                  : "bg-gray-400"
+                              }`}
+                            />
                           )}
                         </div>
                         <div>
-                          <div className={`text-sm font-medium ${currentStep === step.id ? 'text-purple-600' : 'text-gray-900'}`}>
+                          <div
+                            className={`text-sm font-medium ${
+                              currentStep === step.id
+                                ? "text-purple-600"
+                                : "text-gray-900"
+                            }`}
+                          >
                             {step.label}
                           </div>
-                          <div className="text-xs text-gray-500">{step.description}</div>
+                          <div className="text-xs text-gray-500">
+                            {step.description}
+                          </div>
                         </div>
                       </div>
                     ))}

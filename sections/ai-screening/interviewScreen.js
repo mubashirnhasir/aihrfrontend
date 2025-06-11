@@ -1,7 +1,3 @@
-/**
- * Interview Screen Component
- * Conducts the live AI-powered interview
- */
 "use client";
 
 import { useState, useEffect, useRef } from 'react';

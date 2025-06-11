@@ -7,7 +7,6 @@ import SkillGapAnalysis from "./SkillGapAnalysis";
 import CareerPathGraph from "./CareerPathGraph";
 import RoleRoadmap from "./RoleRoadmap";
 
-
 const apiBase = process.env.NEXT_PUBLIC_API || "http://localhost:5000";
 
 export default function CareerGrowthWrapper() {
@@ -32,7 +31,8 @@ export default function CareerGrowthWrapper() {
 
   /* ---------- render ---------- */
   if (error) return <p className="p-6 text-red-600">{error}</p>;
-  if (!profile) return <p className="p-6">Loading page…</p>;  return (
+  if (!profile) return <p className="p-6">Loading page…</p>;
+  return (
     <div className="p-6 space-y-6 bg-[#f9f9f9] min-h-screen">
       <UserProfileCard profile={profile} />
       <SkillGapAnalysis profile={profile} />

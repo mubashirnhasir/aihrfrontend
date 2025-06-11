@@ -15,12 +15,15 @@ export async function GET(request, { params }) {
 
     const { documentId } = params;
 
-    const response = await fetch(`${BACKEND_URL}/api/employee/documents/${documentId}/download`, {
-      method: "GET",
-      headers: {
-        Authorization: authHeader,
-      },
-    });
+    const response = await fetch(
+      `${BACKEND_URL}/api/employee/documents/${documentId}/download`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: authHeader,
+        },
+      }
+    );
 
     if (!response.ok) {
       const errorData = await response.json();
@@ -34,8 +37,10 @@ export async function GET(request, { params }) {
     const blob = await response.blob();
     return new NextResponse(blob, {
       headers: {
-        'Content-Type': response.headers.get('Content-Type') || 'application/octet-stream',
-        'Content-Disposition': response.headers.get('Content-Disposition') || 'attachment',
+        "Content-Type":
+          response.headers.get("Content-Type") || "application/octet-stream",
+        "Content-Disposition":
+          response.headers.get("Content-Disposition") || "attachment",
       },
     });
   } catch (error) {
