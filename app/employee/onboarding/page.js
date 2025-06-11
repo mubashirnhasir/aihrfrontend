@@ -82,9 +82,7 @@ export default function EmployeeOnboarding() {
       console.log("❌ No authentication token found, redirecting to signin");
       router.push("/employee/auth/signin");
       return;
-    }
-
-    // Populate employee info from stored data
+    }    // Populate employee info from stored data
     const employeeData = JSON.parse(localStorage.getItem("employeeData") || "{}");
     if (employeeData) {
       setFormData(prev => ({
@@ -92,7 +90,7 @@ export default function EmployeeOnboarding() {
         personalInfo: {
           ...prev.personalInfo,
           empId: employeeData.employeeId || "",
-          email: employeeData.email || "",
+          // Remove email prefilling - email: employeeData.email || "",
           department: employeeData.department || "",
           designation: employeeData.designation || "",
           dateOfJoining: employeeData.joiningDate || "",
@@ -176,11 +174,79 @@ export default function EmployeeOnboarding() {
       setAttachments(prev => [...prev, { type, file, name: file.name }]);
     }
   };
-
   const handleNext = () => {
+    // Validate current step before moving to next
+    if (!validateCurrentStep()) {
+      return;
+    }
+    
     if (currentStep < 7) {
       setCurrentStep(currentStep + 1);
     }
+  };
+
+  const validateCurrentStep = () => {
+    setError("");
+    const validationErrors = [];
+
+    switch (currentStep) {
+      case 2: // Personal Information
+        if (!formData.personalInfo.firstName.trim()) {
+          validationErrors.push("First Name is required");
+        }
+        if (!formData.personalInfo.lastName.trim()) {
+          validationErrors.push("Last Name is required");
+        }
+        if (!formData.personalInfo.email.trim()) {
+          validationErrors.push("Email is required");
+        }
+        if (!formData.personalInfo.phone.trim()) {
+          validationErrors.push("Phone number is required");
+        }
+        if (!formData.personalInfo.dateOfBirth.trim()) {
+          validationErrors.push("Date of Birth is required");
+        }
+        if (!formData.personalInfo.gender.trim()) {
+          validationErrors.push("Gender is required");
+        }
+        if (!formData.personalInfo.nationality.trim()) {
+          validationErrors.push("Nationality is required");
+        }
+        break;
+      
+      case 3: // Address
+        if (!formData.address.presentAddress.trim()) {
+          validationErrors.push("Present address is required");
+        }
+        if (!formData.address.city.trim()) {
+          validationErrors.push("City is required");
+        }
+        if (!formData.address.state.trim()) {
+          validationErrors.push("State is required");
+        }
+        if (!formData.address.postalCode.trim()) {
+          validationErrors.push("Postal Code is required");
+        }
+        if (!formData.address.country.trim()) {
+          validationErrors.push("Country is required");
+        }
+        break;
+      
+      // Add validation for other steps as needed
+      default:
+        break;
+    }
+
+    if (validationErrors.length > 0) {
+      setError(validationErrors.join(", "));
+      return false;
+    }
+    return true;
+  };
+
+  const hasRequiredFields = (step) => {
+    // Steps that have mandatory fields should not show "Skip for now"
+    return [2, 3].includes(step); // Personal and Address steps have required fields
   };
 
   const handlePrevious = () => {
@@ -352,9 +418,8 @@ export default function EmployeeOnboarding() {
               </div>
             </div>            <div>
               <h4 className="text-md font-medium text-gray-800 mb-4">Personal</h4>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">First Name *</label>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">First Name <span className="text-red-500">*</span></label>
                   <input
                     type="text"
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
@@ -364,7 +429,7 @@ export default function EmployeeOnboarding() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Last Name *</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Last Name <span className="text-red-500">*</span></label>
                   <input
                     type="text"
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
@@ -372,9 +437,8 @@ export default function EmployeeOnboarding() {
                     onChange={(e) => handleChange("personalInfo", "lastName", e.target.value)}
                     placeholder="Enter your last name"
                   />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Email *</label>
+                </div><div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Email <span className="text-red-500">*</span></label>
                   <input
                     type="email"
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
@@ -384,7 +448,7 @@ export default function EmployeeOnboarding() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Phone *</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Phone <span className="text-red-500">*</span></label>
                   <input
                     type="tel"
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
@@ -394,7 +458,7 @@ export default function EmployeeOnboarding() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Date of Birth</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Date of Birth <span className="text-red-500">*</span></label>
                   <input
                     type="date"
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
@@ -403,7 +467,7 @@ export default function EmployeeOnboarding() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Gender</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Gender <span className="text-red-500">*</span></label>
                   <select
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
                     value={formData.personalInfo.gender}
@@ -416,7 +480,7 @@ export default function EmployeeOnboarding() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Nationality</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Nationality <span className="text-red-500">*</span></label>
                   <input
                     type="text"
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
@@ -428,14 +492,16 @@ export default function EmployeeOnboarding() {
               </div>
             </div>
           </div>
-        );
-
-      case 3:
+        );      case 3:
         return (
           <div className="space-y-6">
             <div className="flex items-center space-x-4 mb-6">
-              <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center">
-                <span className="text-2xl">👤</span>
+              <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center overflow-hidden">
+                {profilePreview ? (
+                  <img src={profilePreview} alt="Profile" className="w-full h-full object-cover" />
+                ) : (
+                  <span className="text-2xl">👤</span>
+                )}
               </div>
               <div>
                 <h3 className="text-lg font-semibold text-gray-900">
@@ -446,13 +512,11 @@ export default function EmployeeOnboarding() {
                   <p>Location: {formData.personalInfo.location || 'Hyderabad'}</p>
                 </div>
               </div>
-            </div>
-
-            <div>
+            </div>            <div>
               <h4 className="text-md font-medium text-gray-800 mb-4">Address</h4>
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Present Address *</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Present Address <span className="text-red-500">*</span></label>
                   <textarea
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
                     rows="3"
@@ -463,7 +527,7 @@ export default function EmployeeOnboarding() {
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">City *</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">City <span className="text-red-500">*</span></label>
                     <input
                       type="text"
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
@@ -473,7 +537,7 @@ export default function EmployeeOnboarding() {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">State *</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">State <span className="text-red-500">*</span></label>
                     <input
                       type="text"
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
@@ -483,7 +547,7 @@ export default function EmployeeOnboarding() {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Postal Code *</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Postal Code <span className="text-red-500">*</span></label>
                     <input
                       type="text"
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
@@ -493,7 +557,7 @@ export default function EmployeeOnboarding() {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Country *</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Country <span className="text-red-500">*</span></label>
                     <input
                       type="text"
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
@@ -506,14 +570,16 @@ export default function EmployeeOnboarding() {
               </div>
             </div>
           </div>
-        );
-
-      case 4:
+        );      case 4:
         return (
           <div className="space-y-6">
             <div className="flex items-center space-x-4 mb-6">
-              <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center">
-                <span className="text-2xl">👤</span>
+              <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center overflow-hidden">
+                {profilePreview ? (
+                  <img src={profilePreview} alt="Profile" className="w-full h-full object-cover" />
+                ) : (
+                  <span className="text-2xl">👤</span>
+                )}
               </div>
               <div>
                 <h3 className="text-lg font-semibold text-gray-900">
@@ -594,14 +660,16 @@ export default function EmployeeOnboarding() {
               </button>
             </div>
           </div>
-        );
-
-      case 5:
+        );      case 5:
         return (
           <div className="space-y-6">
             <div className="flex items-center space-x-4 mb-6">
-              <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center">
-                <span className="text-2xl">👤</span>
+              <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center overflow-hidden">
+                {profilePreview ? (
+                  <img src={profilePreview} alt="Profile" className="w-full h-full object-cover" />
+                ) : (
+                  <span className="text-2xl">👤</span>
+                )}
               </div>
               <div>
                 <h3 className="text-lg font-semibold text-gray-900">
@@ -696,14 +764,16 @@ export default function EmployeeOnboarding() {
               </div>
             </div>
           </div>
-        );
-
-      case 6:
+        );      case 6:
         return (
           <div className="space-y-6">
             <div className="flex items-center space-x-4 mb-6">
-              <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center">
-                <span className="text-2xl">👤</span>
+              <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center overflow-hidden">
+                {profilePreview ? (
+                  <img src={profilePreview} alt="Profile" className="w-full h-full object-cover" />
+                ) : (
+                  <span className="text-2xl">👤</span>
+                )}
               </div>
               <div>
                 <h3 className="text-lg font-semibold text-gray-900">
@@ -813,14 +883,16 @@ export default function EmployeeOnboarding() {
               </button>
             </div>
           </div>
-        );
-
-      case 7:
+        );      case 7:
         return (
           <div className="space-y-6">
             <div className="flex items-center space-x-4 mb-6">
-              <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center">
-                <span className="text-2xl">👤</span>
+              <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center overflow-hidden">
+                {profilePreview ? (
+                  <img src={profilePreview} alt="Profile" className="w-full h-full object-cover" />
+                ) : (
+                  <span className="text-2xl">👤</span>
+                )}
               </div>
               <div>
                 <h3 className="text-lg font-semibold text-gray-900">
@@ -956,40 +1028,6 @@ export default function EmployeeOnboarding() {
                     </React.Fragment>
                   ))}
                 </div>
-
-                {/* Progress Steps Sidebar */}
-                <div className="mt-6">
-                  <div className="flex flex-col space-y-2">                    {[
-                      { id: 1, label: "Welcome", description: "Upload your profile picture", completed: currentStep > 1 },
-                      { id: 2, label: "Personal", description: "Basic personal details", completed: currentStep > 2 },
-                      { id: 3, label: "Address", description: "Current address details", completed: currentStep > 3 },
-                      { id: 4, label: "Previous Job", description: "Work history information", completed: currentStep > 4 },
-                      { id: 5, label: "Banking", description: "Bank account information", completed: currentStep > 5 },
-                      { id: 6, label: "Family", description: "Family member information", completed: currentStep > 6 },
-                      { id: 7, label: "Documents", description: "Required document attachments", completed: currentStep > 7 },
-                    ].map((step) => (
-                      <div key={step.id} className="flex items-start space-x-3">
-                        <div className={`flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center ${
-                          step.completed ? 'bg-purple-600 text-white' : 
-                          currentStep === step.id ? 'bg-purple-200 border-2 border-purple-600' : 
-                          'bg-gray-200'
-                        }`}>
-                          {step.completed ? (
-                            <span className="text-xs">✓</span>
-                          ) : (
-                            <div className={`w-2 h-2 rounded-full ${currentStep === step.id ? 'bg-purple-600' : 'bg-gray-400'}`} />
-                          )}
-                        </div>
-                        <div>
-                          <div className={`text-sm font-medium ${currentStep === step.id ? 'text-purple-600' : 'text-gray-900'}`}>
-                            {step.label}
-                          </div>
-                          <div className="text-xs text-gray-500">{step.description}</div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
               </div>
 
               {/* Form Content */}
@@ -1001,9 +1039,7 @@ export default function EmployeeOnboarding() {
                 )}
 
                 {renderStep()}
-              </div>
-
-              {/* Navigation Buttons */}
+              </div>              {/* Navigation Buttons */}
               <div className="px-6 py-4 border-t border-gray-200 flex justify-between bg-gray-50">
                 <div className="flex space-x-2">
                   <button
@@ -1014,13 +1050,15 @@ export default function EmployeeOnboarding() {
                   >
                     ← Back
                   </button>
-                  <button
-                    type="button"
-                    onClick={() => setCurrentStep(1)}
-                    className="px-4 py-2 text-sm font-medium text-gray-600 hover:text-gray-800"
-                  >
-                    Skip for now
-                  </button>
+                  {!hasRequiredFields(currentStep) && (
+                    <button
+                      type="button"
+                      onClick={() => setCurrentStep(1)}
+                      className="px-4 py-2 text-sm font-medium text-gray-600 hover:text-gray-800"
+                    >
+                      Skip for now
+                    </button>
+                  )}
                 </div>
 
                 <div className="flex space-x-2">
