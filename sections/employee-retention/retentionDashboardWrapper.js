@@ -17,6 +17,7 @@ export default function RetentionDashboardWrapper() {
   const [isLoading, setIsLoading] = useState(true);
   const [predictions, setPredictions] = useState([]);
   const [analytics, setAnalytics] = useState(null);
+  const [totalEmployees, setTotalEmployees] = useState(0);
   const [error, setError] = useState(null);
 
   // Fetch data on component mount
@@ -32,18 +33,20 @@ export default function RetentionDashboardWrapper() {
       setIsLoading(true);
       setError(null);
 
-      // Fetch predictions and analytics in parallel
-      const [predictionsResponse, analyticsResponse] = await Promise.all([
+      // Fetch predictions, analytics, and total employees in parallel
+      const [predictionsResponse, analyticsResponse, employeesResponse] = await Promise.all([
         fetch("/api/employee-retention/predict"),
         fetch("/api/employee-retention/analytics"),
+        fetch("/api/employees"),
       ]);
 
-      if (!predictionsResponse.ok || !analyticsResponse.ok) {
+      if (!predictionsResponse.ok || !analyticsResponse.ok || !employeesResponse.ok) {
         throw new Error("Failed to fetch dashboard data");
       }
 
       const predictionsData = await predictionsResponse.json();
       const analyticsData = await analyticsResponse.json();
+      const employeesData = await employeesResponse.json();
 
       if (!predictionsData.success || !analyticsData.success) {
         throw new Error("API returned error response");
@@ -51,6 +54,11 @@ export default function RetentionDashboardWrapper() {
 
       setPredictions(predictionsData.data);
       setAnalytics(analyticsData.data);
+      
+      // Set total employees from database
+      if (Array.isArray(employeesData)) {
+        setTotalEmployees(employeesData.length);
+      }
     } catch (err) {
       console.error("Error fetching dashboard data:", err);
       setError(err.message);
@@ -167,7 +175,11 @@ export default function RetentionDashboardWrapper() {
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-6 py-6">
         {activeTab === "overview" && (
-          <RetentionOverview predictions={predictions} analytics={analytics} />
+          <RetentionOverview 
+            predictions={predictions} 
+            analytics={analytics} 
+            totalEmployeesFromDB={totalEmployees}
+          />
         )}
 
         {activeTab === "employees" && (

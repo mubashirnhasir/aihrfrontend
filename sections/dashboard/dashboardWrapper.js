@@ -1,5 +1,5 @@
 import React from "react";
-import Card from "./card";
+import Card from "./cardUpdated";
 import OnLeave from "./onLeave";
 import Employees from "./employees";
 import Documents from "./documents";

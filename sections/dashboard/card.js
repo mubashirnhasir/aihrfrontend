@@ -51,24 +51,41 @@ import CardGlobal from '../cardGlobal'
 import Arrow from '@/public/icons/arrowleft'
 import Dashboard from '@/public/icons/dashboard'
 import DocumentFile from '@/public/icons/documentFile'
+import { fetchTotalEmployeeCount, fetchAllEmployees, calculateEmployeeStats } from '@/lib/employeeUtils'
 
-const Card = () => {    const [employeeStats, setEmployeeStats] = useState({
+const Card = () => {
+    const [employeeStats, setEmployeeStats] = useState({
         totalEmployees: 0,
         employeesOnLeave: 0,
         newHires: 0,
         employeesReliving: 0,
-        loading: true,
-        error: null
-    });// Fetch employee data from the API
+        loading: true,        error: null
+    });
+
+    // Fetch employee data from the API
     useEffect(() => {
         const fetchEmployeeData = async () => {
             try {
-                const response = await fetch('/api/employees');
-                const employees = await response.json();
+                // Use Promise.all to fetch employee count and full employee data in parallel
+                const [countResponse, employeesResponse] = await Promise.all([
+                    fetch('/api/employees/count'),
+                    fetch('/api/employees')
+                ]);
                 
-                if (response.ok && Array.isArray(employees)) {
+                const countData = await countResponse.json();
+                const employees = await employeesResponse.json();
+                
+                let totalEmployees = 0;
+                
+                // Use count endpoint if available, otherwise fall back to array length
+                if (countResponse.ok && countData.success) {
+                    totalEmployees = countData.count;
+                } else if (employeesResponse.ok && Array.isArray(employees)) {
+                    totalEmployees = employees.length;
+                }
+                  if (employeesResponse.ok && Array.isArray(employees)) {
                     // Calculate statistics from employee data
-                    const totalEmployees = employees.length;
+                    // Note: totalEmployees is already set from count endpoint above
                     
                     // Calculate employees on leave based on current active leave requests
                     const today = new Date();

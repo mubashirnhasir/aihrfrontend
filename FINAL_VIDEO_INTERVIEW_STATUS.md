@@ -136,9 +136,7 @@ app/video-interview-demo/
 ### **🧪 Testing & Documentation**
 
 ```
-test-api-enhanced.js                 🆕 API validation tests
-test-enhanced-video-interview-system.js  🆕 System-wide tests
-VIDEO_INTERVIEW_SYSTEM_STATUS_ENHANCED.md  📝 This documentation
+VIDEO_INTERVIEW_SYSTEM_STATUS_ENHANCED.md  📝 Enhanced documentation
 VIDEO_INTERVIEW_SYSTEM_STATUS.md     📝 Original documentation
 ```
 
@@ -211,12 +209,6 @@ Features: Complete system showcase with all components
 2. **📊 Analytics Dashboard** - Real-time behavioral monitoring with demo mode
 3. **💾 Video Storage** - Multi-tier storage management with playback
 4. **🧪 System Testing** - Comprehensive validation and compatibility testing
-
-### **🔧 Run API Tests:**
-
-```bash
-node test-api-enhanced.js
-```
 
 ---
 

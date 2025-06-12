@@ -16,13 +16,15 @@ import { ArrowUpNarrowWide, ChartBar, TriangleAlert } from "lucide-react";
 export default function RetentionOverview({
   predictions = [],
   analytics = null,
+  totalEmployeesFromDB = null,
 }) {
   // Calculate summary metrics
   const summaryMetrics = useMemo(() => {
     if (!predictions.length || !analytics) return null;
 
     const riskGroups = groupEmployeesByRisk(predictions);
-    const totalEmployees = predictions.length;
+    // Use total employees from database if provided, otherwise fall back to predictions length
+    const totalEmployees = totalEmployeesFromDB || predictions.length;
 
     const metrics = {
       totalEmployees,
@@ -42,7 +44,7 @@ export default function RetentionOverview({
     );
 
     return metrics;
-  }, [predictions, analytics]);
+  }, [predictions, analytics, totalEmployeesFromDB]);
 
   if (!summaryMetrics) {
     return (
