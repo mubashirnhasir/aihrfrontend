@@ -148,15 +148,28 @@ const Holidays = () => {
       return "Next 3 Months";
     }
   };
-
   return (
     <div>
       <div className="border border-gray-200 p-4 min-h-[450px] max-h-full rounded-lg">
-        <div className="flex flex-col gap-1">
-          <div className="text-lg font-medium">{getCountryName(country)} Holidays</div>
-          <div className="supporting-text">
-            {loading ? "Loading..." : getTimePeriodDescription()}
+        <div className="flex justify-between items-start gap-2">
+          <div className="flex flex-col gap-1">
+            <div className="text-lg font-medium">{getCountryName(country)} Holidays</div>
+            <div className="supporting-text">
+              {loading ? "Loading..." : getTimePeriodDescription()}
+            </div>
           </div>
+          
+          {/* Country selector moved to top right */}
+          <select 
+            value={country} 
+            onChange={(e) => setCountry(e.target.value)}
+            className="text-xs bg-white border border-gray-300 rounded-md px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 hover:border-gray-400 transition-all cursor-pointer shadow-sm"
+          >
+            <option value="IN">🇮🇳 India</option>
+            <option value="US">🇺🇸 United States</option>
+            <option value="GB">🇬🇧 United Kingdom</option>
+            <option value="AE">🇦🇪 UAE</option>
+          </select>
         </div>
 
         <div className="h-[1px] bg-gray-300 w-full my-2"></div>
@@ -213,21 +226,11 @@ const Holidays = () => {
                 </div>
               </div>
             ))
-          )}
-        </div>        {/* Country selector and data source info */}
-        <div className="mt-4 pt-2 border-t border-gray-200 flex justify-between items-center">          <select 
-            value={country} 
-            onChange={(e) => setCountry(e.target.value)}
-            className="text-xs bg-white border border-gray-300 rounded-md px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 hover:border-gray-400 transition-all cursor-pointer shadow-sm"
-          >
-            <option value="IN">🇮🇳 India</option>
-            <option value="US">🇺🇸 United States</option>
-            <option value="GB">🇬🇧 United Kingdom</option>
-            <option value="AE">🇦🇪 UAE</option>
-          </select>
-          
-          {/* Data source indicator */}
-          {dataSource && !loading && (
+          )}        </div>
+        
+        {/* Data source indicator - moved to bottom */}
+        {dataSource && !loading && (
+          <div className="mt-4 pt-2 border-t border-gray-200 flex justify-center">
             <div className="text-xs text-gray-500 flex items-center">
               <div className={`w-2 h-2 rounded-full mr-1 ${
                 dataSource === 'calendarific' ? 'bg-green-500' : 
@@ -236,8 +239,8 @@ const Holidays = () => {
               }`}></div>
               {dataSource === 'static' ? 'Local data' : 'Live data'}
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </div>
   );
