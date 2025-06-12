@@ -7,10 +7,8 @@
 import { useState } from 'react';
 
 export default function InterviewResults({ data, onRestart }) {
-  const [activeTab, setActiveTab] = useState('overview');
-
-  // Sample evaluation data if not available
-  const evaluation = data.evaluation || {
+  const [activeTab, setActiveTab] = useState('overview');  // Sample evaluation data if not available
+  const defaultEvaluation = {
     overallScore: 78,
     technicalScore: 75,
     communicationScore: 82,
@@ -39,19 +37,29 @@ export default function InterviewResults({ data, onRestart }) {
     detailedFeedback: [
       {
         question: "Can you walk me through your experience with CI/CD pipelines?",
-        response: data.responses?.[0]?.response || "Good coverage of Jenkins and GitLab CI experience...",
+        response: data.responses?.[0]?.transcript || "Good coverage of Jenkins and GitLab CI experience...",
         score: 80,
         feedback: "Strong answer covering multiple tools and practical experience. Could benefit from more specific metrics.",
         keywords: ["Jenkins", "GitLab CI", "automation", "deployment"]
       },
       {
         question: "How do you handle infrastructure as code?",
-        response: data.responses?.[1]?.response || "Mentioned Terraform and CloudFormation...",
+        response: data.responses?.[1]?.transcript || "Mentioned Terraform and CloudFormation...",
         score: 75,
         feedback: "Good understanding of IaC principles. Would like to see more examples of complex deployments.",
         keywords: ["Terraform", "CloudFormation", "automation"]
       }
     ]
+  };
+
+  // Merge with actual evaluation data if available, ensuring all arrays exist
+  const evaluation = {
+    ...defaultEvaluation,
+    ...data.evaluation,
+    strengths: data.evaluation?.strengths || defaultEvaluation.strengths,
+    improvements: data.evaluation?.improvements || defaultEvaluation.improvements,
+    categoryScores: data.evaluation?.categoryScores || defaultEvaluation.categoryScores,
+    detailedFeedback: data.evaluation?.detailedFeedback || defaultEvaluation.detailedFeedback
   };
 
   const formatTime = (seconds) => {
@@ -214,10 +222,9 @@ export default function InterviewResults({ data, onRestart }) {
           {activeTab === 'overview' && (
             <div className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div>
-                  <h4 className="text-lg font-semibold text-green-900 mb-4">🌟 Key Strengths</h4>
+                <div>                  <h4 className="text-lg font-semibold text-green-900 mb-4">🌟 Key Strengths</h4>
                   <ul className="space-y-2">
-                    {evaluation.strengths.map((strength, index) => (
+                    {(evaluation.strengths || []).map((strength, index) => (
                       <li key={index} className="flex items-start">
                         <span className="text-green-600 mr-2">✓</span>
                         <span className="text-gray-700">{strength}</span>
@@ -225,10 +232,9 @@ export default function InterviewResults({ data, onRestart }) {
                     ))}
                   </ul>
                 </div>
-                <div>
-                  <h4 className="text-lg font-semibold text-orange-900 mb-4">📈 Areas for Improvement</h4>
+                <div>                  <h4 className="text-lg font-semibold text-orange-900 mb-4">📈 Areas for Improvement</h4>
                   <ul className="space-y-2">
-                    {evaluation.improvements.map((improvement, index) => (
+                    {(evaluation.improvements || []).map((improvement, index) => (
                       <li key={index} className="flex items-start">
                         <span className="text-orange-600 mr-2">→</span>
                         <span className="text-gray-700">{improvement}</span>
@@ -269,22 +275,18 @@ export default function InterviewResults({ data, onRestart }) {
               <h4 className="text-lg font-semibold text-gray-900 mb-4">Individual Response Analysis</h4>
               <div className="space-y-6">
                 {(evaluation.detailedFeedback || []).map((item, index) => (
-                  <div key={index} className="border border-gray-200 rounded-lg p-6">
-                    <div className="flex items-start justify-between mb-4">
-                      <h5 className="font-semibold text-gray-900 flex-1">{item.question}</h5>
-                      <div className={`font-bold text-lg ${getScoreColor(item.score)}`}>
-                        {item.score}%
+                  <div key={index} className="border border-gray-200 rounded-lg p-6">                    <div className="flex items-start justify-between mb-4">
+                      <h5 className="font-semibold text-gray-900 flex-1">{item.question || 'Question not available'}</h5>
+                      <div className={`font-bold text-lg ${getScoreColor(item.score || 0)}`}>
+                        {item.score || 0}%
                       </div>
-                    </div>
-                    <div className="bg-gray-50 p-4 rounded-lg mb-4">
-                      <p className="text-gray-700 italic">"{item.response.substring(0, 200)}..."</p>
-                    </div>
-                    <div className="mb-4">
-                      <p className="text-gray-700">{item.feedback}</p>
-                    </div>
-                    <div className="flex flex-wrap gap-2">
+                    </div><div className="bg-gray-50 p-4 rounded-lg mb-4">
+                      <p className="text-gray-700 italic">"{item.response ? item.response.substring(0, 200) : 'No response recorded'}..."</p>
+                    </div>                    <div className="mb-4">
+                      <p className="text-gray-700">{item.feedback || 'No feedback available'}</p>
+                    </div><div className="flex flex-wrap gap-2">
                       <span className="text-sm text-gray-600">Detected keywords:</span>
-                      {item.keywords.map((keyword, idx) => (
+                      {(item.keywords || []).map((keyword, idx) => (
                         <span key={idx} className="bg-blue-100 text-blue-800 px-2 py-1 rounded text-sm">
                           {keyword}
                         </span>

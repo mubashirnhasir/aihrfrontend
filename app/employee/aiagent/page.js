@@ -1,6 +1,6 @@
-'use client';
-import AiChatWrapper from '@/sections/aichatbot/aiChatWrapper';
-import { useState, useEffect } from 'react';
+"use client";
+import AiChatWrapper from "@/sections/aichatbot/aiChatWrapper";
+import { useState, useEffect } from "react";
 
 export default function EmployeeAiAgent() {
   const [isLoading, setIsLoading] = useState(true);

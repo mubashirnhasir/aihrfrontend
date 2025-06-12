@@ -1,8 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    allowedDevOrigins: ["192.168.0.107", "localhost", "127.0.0.1"]
-  }
+  // Configuration options go here
 };
 
 export default nextConfig;

@@ -522,7 +522,9 @@ function PersonalInfoTab({
 
       {/* Contact Information */}
       <div className="space-y-4">
-        <h3 className="text-lg font-medium text-gray-900">Contact Information</h3>
+        <h3 className="text-lg font-medium text-gray-900">
+          Contact Information
+        </h3>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
@@ -1159,8 +1161,7 @@ function BankDetailsTab({
       if (confirmAccountErrors.length > 0)
         newErrors.confirmBankAccountNumber = confirmAccountErrors;
       if (bankCodeErrors.length > 0) newErrors.bankCode = bankCodeErrors;
-      if (nameErrors.length > 0)
-        newErrors.nameAsPerBankAccount = nameErrors;
+      if (nameErrors.length > 0) newErrors.nameAsPerBankAccount = nameErrors;
     }
 
     setErrors(newErrors);
@@ -1280,9 +1281,13 @@ function BankDetailsTab({
                 ? formData.confirmBankAccountNumber
                 : maskSensitiveData(formData.confirmBankAccountNumber)
             }
-            onChange={(e) => handleChange("confirmBankAccountNumber", e.target.value)}
+            onChange={(e) =>
+              handleChange("confirmBankAccountNumber", e.target.value)
+            }
             className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-              errors.confirmBankAccountNumber ? "border-red-500" : "border-gray-300"
+              errors.confirmBankAccountNumber
+                ? "border-red-500"
+                : "border-gray-300"
             }`}
             placeholder="Re-enter bank account number"
           />
@@ -1295,7 +1300,8 @@ function BankDetailsTab({
 
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
-            Bank Code (IFSC/Routing/Sort Code) <span className="text-red-500">*</span>
+            Bank Code (IFSC/Routing/Sort Code){" "}
+            <span className="text-red-500">*</span>
           </label>
           <input
             type="text"
@@ -1318,7 +1324,9 @@ function BankDetailsTab({
           <input
             type="text"
             value={formData.nameAsPerBankAccount}
-            onChange={(e) => handleChange("nameAsPerBankAccount", e.target.value)}
+            onChange={(e) =>
+              handleChange("nameAsPerBankAccount", e.target.value)
+            }
             className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
               errors.nameAsPerBankAccount ? "border-red-500" : "border-gray-300"
             }`}
@@ -1686,9 +1694,13 @@ function AddressTab({
     const newErrors = {};
 
     // Validate required fields
-    const addressErrors = validateField("Present Address", formData.presentAddress, {
-      required: true,
-    });
+    const addressErrors = validateField(
+      "Present Address",
+      formData.presentAddress,
+      {
+        required: true,
+      }
+    );
     const cityErrors = validateField("City", formData.city, {
       required: true,
     });
@@ -1735,8 +1747,9 @@ function AddressTab({
               Address Information
             </h3>
             <p className="mt-1 text-sm text-blue-700">
-              Please provide your current residential address details. This information 
-              is used for official correspondence and verification purposes.
+              Please provide your current residential address details. This
+              information is used for official correspondence and verification
+              purposes.
             </p>
           </div>
         </div>
@@ -1757,7 +1770,9 @@ function AddressTab({
             placeholder="Enter your complete street address"
           />
           {errors.presentAddress && (
-            <p className="mt-1 text-sm text-red-600">{errors.presentAddress[0]}</p>
+            <p className="mt-1 text-sm text-red-600">
+              {errors.presentAddress[0]}
+            </p>
           )}
         </div>
 
@@ -1812,7 +1827,9 @@ function AddressTab({
               placeholder="Enter postal code"
             />
             {errors.postalCode && (
-              <p className="mt-1 text-sm text-red-600">{errors.postalCode[0]}</p>
+              <p className="mt-1 text-sm text-red-600">
+                {errors.postalCode[0]}
+              </p>
             )}
           </div>
 
@@ -1906,7 +1923,7 @@ function PreviousEmploymentTab({
               Previous Employment History
             </h3>
             <p className="mt-1 text-sm text-blue-700">
-              Add details about your previous work experience. This information 
+              Add details about your previous work experience. This information
               helps us understand your professional background and skills.
             </p>
           </div>
@@ -1949,7 +1966,9 @@ function PreviousEmploymentTab({
                   <input
                     type="text"
                     value={employment.companyName}
-                    onChange={(e) => handleChange(index, "companyName", e.target.value)}
+                    onChange={(e) =>
+                      handleChange(index, "companyName", e.target.value)
+                    }
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder="Enter company name"
                   />
@@ -1962,7 +1981,9 @@ function PreviousEmploymentTab({
                   <input
                     type="text"
                     value={employment.designation}
-                    onChange={(e) => handleChange(index, "designation", e.target.value)}
+                    onChange={(e) =>
+                      handleChange(index, "designation", e.target.value)
+                    }
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder="Enter your designation"
                   />
@@ -1975,7 +1996,9 @@ function PreviousEmploymentTab({
                   <input
                     type="date"
                     value={employment.fromDate}
-                    onChange={(e) => handleChange(index, "fromDate", e.target.value)}
+                    onChange={(e) =>
+                      handleChange(index, "fromDate", e.target.value)
+                    }
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
@@ -1987,7 +2010,9 @@ function PreviousEmploymentTab({
                   <input
                     type="date"
                     value={employment.toDate}
-                    onChange={(e) => handleChange(index, "toDate", e.target.value)}
+                    onChange={(e) =>
+                      handleChange(index, "toDate", e.target.value)
+                    }
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
@@ -1998,7 +2023,9 @@ function PreviousEmploymentTab({
                   </label>
                   <textarea
                     value={employment.companyAddress}
-                    onChange={(e) => handleChange(index, "companyAddress", e.target.value)}
+                    onChange={(e) =>
+                      handleChange(index, "companyAddress", e.target.value)
+                    }
                     rows={3}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder="Enter company address"
@@ -2089,7 +2116,7 @@ function FamilyDetailsTab({
               Family Details
             </h3>
             <p className="mt-1 text-sm text-blue-700">
-              Add information about your family members. This information may be 
+              Add information about your family members. This information may be
               used for emergency contacts, insurance, and other benefits.
             </p>
           </div>
@@ -2132,7 +2159,9 @@ function FamilyDetailsTab({
                   <input
                     type="text"
                     value={member.name}
-                    onChange={(e) => handleChange(index, "name", e.target.value)}
+                    onChange={(e) =>
+                      handleChange(index, "name", e.target.value)
+                    }
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder="Enter full name"
                   />
@@ -2144,7 +2173,9 @@ function FamilyDetailsTab({
                   </label>
                   <select
                     value={member.relationship}
-                    onChange={(e) => handleChange(index, "relationship", e.target.value)}
+                    onChange={(e) =>
+                      handleChange(index, "relationship", e.target.value)
+                    }
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                   >
                     <option value="">Select Relationship</option>
@@ -2163,7 +2194,9 @@ function FamilyDetailsTab({
                   </label>
                   <select
                     value={member.gender}
-                    onChange={(e) => handleChange(index, "gender", e.target.value)}
+                    onChange={(e) =>
+                      handleChange(index, "gender", e.target.value)
+                    }
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                   >
                     <option value="">Select Gender</option>
@@ -2179,7 +2212,9 @@ function FamilyDetailsTab({
                   </label>
                   <select
                     value={member.bloodGroup}
-                    onChange={(e) => handleChange(index, "bloodGroup", e.target.value)}
+                    onChange={(e) =>
+                      handleChange(index, "bloodGroup", e.target.value)
+                    }
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                   >
                     <option value="">Select Blood Group</option>
@@ -2201,7 +2236,9 @@ function FamilyDetailsTab({
                   <input
                     type="text"
                     value={member.nationality}
-                    onChange={(e) => handleChange(index, "nationality", e.target.value)}
+                    onChange={(e) =>
+                      handleChange(index, "nationality", e.target.value)
+                    }
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder="Enter nationality"
                   />
@@ -2212,7 +2249,9 @@ function FamilyDetailsTab({
                     <input
                       type="checkbox"
                       checked={member.isMinor}
-                      onChange={(e) => handleChange(index, "isMinor", e.target.checked)}
+                      onChange={(e) =>
+                        handleChange(index, "isMinor", e.target.checked)
+                      }
                       className="mr-2 rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
                     />
                     Is Minor (under 18)
@@ -2282,7 +2321,7 @@ function DocumentsTab({
     const file = e.target.files[0];
     if (!file) return;
 
-    setUploading(prev => ({ ...prev, [documentType]: true }));
+    setUploading((prev) => ({ ...prev, [documentType]: true }));
 
     try {
       // In a real application, you would upload to a server here
@@ -2295,34 +2334,38 @@ function DocumentsTab({
         url: URL.createObjectURL(file), // Temporary URL for preview
       };
 
-      if (documentType === 'profilePicture' || documentType === 'addressProof' || documentType === 'identityProof') {
-        setFormData(prev => ({
+      if (
+        documentType === "profilePicture" ||
+        documentType === "addressProof" ||
+        documentType === "identityProof"
+      ) {
+        setFormData((prev) => ({
           ...prev,
-          [documentType]: fileInfo
+          [documentType]: fileInfo,
         }));
       } else {
-        setFormData(prev => ({
+        setFormData((prev) => ({
           ...prev,
-          [documentType]: [...prev[documentType], fileInfo]
+          [documentType]: [...prev[documentType], fileInfo],
         }));
       }
     } catch (error) {
-      console.error('Upload failed:', error);
+      console.error("Upload failed:", error);
     } finally {
-      setUploading(prev => ({ ...prev, [documentType]: false }));
+      setUploading((prev) => ({ ...prev, [documentType]: false }));
     }
   };
 
   const removeDocument = (documentType, index = null) => {
     if (index !== null) {
-      setFormData(prev => ({
+      setFormData((prev) => ({
         ...prev,
-        [documentType]: prev[documentType].filter((_, i) => i !== index)
+        [documentType]: prev[documentType].filter((_, i) => i !== index),
       }));
     } else {
-      setFormData(prev => ({
+      setFormData((prev) => ({
         ...prev,
-        [documentType]: null
+        [documentType]: null,
       }));
     }
   };
@@ -2332,17 +2375,27 @@ function DocumentsTab({
     onUpdate(formData);
   };
 
-  const DocumentUploadSection = ({ title, documentType, multiple = false, accept = "*/*" }) => {
-    const documents = multiple ? formData[documentType] : [formData[documentType]].filter(Boolean);
-    
+  const DocumentUploadSection = ({
+    title,
+    documentType,
+    multiple = false,
+    accept = "*/*",
+  }) => {
+    const documents = multiple
+      ? formData[documentType]
+      : [formData[documentType]].filter(Boolean);
+
     return (
       <div className="border border-gray-200 rounded-lg p-4">
         <h4 className="text-md font-medium text-gray-900 mb-3">{title}</h4>
-        
+
         {documents.length > 0 && (
           <div className="mb-4 space-y-2">
             {documents.map((doc, index) => (
-              <div key={index} className="flex items-center justify-between bg-gray-50 p-2 rounded">
+              <div
+                key={index}
+                className="flex items-center justify-between bg-gray-50 p-2 rounded"
+              >
                 <div className="flex items-center space-x-2">
                   <span className="text-sm text-gray-600">📄</span>
                   <span className="text-sm text-gray-900">{doc.name}</span>
@@ -2352,7 +2405,9 @@ function DocumentsTab({
                 </div>
                 <button
                   type="button"
-                  onClick={() => removeDocument(documentType, multiple ? index : null)}
+                  onClick={() =>
+                    removeDocument(documentType, multiple ? index : null)
+                  }
                   className="text-red-600 hover:text-red-800 text-sm"
                 >
                   Remove
@@ -2369,13 +2424,26 @@ function DocumentsTab({
                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
               ) : (
                 <>
-                  <svg className="w-8 h-8 mb-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                  <svg
+                    className="w-8 h-8 mb-4 text-gray-500"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                    />
                   </svg>
                   <p className="mb-2 text-sm text-gray-500">
-                    <span className="font-semibold">Click to upload</span> or drag and drop
+                    <span className="font-semibold">Click to upload</span> or
+                    drag and drop
                   </p>
-                  <p className="text-xs text-gray-500">PDF, DOC, DOCX, JPG, PNG (MAX. 10MB)</p>
+                  <p className="text-xs text-gray-500">
+                    PDF, DOC, DOCX, JPG, PNG (MAX. 10MB)
+                  </p>
                 </>
               )}
             </div>
@@ -2405,7 +2473,7 @@ function DocumentsTab({
               Document Management
             </h3>
             <p className="mt-1 text-sm text-blue-700">
-              Upload and manage your important documents. All documents are 
+              Upload and manage your important documents. All documents are
               securely stored and encrypted.
             </p>
           </div>

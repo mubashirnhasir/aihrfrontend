@@ -19,12 +19,15 @@ export default function OnboardingSuccess({ employeeName = "Waqas" }) {
               <div className="relative">
                 {/* Confetti/Celebration Icon */}
                 <div className="text-4xl animate-bounce">🎉</div>
-                <div className="absolute -top-2 -right-2 text-yellow-400 animate-pulse">✨</div>
-                <div className="absolute -bottom-1 -left-2 text-blue-400 animate-pulse">🎊</div>
+                <div className="absolute -top-2 -right-2 text-yellow-400 animate-pulse">
+                  ✨
+                </div>
+                <div className="absolute -bottom-1 -left-2 text-blue-400 animate-pulse">
+                  🎊
+                </div>
               </div>
             </div>
           </div>
-
           {/* Welcome Message */}
           <div className="mb-6">
             <h1 className="text-2xl font-bold text-gray-900 mb-2">
@@ -34,16 +37,18 @@ export default function OnboardingSuccess({ employeeName = "Waqas" }) {
               Yayy!! You have onboarded Successfully {employeeName}!
             </h2>
           </div>
-
           {/* Success Details */}
           <div className="mb-8">
             <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-4">
               <div className="flex items-center justify-center space-x-2">
                 <span className="text-green-600 text-lg">✅</span>
-                <span className="text-green-800 font-medium">Onboarding Complete!</span>
+                <span className="text-green-800 font-medium">
+                  Onboarding Complete!
+                </span>
               </div>
               <p className="text-green-700 text-sm mt-2">
-                Your profile has been successfully created and all information has been saved.
+                Your profile has been successfully created and all information
+                has been saved.
               </p>
             </div>
 
@@ -53,7 +58,6 @@ export default function OnboardingSuccess({ employeeName = "Waqas" }) {
               <p>🔔 You'll receive important notifications and updates</p>
             </div>
           </div>
-
           {/* Action Button */}
           <button
             onClick={handleExploreDashboard}
@@ -62,8 +66,8 @@ export default function OnboardingSuccess({ employeeName = "Waqas" }) {
             <span>Explore Dashboard</span>
             <span className="text-lg">→</span>
           </button>
-
-          {/* Footer */}          <div className="mt-6 pt-4 border-t border-gray-100">
+          {/* Footer */}{" "}
+          <div className="mt-6 pt-4 border-t border-gray-100">
             <div className="flex items-center justify-center space-x-2 text-gray-500">
               <ProductLogo />
               <span className="text-sm font-medium">SynaptHR</span>
