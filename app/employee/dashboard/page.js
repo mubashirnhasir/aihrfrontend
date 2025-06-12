@@ -2,6 +2,8 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import EmployeeDashboardWrapper from "@/sections/employee/dashboard/EmployeeDashboardWrapper";
+import PageLoader from '@/components/PageLoader'
+import { pageLoadingMessages } from '@/hooks/usePageLoading'
 
 export default function EmployeeDashboard() {
   const [dashboardData, setDashboardData] = useState(null);
@@ -45,12 +47,12 @@ export default function EmployeeDashboard() {
       setLoading(false);
     }
   };
-
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-lg">Loading dashboard...</div>
-      </div>
+      <PageLoader 
+        message={pageLoadingMessages.employeeDashboard.message}
+        subMessage={pageLoadingMessages.employeeDashboard.subMessage}
+      />
     );
   }
 

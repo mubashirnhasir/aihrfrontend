@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import PageLoader from '@/components/PageLoader'
+import { pageLoadingMessages } from '@/hooks/usePageLoading'
 
 export default function EmployeeProfilePage() {
   const router = useRouter();
@@ -139,15 +141,12 @@ export default function EmployeeProfilePage() {
     { id: "emergency", label: "Emergency Contact", icon: "🆘" },
     { id: "preferences", label: "Preferences", icon: "⚙️" },
   ];
-
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading profile...</p>
-        </div>
-      </div>
+      <PageLoader 
+        message={pageLoadingMessages.employeeProfile.message}
+        subMessage={pageLoadingMessages.employeeProfile.subMessage}
+      />
     );
   }
 

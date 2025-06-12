@@ -5,24 +5,25 @@
 "use client";
 import { useState, useEffect } from "react";
 import ScreeningInterviewWrapper from "../../sections/ai-screening/screeningInterviewWrapper";
+import PageLoader from '@/components/PageLoader'
+import { pageLoadingMessages } from '@/hooks/usePageLoading'
 
 export default function AIScreeningPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Simulate initial loading
+    // Simulate loading AI screening tools
     setTimeout(() => {
       setIsLoading(false);
-    }, 1000);
+    }, 1800);
   }, []);
-
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-        <div className="ml-4 text-lg text-gray-600">Loading AI Screening Interview...</div>
-      </div>
+      <PageLoader 
+        message={pageLoadingMessages.aiScreening.message}
+        subMessage={pageLoadingMessages.aiScreening.subMessage}
+      />
     );
   }
 

@@ -4,20 +4,39 @@
  */
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import JobCreatorForm from "../../sections/ai-job-creator/jobCreatorForm";
 import JobDescriptionOutput from "../../sections/ai-job-creator/jobDescriptionOutput";
 import SharePanel from "../../sections/ai-job-creator/sharePanel";
 import EmailGeneratorForm from "../../sections/ai-job-creator/emailGeneratorForm";
 import EmailOutput from "../../sections/ai-job-creator/emailOutput";
 import ScreeningInterviewWrapper from "../../sections/ai-screening/screeningInterviewWrapper";
+import PageLoader from '@/components/PageLoader'
+import { pageLoadingMessages } from '@/hooks/usePageLoading'
 
 export default function AIJobCreatorPage() {
+  const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("ai-screening");
   const [jobDescription, setJobDescription] = useState(null);
   const [generatedEmail, setGeneratedEmail] = useState(null);
   const [isGenerating, setIsGenerating] = useState(false);
   const [isGeneratingEmail, setIsGeneratingEmail] = useState(false);
+
+  useEffect(() => {
+    // Simulate loading AI job creator tools
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1900);
+  }, []);
+
+  if (isLoading) {
+    return (
+      <PageLoader 
+        message={pageLoadingMessages.aiJobCreator.message}
+        subMessage={pageLoadingMessages.aiJobCreator.subMessage}
+      />
+    );
+  }
   const [formData, setFormData] = useState(null);
   const [error, setError] = useState(null);
 

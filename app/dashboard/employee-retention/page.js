@@ -5,22 +5,26 @@
 "use client";
 import { useState, useEffect } from "react";
 import RetentionDashboardWrapper from "../../../sections/employee-retention/retentionDashboardWrapper";
+import PageLoader from '@/components/PageLoader'
+import { pageLoadingMessages } from '@/hooks/usePageLoading'
+
 export default function EmployeeRetentionPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Simulate initial loading
+    // Simulate loading retention analytics data
     setTimeout(() => {
       setIsLoading(false);
-    }, 1000);
+    }, 2000); // Longer loading time for analytics
   }, []);
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center h-screen">
-        <div className="text-lg">Loading Employee Retention Analytics...</div>
-      </div>
+      <PageLoader 
+        message={pageLoadingMessages.retention.message}
+        subMessage={pageLoadingMessages.retention.subMessage}
+      />
     );
   }
 
