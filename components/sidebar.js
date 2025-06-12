@@ -8,6 +8,7 @@ import Assets from "../public/icons/assets";
 import Arrow from "../public/icons/arrowleft";
 import Logobtn from "@/public/icons/logobtn";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import ProductLogo from "@/public/icons/productLogo";
 import {
   BrainCircuit,
@@ -24,6 +25,7 @@ import {
 const Sidebar = () => {
   const [side, setSide] = useState(false);
   const [tab1, setTab1] = useState(0);
+  const router = useRouter();
 
   // Load tab index from localStorage on mount
   useEffect(() => {
@@ -33,9 +35,10 @@ const Sidebar = () => {
     }
   }, []);
 
-  const handleTab = (e) => {
+  const handleTab = (e, route) => {
     setTab1(e);
     localStorage.setItem("sidebarTab", e); // Save tab index to localStorage
+    router.push(route); // Navigate to the route
   };
 
   const handleSidebar = () => {
@@ -54,123 +57,105 @@ const Sidebar = () => {
             <ProductLogo />{" "}
           </div>
           <div>Synapt HR</div>{" "}
-        </div>
-        <div className="tabs flex flex-col gap-2">
+        </div>        <div className="tabs flex flex-col gap-2">
           <div
-            onClick={() => handleTab(0)}
+            onClick={() => handleTab(0, "/dashboard")}
             className={`px-2 py-2 flex gap-2 cursor-pointer items-center justify-start rounded-lg ${
               tab1 === 0 ? "btnPrimary text-white" : "bg-white text-gray-500"
             }`}
           >
             <div className="flex gap-2 items-center justify-center ">
-              <Link className="flex gap-2" href={"/dashboard"}>
-                <div>
-                  {/* <Dashboard color={`${tab1 === 0 ? "white" : "black"}`} /> */}
-                  <LayoutDashboard />
-                </div>
-                {!side && <div className="text-lg font-medium">Dashboard</div>}
-              </Link>
+              <div>
+                {/* <Dashboard color={`${tab1 === 0 ? "white" : "black"}`} /> */}
+                <LayoutDashboard />
+              </div>
+              {!side && <div className="text-lg font-medium">Dashboard</div>}
             </div>
           </div>
           <div
-            onClick={() => handleTab(1)}
+            onClick={() => handleTab(1, "/dashboard/attendance")}
             className={`px-2 py-2 rounded-lg flex gap-2 cursor-pointer items-center justify-start ${
               tab1 === 1 ? "btnPrimary text-white" : "bg-white text-gray-500"
             }`}
           >
             <div className="flex gap-2 items-center justify-center ">
-              <Link className="flex gap-2" href={"/dashboard/attendance"}>
-                <div>
-                  {/* <User color={`${tab1 === 1 ? "white" : "black"}`} /> */}
-                  <FileUser />
-                </div>
-                {!side && <div className="text-lg font-medium">Attendance</div>}
-              </Link>
+              <div>
+                {/* <User color={`${tab1 === 1 ? "white" : "black"}`} /> */}
+                <FileUser />
+              </div>
+              {!side && <div className="text-lg font-medium">Attendance</div>}
             </div>
           </div>
           <div
-            onClick={() => handleTab(2)}
+            onClick={() => handleTab(2, "/dashboard/leaves")}
             className={`px-2 py-2  rounded-lg flex gap-2 cursor-pointer items-center justify-start ${
               tab1 === 2 ? "btnPrimary text-white" : "bg-white text-gray-500"
             }`}
           >
             <div className="flex gap-2 items-center justify-center ">
-              <Link className="flex gap-2" href={"/dashboard/leaves"}>
-                <div>
-                  {/* <Folder color={`${tab1 === 2 ? "white" : "black"}`} /> */}
-                  <TentTree />
-                </div>
-                {!side && <div className="text-lg font-medium">Leaves</div>}
-              </Link>
+              <div>
+                {/* <Folder color={`${tab1 === 2 ? "white" : "black"}`} /> */}
+                <TentTree />
+              </div>
+              {!side && <div className="text-lg font-medium">Leaves</div>}
             </div>
           </div>
           <div
-            onClick={() => handleTab(3)}
+            onClick={() => handleTab(3, "/dashboard/documents")}
             className={`px-2 py-2 flex gap-2 cursor-pointer items-center justify-start rounded-lg ${
               tab1 === 3 ? "btnPrimary text-white" : "bg-white text-gray-500"
             }`}
           >
             <div className="flex gap-2 items-center justify-center ">
-              <Link className="flex gap-2" href={"/dashboard/documents"}>
-                <div>
-                  {/* <Calendar color={`${tab1 === 3 ? "white" : "black"}`} /> */}
-                  <FileText />
-                </div>
-                {!side && <div className="text-lg font-medium">Documents</div>}
-              </Link>
+              <div>
+                {/* <Calendar color={`${tab1 === 3 ? "white" : "black"}`} /> */}
+                <FileText />
+              </div>
+              {!side && <div className="text-lg font-medium">Documents</div>}
             </div>
           </div>
           <div
-            onClick={() => handleTab(4)}
+            onClick={() => handleTab(4, "/dashboard/assets")}
             className={`px-2 py-2 flex gap-2 cursor-pointer items-center justify-start rounded-lg ${
               tab1 === 4 ? "btnPrimary text-white" : "bg-white text-gray-500"
             }`}
           >
             <div className="flex gap-2 items-center justify-center ">
-              <Link className="flex gap-2" href={"/dashboard/assets"}>
-                <div>
-                  {/* <Assets color={`${tab1 === 4 ? "white" : "black"}`} /> */}
-                  <MonitorSmartphone />
-                </div>
-                {!side && <div className="text-lg font-medium">Assets</div>}
-              </Link>
+              <div>
+                {/* <Assets color={`${tab1 === 4 ? "white" : "black"}`} /> */}
+                <MonitorSmartphone />
+              </div>
+              {!side && <div className="text-lg font-medium">Assets</div>}
             </div>
           </div>
           <div
-            onClick={() => handleTab(5)}
+            onClick={() => handleTab(5, "/dashboard/employee-retention")}
             className={`px-2 py-2 flex gap-2 cursor-pointer items-center justify-start rounded-lg ${
               tab1 === 5 ? "btnPrimary text-white" : "bg-white text-gray-500"
             }`}
           >
             <div className="flex gap-2 items-center justify-center ">
-              <Link
-                className="flex gap-2"
-                href={"/dashboard/employee-retention"}
-              >
-                <div>
-                  <PlaneLanding />
-                </div>
-                {!side && (
-                  <div className="text-lg font-medium">AI Retention</div>
-                )}
-              </Link>
+              <div>
+                <PlaneLanding />
+              </div>
+              {!side && (
+                <div className="text-lg font-medium">AI Retention</div>
+              )}
             </div>
           </div>
           <div
-            onClick={() => handleTab(6)}
+            onClick={() => handleTab(6, "/dashboard/aiagent")}
             className={`px-2 py-2 flex gap-2 cursor-pointer items-center justify-start rounded-lg ${
               tab1 === 6 ? "btnPrimary text-white" : "bg-white text-gray-500"
             }`}
           >
             <div className="flex gap-2 items-center justify-center ">
-              <Link className="flex gap-2" href={"/dashboard/aiagent"}>
-                <div>
-                  <BrainCircuit />
-                </div>
-                {!side && (
-                  <div className="text-lg font-medium">AI Chatbot </div>
-                )}
-              </Link>
+              <div>
+                <BrainCircuit />
+              </div>
+              {!side && (
+                <div className="text-lg font-medium">AI Chatbot </div>
+              )}
             </div>
           </div>
         </div>
