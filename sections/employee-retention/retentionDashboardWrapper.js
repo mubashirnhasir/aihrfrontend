@@ -10,7 +10,7 @@ import EmployeeRiskTable from "./employeeRiskTable";
 import RetentionCharts from "./retentionCharts";
 import DepartmentAnalytics from "./departmentAnalytics";
 import ActionRecommendations from "./actionRecommendations";
-import { RefreshCcwIcon, RefreshCwOffIcon } from 'lucide-react';
+import { RefreshCcwIcon, RefreshCwOffIcon } from "lucide-react";
 
 export default function RetentionDashboardWrapper() {
   const [activeTab, setActiveTab] = useState("overview");
@@ -34,13 +34,18 @@ export default function RetentionDashboardWrapper() {
       setError(null);
 
       // Fetch predictions, analytics, and total employees in parallel
-      const [predictionsResponse, analyticsResponse, employeesResponse] = await Promise.all([
-        fetch("/api/employee-retention/predict"),
-        fetch("/api/employee-retention/analytics"),
-        fetch("/api/employees"),
-      ]);
+      const [predictionsResponse, analyticsResponse, employeesResponse] =
+        await Promise.all([
+          fetch("/api/employee-retention/predict"),
+          fetch("/api/employee-retention/analytics"),
+          fetch("/api/employees"),
+        ]);
 
-      if (!predictionsResponse.ok || !analyticsResponse.ok || !employeesResponse.ok) {
+      if (
+        !predictionsResponse.ok ||
+        !analyticsResponse.ok ||
+        !employeesResponse.ok
+      ) {
         throw new Error("Failed to fetch dashboard data");
       }
 
@@ -54,7 +59,7 @@ export default function RetentionDashboardWrapper() {
 
       setPredictions(predictionsData.data);
       setAnalytics(analyticsData.data);
-      
+
       // Set total employees from database
       if (Array.isArray(employeesData)) {
         setTotalEmployees(employeesData.length);
@@ -144,7 +149,9 @@ export default function RetentionDashboardWrapper() {
                 onClick={handleRefresh}
                 className="bg-blue-600 cursor-pointer text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors flex items-center space-x-2"
               >
-                <span><RefreshCcwIcon/></span>
+                <span>
+                  <RefreshCcwIcon />
+                </span>
                 <span>Refresh</span>
               </button>
             </div>
@@ -175,9 +182,9 @@ export default function RetentionDashboardWrapper() {
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-6 py-6">
         {activeTab === "overview" && (
-          <RetentionOverview 
-            predictions={predictions} 
-            analytics={analytics} 
+          <RetentionOverview
+            predictions={predictions}
+            analytics={analytics}
             totalEmployeesFromDB={totalEmployees}
           />
         )}

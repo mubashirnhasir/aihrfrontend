@@ -151,7 +151,9 @@ export default function RetentionOverview({
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
           <h3 className="text-2xl font-semibold mb-4 flex items-center">
-            <span className="mr-2"><TriangleAlert/></span>
+            <span className="mr-2">
+              <TriangleAlert />
+            </span>
             Risk Distribution
           </h3>
 
@@ -209,7 +211,9 @@ export default function RetentionOverview({
         {/* Quick Stats */}
         <div className="bg-white rounded-lg shadow-sm p-6">
           <h3 className="text-2xl font-semibold  mb-4 flex items-center">
-            <div className="px-2"><ChartBar/></div>
+            <div className="px-2">
+              <ChartBar />
+            </div>
             Quick Statistics
           </h3>
 
@@ -266,7 +270,9 @@ export default function RetentionOverview({
       {/* Recent Trends */}
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
         <h3 className="text-2xl font-semibold mb-4 flex items-center">
-          <span className="mr-2"><ArrowUpNarrowWide/></span>
+          <span className="mr-2">
+            <ArrowUpNarrowWide />
+          </span>
           Retention Trends (Last 6 Months)
         </h3>
 

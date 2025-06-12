@@ -35,7 +35,7 @@ export async function GET(request) {
       return Response.json({
         success: true,
         count: Array.isArray(employees) ? employees.length : 0,
-        source: "employees_list"
+        source: "employees_list",
       });
     }
 
@@ -43,9 +43,8 @@ export async function GET(request) {
     return Response.json({
       success: true,
       count: countData.count || 0,
-      source: "count_endpoint"
+      source: "count_endpoint",
     });
-
   } catch (error) {
     console.error("Employee count API error:", error);
     return Response.json(
