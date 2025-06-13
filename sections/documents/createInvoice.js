@@ -2,19 +2,23 @@
 import React, { useState } from "react";
 import InvoiceHeader from "./InvoiceHeader";
 import { jsPDF } from "jspdf";
+import { useRouter } from "next/navigation";
 
 export default function InvoiceCreatePage() {
+  const router = useRouter();
   const [form, setForm] = useState({
     inoviceNumber: "",
     clientName: "",
     clientEmail: "",
     invoiceDate: "",
     dueDate: "",
-    qty: 0,
+    qty: 1,
     currency: "USD",
     amount: 0,
     notes: "",
   });
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -30,60 +34,122 @@ export default function InvoiceCreatePage() {
     }).format(num);
   };
 
+  const generateAndSavePDF = async () => {
+    if (!form.inoviceNumber || !form.clientName || !form.clientEmail || !form.invoiceDate || !form.dueDate) {
+      alert('Please fill in all required fields');
+      return;
+    }
 
-  const generatePDF = () => {
-    const doc = new jsPDF();
-  
-    // Set font size for title
-    doc.setFontSize(18);
-    doc.text("Invoice", 20, 30);
-  
-    // Invoice Details
-    doc.setFontSize(12);
-    doc.text(`Invoice No: #${form.inoviceNumber}`, 20, 40);
-    doc.text(`Date: ${form.invoiceDate}`, 20, 50);
-    doc.text(`Due Date: ${form.dueDate}`, 20, 60);
-    doc.text(`Client: ${form.clientName}`, 20, 70);
-    doc.text(`Email: ${form.clientEmail}`, 20, 80);
-  
-    // Draw line
-    doc.setLineWidth(0.5);
-    doc.line(20, 85, 190, 85);
-  
-    // Product Table
-    doc.setFontSize(12);
-    const startX = 20;
-    let startY = 100;
-  
-    // Header for the table
-    doc.text("Description", startX, startY);
-    doc.text("Qty", startX + 100, startY);
-    doc.text("Amount", startX + 140, startY);
-  
-    startY += 10; // Move to the next row
-  
-    // Table Data
-    doc.text(form.notes || "Item", startX, startY);
-    doc.text(form.qty.toString(), startX + 100, startY);
-    doc.text(formatCurrency(form.amount), startX + 140, startY);
-  
-    // Line after table
-    startY += 10;
-    doc.line(20, startY, 190, startY);
-  
-    // Sub Total and Total
-    const subTotal = form.qty * form.amount;
-  
-    startY += 20;
-    doc.text("Sub Total", startX + 100, startY);
-    doc.text(formatCurrency(subTotal), startX + 140, startY);
-  
-    startY += 10;
-    doc.text("Total", startX + 100, startY);
-    doc.text(formatCurrency(subTotal), startX + 140, startY);
-  
-    // Save the PDF
-    doc.save("invoice.pdf");
+    setIsLoading(true);
+
+    try {
+      const doc = new jsPDF();
+    
+      // Set font size for title
+      doc.setFontSize(18);
+      doc.text("Invoice", 20, 30);
+    
+      // Invoice Details
+      doc.setFontSize(12);
+      doc.text(`Invoice No: #${form.inoviceNumber}`, 20, 40);
+      doc.text(`Date: ${form.invoiceDate}`, 20, 50);
+      doc.text(`Due Date: ${form.dueDate}`, 20, 60);
+      doc.text(`Client: ${form.clientName}`, 20, 70);
+      doc.text(`Email: ${form.clientEmail}`, 20, 80);
+    
+      // Draw line
+      doc.setLineWidth(0.5);
+      doc.line(20, 85, 190, 85);
+    
+      // Product Table
+      doc.setFontSize(12);
+      const startX = 20;
+      let startY = 100;
+    
+      // Header for the table
+      doc.text("Description", startX, startY);
+      doc.text("Qty", startX + 100, startY);
+      doc.text("Amount", startX + 140, startY);
+    
+      startY += 10; // Move to the next row
+    
+      // Table Data
+      doc.text(form.notes || "Item", startX, startY);
+      doc.text(form.qty.toString(), startX + 100, startY);
+      doc.text(formatCurrency(form.amount), startX + 140, startY);
+    
+      // Line after table
+      startY += 10;
+      doc.line(20, startY, 190, startY);
+    
+      // Sub Total and Total
+      const subTotal = form.qty * form.amount;
+    
+      startY += 20;
+      doc.text("Sub Total", startX + 100, startY);
+      doc.text(formatCurrency(subTotal), startX + 140, startY);
+    
+      startY += 10;
+      doc.text("Total", startX + 100, startY);
+      doc.text(formatCurrency(subTotal), startX + 140, startY);
+
+      // Get PDF as base64 string
+      const pdfData = doc.output('datauristring').split(',')[1]; // Remove data:application/pdf;base64, prefix
+
+      // Prepare invoice data for API
+      const invoiceData = {
+        invoiceNumber: form.inoviceNumber,
+        clientName: form.clientName,
+        clientEmail: form.clientEmail,
+        invoiceDate: form.invoiceDate,
+        dueDate: form.dueDate,
+        items: [{
+          description: form.notes || "Item",
+          quantity: form.qty,
+          amount: form.amount
+        }],
+        currency: form.currency,
+        notes: form.notes,
+        pdfData: pdfData
+      };
+
+      // Save to database
+      const response = await fetch('/api/invoices', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(invoiceData)
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        alert('Invoice created and saved successfully!');
+        // Reset form
+        setForm({
+          inoviceNumber: "",
+          clientName: "",
+          clientEmail: "",
+          invoiceDate: "",
+          dueDate: "",
+          qty: 1,
+          currency: "USD",
+          amount: 0,
+          notes: "",
+        });
+        // Redirect to invoices list
+        router.push('/dashboard/documents');
+      } else {
+        throw new Error(result.message || 'Failed to create invoice');
+      }
+
+    } catch (error) {
+      console.error('Error creating invoice:', error);
+      alert('Error creating invoice: ' + error.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
   
 
@@ -210,14 +276,17 @@ export default function InvoiceCreatePage() {
                 className="mt-1 block w-full border border-gray-300 rounded-md p-2 h-full"
               />
             </div>
-          </div>
-
-          <button
-            onClick={generatePDF}
+          </div>          <button
+            onClick={generateAndSavePDF}
             type="button"
-            className="mt-10 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 self-start cursor-pointer"
+            disabled={isLoading}
+            className={`mt-10 px-4 py-2 rounded-lg self-start cursor-pointer ${
+              isLoading 
+                ? 'bg-gray-400 text-gray-200 cursor-not-allowed' 
+                : 'bg-blue-600 text-white hover:bg-blue-700'
+            }`}
           >
-            Create Invoice
+            {isLoading ? 'Creating Invoice...' : 'Create Invoice'}
           </button>
         </section>
 
