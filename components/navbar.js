@@ -7,9 +7,14 @@ import { useAuth } from "@/contexts/AuthContext";
 import { LogOut, User } from "lucide-react";
 
 const Navbar = () => {
-  const { user, logout } = useAuth();
+  const { user, logout, isAuthenticated } = useAuth();
   const [showDropdown, setShowDropdown] = useState(false);
   const dropdownRef = useRef(null);
+
+  // Don't render if not authenticated
+  if (!isAuthenticated()) {
+    return null;
+  }
 
   // Close dropdown when clicking outside
   useEffect(() => {

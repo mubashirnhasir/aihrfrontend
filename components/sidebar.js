@@ -10,6 +10,7 @@ import Logobtn from "@/public/icons/logobtn";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import ProductLogo from "@/public/icons/productLogo";
+import { useAuth } from "@/contexts/AuthContext";
 import {
   BrainCircuit,
   CopySlash,
@@ -26,6 +27,12 @@ const Sidebar = () => {
   const [side, setSide] = useState(false);
   const [tab1, setTab1] = useState(0);
   const router = useRouter();
+  const { isAuthenticated } = useAuth();
+
+  // Don't render if not authenticated
+  if (!isAuthenticated()) {
+    return null;
+  }
 
   // Load tab index from localStorage on mount
   useEffect(() => {

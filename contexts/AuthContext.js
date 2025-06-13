@@ -16,11 +16,12 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
-  useEffect(() => {
-    // Check if user is logged in on app start
+  useEffect(() => {    // Check if user is logged in on app start
     const checkAuth = () => {
       const token = localStorage.getItem('auth_token');
       const userData = localStorage.getItem('user_data');
+      const employeeToken = localStorage.getItem('employeeToken');
+      const employeeData = localStorage.getItem('employeeData');
       
       if (token && userData) {
         try {
@@ -30,6 +31,21 @@ export const AuthProvider = ({ children }) => {
           console.error('Error parsing user data:', error);
           localStorage.removeItem('auth_token');
           localStorage.removeItem('user_data');
+        }
+      } else if (employeeToken && employeeData) {
+        try {
+          const parsedEmployee = JSON.parse(employeeData);
+          setUser({
+            email: parsedEmployee.email,
+            username: parsedEmployee.name || parsedEmployee.employeeId,
+            role: 'employee',
+            id: parsedEmployee._id || parsedEmployee.employeeId,
+            ...parsedEmployee
+          });
+        } catch (error) {
+          console.error('Error parsing employee data:', error);
+          localStorage.removeItem('employeeToken');
+          localStorage.removeItem('employeeData');
         }
       }
       setLoading(false);
@@ -58,11 +74,14 @@ export const AuthProvider = ({ children }) => {
         // Store in localStorage
         localStorage.setItem('auth_token', token);
         localStorage.setItem('user_data', JSON.stringify(userData));
+          setUser(userData);
         
-        setUser(userData);
-        
-        // Redirect to dashboard
-        router.push('/dashboard');
+        // Redirect based on role
+        if (userData.role === 'admin') {
+          router.push('/dashboard');
+        } else {
+          router.push('/employee/dashboard');
+        }
         
         return { success: true, user: userData };
       } else {
@@ -73,12 +92,13 @@ export const AuthProvider = ({ children }) => {
       return { success: false, error: 'Login failed. Please try again.' };
     }
   };
-
   const logout = () => {
     localStorage.removeItem('auth_token');
     localStorage.removeItem('user_data');
+    localStorage.removeItem('employeeToken');
+    localStorage.removeItem('employeeData');
     setUser(null);
-    router.push('/signin');
+    router.push('/employee/auth/signin');
   };
 
   const isAuthenticated = () => {

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Dashboard from "../../public/icons/dashboard";
 import User from "../../public/icons/user";
 import Folder from "../../public/icons/folder";
@@ -14,6 +14,18 @@ import { BrainCircuit } from "lucide-react";
 const EmployeeSidebar = () => {
   const [side, setSide] = useState(false);
   const [tab1, setTab1] = useState(0);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem('employeeToken');
+    const userData = localStorage.getItem('employeeData');
+    setIsAuthenticated(token && userData);
+  }, []);
+
+  // Don't render if not authenticated
+  if (!isAuthenticated) {
+    return null;
+  }
 
   const handleTab = (e) => {
     setTab1(e);

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Notification from "../../public/icons/notification";
 import Settings from "../../public/icons/settings";
 import Search from "../../public/icons/search";
@@ -7,11 +7,27 @@ import { useRouter } from "next/navigation";
 
 const EmployeeNavbar = () => {
   const [searchTerm, setSearchTerm] = useState("");
+  const [employee, setEmployee] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const router = useRouter();
 
+  useEffect(() => {
+    const token = localStorage.getItem('employeeToken');
+    const userData = localStorage.getItem('employeeData');
+    if (token && userData) {
+      setEmployee(JSON.parse(userData));
+      setIsAuthenticated(true);
+    }
+  }, []);
+
+  // Don't render if not authenticated
+  if (!isAuthenticated) {
+    return null;
+  }
+
   const handleLogout = () => {
-    // Clear any stored auth tokens
     localStorage.removeItem("employeeToken");
+    localStorage.removeItem("employeeData");
     router.push("/employee/auth/signin");
   };
 
@@ -45,9 +61,8 @@ const EmployeeNavbar = () => {
           src="/images/profile.png"
           alt="Profile"
           className="h-8 w-8 rounded object-cover"
-        />
-        <div className="flex flex-col px-2">
-          <div className="text-sm font-medium">Employee</div>
+        />        <div className="flex flex-col px-2">
+          <div className="text-sm font-medium">{employee?.firstName || 'Employee'}</div>
           <button 
             onClick={handleLogout}
             className="text-xs text-gray-500 hover:text-red-500 cursor-pointer"

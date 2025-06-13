@@ -1,6 +1,22 @@
+"use client";
 import Navbar from "@/components/navbar";
 import Sidebar from "@/components/sidebar";
+import { useAuth } from "@/contexts/AuthContext";
+import LoadingPage from "@/components/LoadingPage";
+
 export default function RootLayout({ children }) {
+  const { isAuthenticated, loading } = useAuth();
+
+  // Show loading while checking authentication
+  if (loading) {
+    return <LoadingPage />;
+  }
+
+  // Don't render anything if not authenticated
+  if (!isAuthenticated()) {
+    return null;
+  }
+
   return (
     <>
       <div className="relative z-0 hidden w-full font-inter lg:flex">
