@@ -69,16 +69,8 @@ export const AuthProvider = ({ children }) => {
           id: "1",
         };
 
-        // Generate a simple token (in production, this should come from backend)
-        const token = btoa(
-          JSON.stringify({
-            userId: userData.id,
-            timestamp: Date.now(),
-          })
-        );
-
         // Store in localStorage
-        localStorage.setItem("auth_token", token);
+        localStorage.setItem("auth_token", "admin-token-placeholder"); // Using placeholder token
         localStorage.setItem("user_data", JSON.stringify(userData));
         setUser(userData);
 
