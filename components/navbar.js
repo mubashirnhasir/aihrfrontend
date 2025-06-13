@@ -24,9 +24,9 @@ const Navbar = () => {
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
@@ -55,9 +55,9 @@ const Navbar = () => {
       <div className=" h-fit p-3 flex items-center justify-center w-fit rounded-lg">
         <Settings />
       </div>
-        {/* User Profile Dropdown */}
+      {/* User Profile Dropdown */}
       <div className="relative" ref={dropdownRef}>
-        <div 
+        <div
           className="h-fit flex p-1 border border-main items-center justify-center w-fit rounded-lg cursor-pointer hover:bg-gray-50"
           onClick={() => setShowDropdown(!showDropdown)}
         >
@@ -67,13 +67,17 @@ const Navbar = () => {
             className="object-cover rounded-lg w-10 h-10"
           />
         </div>
-        
+
         {/* Dropdown Menu */}
         {showDropdown && (
           <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
             <div className="px-4 py-3 border-b border-gray-100">
-              <div className="text-sm font-medium text-gray-900">{user?.username || 'Admin User'}</div>
-              <div className="text-sm text-gray-500">{user?.email || 'admin@synapthr.com'}</div>
+              <div className="text-sm font-medium text-gray-900">
+                {user?.username || "Admin User"}
+              </div>
+              <div className="text-sm text-gray-500">
+                {user?.email || "admin@synapthr.com"}
+              </div>
             </div>
             <div className="py-1">
               <button

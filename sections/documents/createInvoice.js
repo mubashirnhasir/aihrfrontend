@@ -35,8 +35,14 @@ export default function InvoiceCreatePage() {
   };
 
   const generateAndSavePDF = async () => {
-    if (!form.inoviceNumber || !form.clientName || !form.clientEmail || !form.invoiceDate || !form.dueDate) {
-      alert('Please fill in all required fields');
+    if (
+      !form.inoviceNumber ||
+      !form.clientName ||
+      !form.clientEmail ||
+      !form.invoiceDate ||
+      !form.dueDate
+    ) {
+      alert("Please fill in all required fields");
       return;
     }
 
@@ -44,11 +50,11 @@ export default function InvoiceCreatePage() {
 
     try {
       const doc = new jsPDF();
-    
+
       // Set font size for title
       doc.setFontSize(18);
       doc.text("Invoice", 20, 30);
-    
+
       // Invoice Details
       doc.setFontSize(12);
       doc.text(`Invoice No: #${form.inoviceNumber}`, 20, 40);
@@ -56,45 +62,45 @@ export default function InvoiceCreatePage() {
       doc.text(`Due Date: ${form.dueDate}`, 20, 60);
       doc.text(`Client: ${form.clientName}`, 20, 70);
       doc.text(`Email: ${form.clientEmail}`, 20, 80);
-    
+
       // Draw line
       doc.setLineWidth(0.5);
       doc.line(20, 85, 190, 85);
-    
+
       // Product Table
       doc.setFontSize(12);
       const startX = 20;
       let startY = 100;
-    
+
       // Header for the table
       doc.text("Description", startX, startY);
       doc.text("Qty", startX + 100, startY);
       doc.text("Amount", startX + 140, startY);
-    
+
       startY += 10; // Move to the next row
-    
+
       // Table Data
       doc.text(form.notes || "Item", startX, startY);
       doc.text(form.qty.toString(), startX + 100, startY);
       doc.text(formatCurrency(form.amount), startX + 140, startY);
-    
+
       // Line after table
       startY += 10;
       doc.line(20, startY, 190, startY);
-    
+
       // Sub Total and Total
       const subTotal = form.qty * form.amount;
-    
+
       startY += 20;
       doc.text("Sub Total", startX + 100, startY);
       doc.text(formatCurrency(subTotal), startX + 140, startY);
-    
+
       startY += 10;
       doc.text("Total", startX + 100, startY);
       doc.text(formatCurrency(subTotal), startX + 140, startY);
 
       // Get PDF as base64 string
-      const pdfData = doc.output('datauristring').split(',')[1]; // Remove data:application/pdf;base64, prefix
+      const pdfData = doc.output("datauristring").split(",")[1]; // Remove data:application/pdf;base64, prefix
 
       // Prepare invoice data for API
       const invoiceData = {
@@ -103,29 +109,31 @@ export default function InvoiceCreatePage() {
         clientEmail: form.clientEmail,
         invoiceDate: form.invoiceDate,
         dueDate: form.dueDate,
-        items: [{
-          description: form.notes || "Item",
-          quantity: form.qty,
-          amount: form.amount
-        }],
+        items: [
+          {
+            description: form.notes || "Item",
+            quantity: form.qty,
+            amount: form.amount,
+          },
+        ],
         currency: form.currency,
         notes: form.notes,
-        pdfData: pdfData
+        pdfData: pdfData,
       };
 
       // Save to database
-      const response = await fetch('/api/invoices', {
-        method: 'POST',
+      const response = await fetch("/api/invoices", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(invoiceData)
+        body: JSON.stringify(invoiceData),
       });
 
       const result = await response.json();
 
       if (result.success) {
-        alert('Invoice created and saved successfully!');
+        alert("Invoice created and saved successfully!");
         // Reset form
         setForm({
           inoviceNumber: "",
@@ -139,19 +147,17 @@ export default function InvoiceCreatePage() {
           notes: "",
         });
         // Redirect to invoices list
-        router.push('/dashboard/documents');
+        router.push("/dashboard/documents");
       } else {
-        throw new Error(result.message || 'Failed to create invoice');
+        throw new Error(result.message || "Failed to create invoice");
       }
-
     } catch (error) {
-      console.error('Error creating invoice:', error);
-      alert('Error creating invoice: ' + error.message);
+      console.error("Error creating invoice:", error);
+      alert("Error creating invoice: " + error.message);
     } finally {
       setIsLoading(false);
     }
   };
-  
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -276,17 +282,18 @@ export default function InvoiceCreatePage() {
                 className="mt-1 block w-full border border-gray-300 rounded-md p-2 h-full"
               />
             </div>
-          </div>          <button
+          </div>{" "}
+          <button
             onClick={generateAndSavePDF}
             type="button"
             disabled={isLoading}
             className={`mt-10 px-4 py-2 rounded-lg self-start cursor-pointer ${
-              isLoading 
-                ? 'bg-gray-400 text-gray-200 cursor-not-allowed' 
-                : 'bg-blue-600 text-white hover:bg-blue-700'
+              isLoading
+                ? "bg-gray-400 text-gray-200 cursor-not-allowed"
+                : "bg-blue-600 text-white hover:bg-blue-700"
             }`}
           >
-            {isLoading ? 'Creating Invoice...' : 'Create Invoice'}
+            {isLoading ? "Creating Invoice..." : "Create Invoice"}
           </button>
         </section>
 

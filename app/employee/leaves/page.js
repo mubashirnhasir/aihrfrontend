@@ -7,7 +7,8 @@ import EmployeeSidebar from "@/components/employee/EmployeeSidebar";
 import EmployeeLeaveStatus from "@/sections/employee/leaves/EmployeeLeaveStatus";
 import useNotification from "@/hooks/useNotification";
 
-export default function EmployeeLeaves() {  const [leaveRequests, setLeaveRequests] = useState([]);
+export default function EmployeeLeaves() {
+  const [leaveRequests, setLeaveRequests] = useState([]);
   const [leaveBalance, setLeaveBalance] = useState({
     casual: 1,
     sick: 2,
@@ -15,7 +16,8 @@ export default function EmployeeLeaves() {  const [leaveRequests, setLeaveReques
     unpaid: 0,
   });
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");  const [lastUpdate, setLastUpdate] = useState(Date.now());
+  const [error, setError] = useState("");
+  const [lastUpdate, setLastUpdate] = useState(Date.now());
   const [isRealTimeEnabled, setIsRealTimeEnabled] = useState(true);
   const [previousRequests, setPreviousRequests] = useState([]);
   const router = useRouter();
@@ -64,7 +66,7 @@ export default function EmployeeLeaves() {  const [leaveRequests, setLeaveReques
   const fetchLeaveData = async (silent = false) => {
     try {
       if (!silent) setLoading(true);
-      
+
       const token = localStorage.getItem("employeeToken");
       const response = await fetch(
         "http://localhost:5000/api/employee/leaves",
@@ -83,37 +85,48 @@ export default function EmployeeLeaves() {  const [leaveRequests, setLeaveReques
           earned: data.earnedLeaves || 1,
           unpaid: data.unpaidLeaves || 0,
         };
-          // Only update state if data has actually changed
-        const hasBalanceChanged = JSON.stringify(newLeaveBalance) !== JSON.stringify(leaveBalance);
-        const hasRequestsChanged = JSON.stringify(data.leaveRequests || []) !== JSON.stringify(leaveRequests);
-        
+        // Only update state if data has actually changed
+        const hasBalanceChanged =
+          JSON.stringify(newLeaveBalance) !== JSON.stringify(leaveBalance);
+        const hasRequestsChanged =
+          JSON.stringify(data.leaveRequests || []) !==
+          JSON.stringify(leaveRequests);
+
         if (hasBalanceChanged || hasRequestsChanged || !silent) {
           // Check for status changes in leave requests
           if (silent && previousRequests.length > 0) {
             const newRequests = data.leaveRequests || [];
-            
-            newRequests.forEach(newRequest => {
-              const previousRequest = previousRequests.find(req => req._id === newRequest._id);
-              if (previousRequest && previousRequest.status !== newRequest.status) {
+
+            newRequests.forEach((newRequest) => {
+              const previousRequest = previousRequests.find(
+                (req) => req._id === newRequest._id
+              );
+              if (
+                previousRequest &&
+                previousRequest.status !== newRequest.status
+              ) {
                 // Status changed - show notification
-                const statusText = newRequest.status.charAt(0).toUpperCase() + newRequest.status.slice(1);
-                const leaveType = newRequest.leaveType || newRequest.type || 'Leave';
+                const statusText =
+                  newRequest.status.charAt(0).toUpperCase() +
+                  newRequest.status.slice(1);
+                const leaveType =
+                  newRequest.leaveType || newRequest.type || "Leave";
                 const message = `Your ${leaveType} request has been ${statusText.toLowerCase()}!`;
-                
-                if (newRequest.status === 'approved') {
+
+                if (newRequest.status === "approved") {
                   showSuccess(message, 5000);
-                } else if (newRequest.status === 'rejected') {
+                } else if (newRequest.status === "rejected") {
                   showInfo(message, 6000);
                 }
               }
             });
           }
-          
+
           setPreviousRequests(data.leaveRequests || []);
           setLeaveBalance(newLeaveBalance);
           setLeaveRequests(data.leaveRequests || []);
           setLastUpdate(Date.now());
-          
+
           // Clear any existing errors on successful update
           if (error) setError("");
         }
@@ -181,7 +194,8 @@ export default function EmployeeLeaves() {  const [leaveRequests, setLeaveReques
         </div>
       </div>
     );
-  }  return (
+  }
+  return (
     <div className="p-8">
       {/* Notification Display */}
       {notifications.length > 0 && (
@@ -190,38 +204,70 @@ export default function EmployeeLeaves() {  const [leaveRequests, setLeaveReques
             <div
               key={notification.id}
               className={`max-w-sm w-full shadow-lg rounded-lg pointer-events-auto overflow-hidden transition-all duration-300 ${
-                notification.type === 'success'
-                  ? 'bg-green-50 border border-green-200'
-                  : notification.type === 'info'
-                  ? 'bg-blue-50 border border-blue-200'
-                  : 'bg-yellow-50 border border-yellow-200'
+                notification.type === "success"
+                  ? "bg-green-50 border border-green-200"
+                  : notification.type === "info"
+                  ? "bg-blue-50 border border-blue-200"
+                  : "bg-yellow-50 border border-yellow-200"
               }`}
             >
               <div className="p-4">
                 <div className="flex items-start">
                   <div className="flex-shrink-0">
-                    {notification.type === 'success' ? (
-                      <svg className="h-6 w-6 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    {notification.type === "success" ? (
+                      <svg
+                        className="h-6 w-6 text-green-400"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                        />
                       </svg>
-                    ) : notification.type === 'info' ? (
-                      <svg className="h-6 w-6 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    ) : notification.type === "info" ? (
+                      <svg
+                        className="h-6 w-6 text-blue-400"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                        />
                       </svg>
                     ) : (
-                      <svg className="h-6 w-6 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 15.5c-.77.833.192 2.5 1.732 2.5z" />
+                      <svg
+                        className="h-6 w-6 text-yellow-400"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 15.5c-.77.833.192 2.5 1.732 2.5z"
+                        />
                       </svg>
                     )}
                   </div>
                   <div className="ml-3 w-0 flex-1 pt-0.5">
-                    <p className={`text-sm font-medium ${
-                      notification.type === 'success'
-                        ? 'text-green-900'
-                        : notification.type === 'info'
-                        ? 'text-blue-900'
-                        : 'text-yellow-900'
-                    }`}>
+                    <p
+                      className={`text-sm font-medium ${
+                        notification.type === "success"
+                          ? "text-green-900"
+                          : notification.type === "info"
+                          ? "text-blue-900"
+                          : "text-yellow-900"
+                      }`}
+                    >
                       {notification.message}
                     </p>
                   </div>
@@ -233,7 +279,8 @@ export default function EmployeeLeaves() {  const [leaveRequests, setLeaveReques
       )}
 
       <div className="max-w-6xl mx-auto">
-        {" "}        {/* Header */}
+        {" "}
+        {/* Header */}
         <div className="flex justify-between items-center mb-8">
           <div>
             <h1 className="text-2xl font-bold text-gray-900">
@@ -246,15 +293,21 @@ export default function EmployeeLeaves() {  const [leaveRequests, setLeaveReques
           <div className="flex items-center gap-4">
             {/* Real-time status indicator */}
             <div className="flex items-center gap-2 text-sm text-gray-600">
-              <div className={`w-2 h-2 rounded-full ${isRealTimeEnabled ? 'bg-green-500 animate-pulse' : 'bg-gray-400'}`}></div>
+              <div
+                className={`w-2 h-2 rounded-full ${
+                  isRealTimeEnabled
+                    ? "bg-green-500 animate-pulse"
+                    : "bg-gray-400"
+                }`}
+              ></div>
               <span>
-                {isRealTimeEnabled ? 'Live updates' : 'Updates paused'}
+                {isRealTimeEnabled ? "Live updates" : "Updates paused"}
               </span>
               <button
                 onClick={() => setIsRealTimeEnabled(!isRealTimeEnabled)}
                 className="text-blue-600 hover:text-blue-800 underline"
               >
-                {isRealTimeEnabled ? 'Pause' : 'Resume'}
+                {isRealTimeEnabled ? "Pause" : "Resume"}
               </button>
             </div>
             <Link
@@ -265,10 +318,9 @@ export default function EmployeeLeaves() {  const [leaveRequests, setLeaveReques
             </Link>
           </div>
         </div>
-
         {/* Real-time Leave Status Component */}
         <div className="mb-8">
-          <EmployeeLeaveStatus 
+          <EmployeeLeaveStatus
             leaveRequests={leaveRequests}
             onRefresh={() => fetchLeaveData(true)}
             className="mb-6"

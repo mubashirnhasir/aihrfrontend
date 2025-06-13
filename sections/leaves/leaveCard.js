@@ -68,7 +68,7 @@ const LeaveCard = () => {
           });
 
           // Get accurate employees on leave count from dedicated endpoint
-          const leaveResponse = await fetch('/api/on-leave-today');
+          const leaveResponse = await fetch("/api/on-leave-today");
           const leaveData = await leaveResponse.json();
           const employeesOnLeave = leaveData.success ? leaveData.count : 0;
 
@@ -94,11 +94,12 @@ const LeaveCard = () => {
           error: "Failed to load leave data",
         });
       }
-    };    fetchLeaveData();
-    
+    };
+    fetchLeaveData();
+
     // Set up polling for real-time updates (every 30 seconds)
     const interval = setInterval(fetchLeaveData, 30000);
-    
+
     return () => clearInterval(interval);
   }, []);
 
@@ -141,7 +142,9 @@ const LeaveCard = () => {
   const svg = [<User />, <Arrow />, <Dashboard />, <DocumentFile />];
 
   return (
-    <div className="space-y-4">      <div className="flex h-full items-start  gap-8 w-full">
+    <div className="space-y-4">
+      {" "}
+      <div className="flex h-full items-start  gap-8 w-full">
         {data.map((cardData, index) => (
           <div key={index}>
             <CardGlobal
@@ -155,7 +158,6 @@ const LeaveCard = () => {
           </div>
         ))}
       </div>
-
       {/* Error message display */}
       {leaveStats.error && (
         <div className="text-center">
@@ -168,7 +170,6 @@ const LeaveCard = () => {
           </button>
         </div>
       )}
-
       {/* Loading indicator */}
       {leaveStats.loading && (
         <div className="text-center text-gray-500 text-sm">

@@ -64,7 +64,8 @@ const Sidebar = () => {
             <ProductLogo />{" "}
           </div>
           <div>Synapt HR</div>{" "}
-        </div>        <div className="tabs flex flex-col gap-2">
+        </div>{" "}
+        <div className="tabs flex flex-col gap-2">
           <div
             onClick={() => handleTab(0, "/dashboard")}
             className={`px-2 py-2 flex gap-2 cursor-pointer items-center justify-start rounded-lg ${
@@ -145,9 +146,7 @@ const Sidebar = () => {
               <div>
                 <PlaneLanding />
               </div>
-              {!side && (
-                <div className="text-lg font-medium">AI Retention</div>
-              )}
+              {!side && <div className="text-lg font-medium">AI Retention</div>}
             </div>
           </div>
           <div
@@ -160,9 +159,7 @@ const Sidebar = () => {
               <div>
                 <BrainCircuit />
               </div>
-              {!side && (
-                <div className="text-lg font-medium">AI Chatbot </div>
-              )}
+              {!side && <div className="text-lg font-medium">AI Chatbot </div>}
             </div>
           </div>
         </div>

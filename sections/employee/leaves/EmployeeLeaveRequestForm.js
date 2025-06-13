@@ -5,7 +5,8 @@ const EmployeeLeaveRequestForm = ({
   onSubmit,
   isSubmitting = false,
   className = "",
-}) => {  const [formData, setFormData] = useState({
+}) => {
+  const [formData, setFormData] = useState({
     leaveType: "",
     startDate: "",
     endDate: "",
@@ -25,7 +26,8 @@ const EmployeeLeaveRequestForm = ({
     { value: "unpaid", label: "Unpaid Leave" },
     { value: "maternity", label: "Maternity Leave" },
     { value: "paternity", label: "Paternity Leave" },
-  ];  const handleInputChange = (e) => {
+  ];
+  const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -126,14 +128,16 @@ const EmployeeLeaveRequestForm = ({
   };
 
   return (
-    <div className={`bg-white rounded-lg shadow-sm border p-6 ${className}`}>      <div className="mb-6">
+    <div className={`bg-white rounded-lg shadow-sm border p-6 ${className}`}>
+      {" "}
+      <div className="mb-6">
         <h3 className="text-xl font-semibold text-gray-900 mb-2">
           Leave Request Form
-        </h3>        <p className="text-sm text-gray-600">
+        </h3>{" "}
+        <p className="text-sm text-gray-600">
           Fill out the form below to submit your leave request
         </p>
       </div>
-
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Leave Type */}
         <div>

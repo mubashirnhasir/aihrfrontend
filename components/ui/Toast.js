@@ -1,8 +1,8 @@
 "use client";
-import { useState, useEffect } from 'react';
-import { CheckCircle, XCircle, AlertCircle, X } from 'lucide-react';
+import { useState, useEffect } from "react";
+import { CheckCircle, XCircle, AlertCircle, X } from "lucide-react";
 
-const Toast = ({ message, type = 'success', duration = 3000, onClose }) => {
+const Toast = ({ message, type = "success", duration = 3000, onClose }) => {
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
@@ -16,11 +16,11 @@ const Toast = ({ message, type = 'success', duration = 3000, onClose }) => {
 
   const getIcon = () => {
     switch (type) {
-      case 'success':
+      case "success":
         return <CheckCircle className="h-5 w-5 text-green-600" />;
-      case 'error':
+      case "error":
         return <XCircle className="h-5 w-5 text-red-600" />;
-      case 'warning':
+      case "warning":
         return <AlertCircle className="h-5 w-5 text-yellow-600" />;
       default:
         return <CheckCircle className="h-5 w-5 text-green-600" />;
@@ -29,21 +29,21 @@ const Toast = ({ message, type = 'success', duration = 3000, onClose }) => {
 
   const getStyles = () => {
     switch (type) {
-      case 'success':
-        return 'bg-green-50 border-green-200 text-green-800';
-      case 'error':
-        return 'bg-red-50 border-red-200 text-red-800';
-      case 'warning':
-        return 'bg-yellow-50 border-yellow-200 text-yellow-800';
+      case "success":
+        return "bg-green-50 border-green-200 text-green-800";
+      case "error":
+        return "bg-red-50 border-red-200 text-red-800";
+      case "warning":
+        return "bg-yellow-50 border-yellow-200 text-yellow-800";
       default:
-        return 'bg-green-50 border-green-200 text-green-800';
+        return "bg-green-50 border-green-200 text-green-800";
     }
   };
 
   return (
     <div
       className={`fixed top-4 right-4 z-50 max-w-sm w-full transition-all duration-300 transform ${
-        isVisible ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0'
+        isVisible ? "translate-x-0 opacity-100" : "translate-x-full opacity-0"
       }`}
     >
       <div className={`border rounded-lg p-4 shadow-lg ${getStyles()}`}>

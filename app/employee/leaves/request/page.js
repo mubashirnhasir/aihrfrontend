@@ -18,7 +18,7 @@ export default function LeaveRequestPage() {
       if (!token) {
         router.push("/employee/auth/signin");
         return;
-      }      // Transform form data to match backend expectations
+      } // Transform form data to match backend expectations
       const requestData = {
         type: formData.type, // formData already has 'type' from the form component
         startDate: formData.startDate,
@@ -26,7 +26,7 @@ export default function LeaveRequestPage() {
         reason: formData.reason,
         halfDay: formData.halfDay, // Note: form passes halfDay, not isHalfDay
         halfDayType: formData.halfDayType,
-        emergencyContact: formData.emergencyContact
+        emergencyContact: formData.emergencyContact,
       };
 
       const response = await fetch(
@@ -132,7 +132,8 @@ export default function LeaveRequestPage() {
           <p className="text-gray-600 mt-2">
             Submit a new leave request for approval
           </p>
-        </div>        {/* Error Message */}
+        </div>{" "}
+        {/* Error Message */}
         {error && (
           <div className="mb-6 bg-red-50 border border-red-200 rounded-lg p-4">
             <div className="flex items-center justify-between">
@@ -161,13 +162,11 @@ export default function LeaveRequestPage() {
             </div>
           </div>
         )}
-
         {/* Leave Request Form */}
         <EmployeeLeaveRequestForm
           onSubmit={handleFormSubmit}
           isSubmitting={isSubmitting}
         />
-
         {/* Help Section */}
         <div className="mt-8 bg-blue-50 border border-blue-200 rounded-lg p-6">
           <h3 className="text-lg font-semibold text-blue-900 mb-3">

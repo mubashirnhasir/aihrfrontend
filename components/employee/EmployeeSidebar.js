@@ -17,8 +17,8 @@ const EmployeeSidebar = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    const token = localStorage.getItem('employeeToken');
-    const userData = localStorage.getItem('employeeData');
+    const token = localStorage.getItem("employeeToken");
+    const userData = localStorage.getItem("employeeData");
     setIsAuthenticated(token && userData);
   }, []);
 

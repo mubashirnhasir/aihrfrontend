@@ -12,8 +12,8 @@ const EmployeeNavbar = () => {
   const router = useRouter();
 
   useEffect(() => {
-    const token = localStorage.getItem('employeeToken');
-    const userData = localStorage.getItem('employeeData');
+    const token = localStorage.getItem("employeeToken");
+    const userData = localStorage.getItem("employeeData");
     if (token && userData) {
       setEmployee(JSON.parse(userData));
       setIsAuthenticated(true);
@@ -47,23 +47,26 @@ const EmployeeNavbar = () => {
           />
         </div>
       </div>
-      
+
       <div className="h-fit p-3 flex items-center justify-center w-fit rounded-lg">
         <Notification />
       </div>
-      
+
       <div className="h-fit p-3 flex items-center justify-center w-fit rounded-lg">
         <Settings />
       </div>
-      
+
       <div className="h-fit flex p-1 border border-main items-center justify-center w-fit rounded-lg">
         <img
           src="/images/profile.png"
           alt="Profile"
           className="h-8 w-8 rounded object-cover"
-        />        <div className="flex flex-col px-2">
-          <div className="text-sm font-medium">{employee?.firstName || 'Employee'}</div>
-          <button 
+        />{" "}
+        <div className="flex flex-col px-2">
+          <div className="text-sm font-medium">
+            {employee?.firstName || "Employee"}
+          </div>
+          <button
             onClick={handleLogout}
             className="text-xs text-gray-500 hover:text-red-500 cursor-pointer"
           >
