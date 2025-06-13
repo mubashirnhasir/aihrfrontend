@@ -7,8 +7,10 @@ import Arrow from "@/public/icons/arrowleft";
 import Dashboard from "@/public/icons/dashboard";
 import DocumentFile from "@/public/icons/documentFile";
 import { fetchAllEmployees, calculateEmployeeStats } from "@/lib/employeeUtils";
+import { useRouter } from "next/navigation";
 
 const Card = () => {
+  const router = useRouter();
   const [employeeStats, setEmployeeStats] = useState({
     totalEmployees: 0,
     employeesOnLeave: 0,
@@ -16,18 +18,22 @@ const Card = () => {
     employeesReliving: 0,
     loading: true,
     error: null,
-  });
-
-  // Fetch employee data from the API
+  });  // Fetch employee data from the API
   useEffect(() => {
     const fetchEmployeeData = async () => {
       try {
         // Fetch employee data for detailed statistics
         const employees = await fetchAllEmployees();
-        const stats = calculateEmployeeStats(employees);
+        const stats = calculateEmployeeStats(employees);        // Fetch accurate leave count from dedicated endpoint
+        const leaveResponse = await fetch('/api/on-leave-today');
+        const leaveData = await leaveResponse.json();
+        console.log('Dashboard: Leave data from API:', leaveData);
+        const actualEmployeesOnLeave = leaveData.success ? leaveData.count : stats.employeesOnLeave;
+        console.log('Dashboard: Setting employees on leave count to:', actualEmployeesOnLeave);
 
         setEmployeeStats({
           ...stats,
+          employeesOnLeave: actualEmployeesOnLeave, // Use the accurate count from backend
           loading: false,
           error: null,
         });
@@ -45,6 +51,11 @@ const Card = () => {
     };
 
     fetchEmployeeData();
+    
+    // Set up polling for real-time updates (every 30 seconds)
+    const interval = setInterval(fetchEmployeeData, 30000);
+    
+    return () => clearInterval(interval);
   }, []);
 
   const getDisplayValue = (value) => {
@@ -52,31 +63,32 @@ const Card = () => {
     if (employeeStats.error) return "Error";
     return value;
   };
-
   const data = [
     {
       heading: "Total employees",
       count: getDisplayValue(employeeStats.totalEmployees),
       bg: "bg-blue-100",
       border: "border-blue-500",
-    },
-    {
+      href: "/dashboard/attendance/allemployees"
+    },    {
       heading: "Employees on leave",
       count: getDisplayValue(employeeStats.employeesOnLeave),
       bg: "bg-yellow-100",
       border: "border-yellow-500",
-    },
-    {
+      href: "/dashboard/leaves/employees-on-leave"
+    },    {
       heading: "New Hires",
       count: getDisplayValue(employeeStats.newHires),
       bg: "bg-green-100",
       border: "border-green-500",
+      href: "/dashboard/attendance/new-hires"
     },
     {
       heading: "Employees Reliving",
       count: getDisplayValue(employeeStats.employeesReliving),
       bg: "bg-red-100",
       border: "border-red-500",
+      href: "/dashboard/attendance/allemployees"
     },
   ];
 
@@ -88,8 +100,7 @@ const Card = () => {
   ];
 
   return (
-    <div className="space-y-4">
-      <div className="flex h-full items-start gap-8 w-full">
+    <div className="space-y-4">      <div className="flex h-full items-start gap-8 w-full">
         {data.map((item, index) => (
           <div key={index}>
             <CardGlobal
@@ -98,6 +109,7 @@ const Card = () => {
               icon={svg[index]}
               bg={item.bg}
               border={item.border}
+              href={item.href}
             />
           </div>
         ))}

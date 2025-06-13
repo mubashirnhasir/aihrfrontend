@@ -16,7 +16,6 @@ const LeaveCard = () => {
     loading: true,
     error: null,
   });
-
   // Fetch leave data from the API
   useEffect(() => {
     const fetchLeaveData = async () => {
@@ -33,7 +32,6 @@ const LeaveCard = () => {
             1
           );
 
-          let employeesOnLeave = 0;
           let requestsToApprove = 0;
           let approvedLeavesThisMonth = 0;
           let rejectedLeavesThisMonth = 0;
@@ -41,20 +39,9 @@ const LeaveCard = () => {
           employees.forEach((emp) => {
             if (emp.leaveRequests && Array.isArray(emp.leaveRequests)) {
               emp.leaveRequests.forEach((leave) => {
-                const leaveStartDate = new Date(leave.startDate);
-                const leaveEndDate = new Date(leave.endDate);
                 const leaveCreatedDate = new Date(
                   leave.createdAt || leave.startDate
                 );
-
-                // Check if employee is currently on leave
-                if (
-                  leave.status === "approved" &&
-                  today >= leaveStartDate &&
-                  today <= leaveEndDate
-                ) {
-                  employeesOnLeave++;
-                }
 
                 // Check for pending requests
                 if (leave.status === "pending") {
@@ -80,6 +67,11 @@ const LeaveCard = () => {
             }
           });
 
+          // Get accurate employees on leave count from dedicated endpoint
+          const leaveResponse = await fetch('/api/on-leave-today');
+          const leaveData = await leaveResponse.json();
+          const employeesOnLeave = leaveData.success ? leaveData.count : 0;
+
           setLeaveStats({
             employeesOnLeave,
             requestsToApprove,
@@ -102,9 +94,12 @@ const LeaveCard = () => {
           error: "Failed to load leave data",
         });
       }
-    };
-
-    fetchLeaveData();
+    };    fetchLeaveData();
+    
+    // Set up polling for real-time updates (every 30 seconds)
+    const interval = setInterval(fetchLeaveData, 30000);
+    
+    return () => clearInterval(interval);
   }, []);
 
   const getDisplayValue = (value) => {
@@ -112,47 +107,50 @@ const LeaveCard = () => {
     if (leaveStats.error) return "Error";
     return value;
   };
-
   const data = [
     {
       heading: "Employees on Leave",
       count: getDisplayValue(leaveStats.employeesOnLeave),
       bg: "bg-blue-100",
       border: "border-blue-500",
+      href: null, // No navigation for this card
     },
     {
       heading: "Requests to Approve",
       count: getDisplayValue(leaveStats.requestsToApprove),
       bg: "bg-yellow-100",
       border: "border-yellow-500",
+      href: "/dashboard/leaves/requests", // Navigate to admin leave requests page
     },
     {
       heading: "Approved Leaves this month",
       count: getDisplayValue(leaveStats.approvedLeavesThisMonth),
       bg: "bg-green-100",
       border: "border-green-500",
+      href: "/dashboard/leaves/requests?status=approved", // Navigate to approved leaves
     },
     {
       heading: "Rejected Leave this Month",
       count: getDisplayValue(leaveStats.rejectedLeavesThisMonth),
       bg: "bg-red-100",
       border: "border-red-500",
+      href: "/dashboard/leaves/requests?status=rejected", // Navigate to rejected leaves
     },
   ];
 
   const svg = [<User />, <Arrow />, <Dashboard />, <DocumentFile />];
 
   return (
-    <div className="space-y-4">
-      <div className="flex h-full items-start  gap-8 w-full">
-        {data.map((data, index) => (
+    <div className="space-y-4">      <div className="flex h-full items-start  gap-8 w-full">
+        {data.map((cardData, index) => (
           <div key={index}>
             <CardGlobal
-              title={data.heading}
-              count={data.count}
+              title={cardData.heading}
+              count={cardData.count}
               icon={svg[index]}
-              bg={data.bg}
-              border={data.border}
+              bg={cardData.bg}
+              border={cardData.border}
+              href={cardData.href}
             />
           </div>
         ))}

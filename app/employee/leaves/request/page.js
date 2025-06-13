@@ -9,7 +9,6 @@ export default function LeaveRequestPage() {
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [error, setError] = useState("");
   const router = useRouter();
-
   const handleFormSubmit = async (formData) => {
     try {
       setIsSubmitting(true);
@@ -19,7 +18,16 @@ export default function LeaveRequestPage() {
       if (!token) {
         router.push("/employee/auth/signin");
         return;
-      }
+      }      // Transform form data to match backend expectations
+      const requestData = {
+        type: formData.type, // formData already has 'type' from the form component
+        startDate: formData.startDate,
+        endDate: formData.endDate,
+        reason: formData.reason,
+        halfDay: formData.halfDay, // Note: form passes halfDay, not isHalfDay
+        halfDayType: formData.halfDayType,
+        emergencyContact: formData.emergencyContact
+      };
 
       const response = await fetch(
         "http://localhost:5000/api/employee/leaves/request",
@@ -29,7 +37,7 @@ export default function LeaveRequestPage() {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify(formData),
+          body: JSON.stringify(requestData),
         }
       );
       if (response.ok) {
@@ -124,26 +132,32 @@ export default function LeaveRequestPage() {
           <p className="text-gray-600 mt-2">
             Submit a new leave request for approval
           </p>
-        </div>
-
-        {/* Error Message */}
+        </div>        {/* Error Message */}
         {error && (
           <div className="mb-6 bg-red-50 border border-red-200 rounded-lg p-4">
-            <div className="flex items-center">
-              <svg
-                className="w-5 h-5 text-red-600 mr-2"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
+            <div className="flex items-center justify-between">
+              <div className="flex items-center">
+                <svg
+                  className="w-5 h-5 text-red-600 mr-2"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+                <p className="text-red-700 font-medium">{error}</p>
+              </div>
+              <button
+                onClick={() => setError("")}
+                className="px-3 py-1 bg-red-600 text-white rounded text-sm hover:bg-red-700"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
-              <p className="text-red-700 font-medium">{error}</p>
+                Clear
+              </button>
             </div>
           </div>
         )}
