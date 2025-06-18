@@ -72,7 +72,12 @@ const EmployeeSidebar = () => {
       index: 5,
     },
     {
-      icon: <BrainCircuit color={tab1 === 6 ? "white" : "black"} />,
+      icon: (
+        <BrainCircuit
+          size={20}
+          color={tab1 === 6 ? "white" : "currentColor"}
+        />
+      ),
       label: "AI Chatbot",
       href: "/employee/aiagent",
       index: 6,
@@ -87,17 +92,19 @@ const EmployeeSidebar = () => {
     >
       {" "}
       <div>
-        <div className="logo mb-6">
-          {!side ? (
-            <div className="flex items-center gap-3">
-              <ProductLogo />
-              <div className="text-xl font-bold text-gray-800">Synapt HR</div>
-            </div>
-          ) : (
-            <div className="flex justify-center">
-              <ProductLogo />
-            </div>
+        <div className="logo mb-6 flex items-center gap-3">
+          <ProductLogo />
+          {!side && (
+            <div className="text-xl font-bold text-gray-800">Synapt HR</div>
           )}
+        </div>
+        <div
+          onClick={handleSidebar}
+          className="absolute top-6 right-[-18px] z-10 flex h-9 w-9 cursor-pointer items-center justify-center rounded-full border border-gray-300 bg-white shadow-md"
+        >
+          <div className={`${side ? "rotate-180" : ""} transition-transform`}>
+            <Arrow />
+          </div>
         </div>
         <div className="tabs flex flex-col gap-2">
           {employeeNavItems.map((item) => (
@@ -121,26 +128,21 @@ const EmployeeSidebar = () => {
         </div>
       </div>
       <div className="bottom flex flex-col gap-2">
-        <div
-          className="arrow bg-gray-200 p-2 rounded-lg flex items-center justify-center cursor-pointer"
-          onClick={handleSidebar}
-        >
-          <Arrow />
-        </div>
-
         {!side && (
-          <div className="relative p-2 text-white flex items-center justify-center bg-[linear-gradient(15deg,_#4A25E1_26.3%,_#6946F4_54.5%,_#7B5AFF_80.11%)] h-[200px] rounded-lg">
-            <div className="absolute top-[-50] left-[50%] translate-x-[-50%]">
-              <Logobtn />
+          <div className="relative mt-10 p-4 text-white flex flex-col items-center justify-center bg-[linear-gradient(15deg,_#4A25E1_26.3%,_#6946F4_54.5%,_#7B5AFF_80.11%)] rounded-2xl">
+            <div className="absolute -top-8 left-1/2 transform -translate-x-1/2">
+              <div className="bg-white w-16 h-16 rounded-full flex items-center justify-center shadow-lg">
+                <BrainCircuit size={32} color="#6946F4" />
+              </div>
             </div>
-            <div className="flex flex-col items-center gap-2">
-              <div className="font-semibold text-lg text-white">Need Help?</div>
-              <div className="text-center text-sm">
+            <div className="flex flex-col items-center text-center gap-2 pt-8">
+              <div className="font-bold text-lg text-white">Need Help?</div>
+              <div className="text-sm opacity-90 leading-relaxed px-2">
                 Contact HR or check our knowledge base
               </div>
               <Link
                 href="/employee/help"
-                className="px-4 py-2 cursor-pointer rounded-lg bg-white/20 text-white font-semibold hover:bg-white/30 transition-colors"
+                className="px-5 py-2 mt-2 cursor-pointer rounded-xl bg-white/20 text-white font-semibold hover:bg-white/30 transition-colors backdrop-blur-sm border border-white/20"
               >
                 Get Support
               </Link>
