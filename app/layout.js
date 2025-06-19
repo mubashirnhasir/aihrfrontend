@@ -1,4 +1,4 @@
-import { Geist, Geist_Mono, DM_Sans as DMSansFont } from "next/font/google";
+import { Geist, DM_Sans as DMSansFont } from "next/font/google";
 
 import "./globals.css";
 import Navbar from "@/components/navbar";
@@ -7,11 +7,6 @@ import ConditionalProtectedRoute from "@/components/ConditionalProtectedRoute";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
   subsets: ["latin"],
 });
 
@@ -29,7 +24,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable}  ${dmSans.variable} antialiased`}
+        className={`${geistSans.variable}  ${dmSans.variable} antialiased`}
       >
         <AuthProvider>
           <ConditionalProtectedRoute>{children}</ConditionalProtectedRoute>
